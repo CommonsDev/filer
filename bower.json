@@ -1,0 +1,29 @@
+{
+  "name": "filer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/UnissonCo/filer",
+  "authors": [
+    "Unisson Team <contact@unisson.co>"
+  ],
+  "description": "Unisson Filer UI",
+  "main": "index.html",
+  "keywords": [
+    "unisson",
+    "filer"
+  ],
+  "license": "AGPL v3",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-cookies": "~1.2.10",
+    "angular-ui-router": "0.2.8-bowratic-tedium",
+    "restangular": "~1.3.1",
+    "angular-image-upload": "1.0.6"
+  }
+}
