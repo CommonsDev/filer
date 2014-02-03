@@ -1,0 +1,298 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "compass/css3";
+
+body {
+	font-family:Raleway,sans-serif;
+	font-size:12px;
+	background:#f6f7f8;
+}
+
+* {
+	@include box-sizing("border-box");
+}
+
+/* ============= TOOLBAR ============= */
+
+#toolbar {
+	height:100%;
+	min-height:540px;
+	position:fixed;
+	top:0;
+	left:0;
+	width:60px;
+	background:rgba(22,23,25,0.95);
+	z-index:10;
+
+	button {
+		display:block;
+		height:60px;
+		width:60px;
+		color:#eee;
+		border:0;
+		border-top:1px solid #2e2f30;
+		border-bottom:1px solid black;
+		font-size:0.8rem;
+		outline:0 !important;
+		text-indent:-9999em;
+		cursor:pointer;
+	}
+
+	li:first-child button { border-top: 0 }
+	li:last-child button { border-bottom: 0 }
+
+	li.open button { 
+		background:image-url('toolbar/depli_ico.png') no-repeat center center;
+	}
+
+	li.add button { 
+		background:image-url('toolbar/up_ico.png') no-repeat center center;
+	}
+
+	li.search button { 
+		background:image-url('toolbar/search_ico.png') no-repeat center center;
+	}
+
+	li.files button { 
+		background:image-url('toolbar/files_ico.png') no-repeat center center;
+	}
+
+	li.recent button { 
+		background:image-url('toolbar/recent_ico.png') no-repeat center center;
+	}
+
+	li.fav button { 
+		background:image-url('toolbar/fav_ico.png') no-repeat center center;
+	}
+
+	li.connected {
+		position:absolute;
+		bottom:0;
+		height:28px;
+		text-align:center;
+		width:100%;
+
+		a {
+			display:block;
+			width:100%;
+			height:28px;
+			outline:0;
+		}
+
+		img {
+			display:inline;
+			position:relative;
+			top:4px;
+		}
+	}
+}
+
+// DRIVE APP
+
+#drive-app {
+	width:90%;
+	margin:20px auto;
+
+	.file {
+		width:240px;
+		float:left;
+		margin:0 12px 12px 0;
+		background:white;
+
+		position:relative;
+
+		&:before, &:after {
+			content:"";
+		    position:absolute; 
+		    z-index:-1;
+		    @include box-shadow(0 0 10px rgba(0,0,0,0.2));
+		    top:50%;
+		    bottom:0;
+		    left:10px;
+		    right:10px;
+		    @include border-radius(100px / 10px);
+		}
+
+		header {
+			color:#4b4b4b;
+			float:left;
+			width:100%;
+
+			.ico {
+				height:34px;
+				margin:4px 10px 4px 0;
+				width:46px;
+				float:left;
+				text-indent:-9999em;
+				border-right:1px solid #e6e6e6;
+			}
+
+			h1 a {
+				color:#4b4b4b;
+				font-weight:700;
+				font-style:italic;
+				font-size:0.75rem;
+				text-decoration:none;
+				display:block;
+				line-height:1rem;
+				padding:6px 0 0 0;
+			}
+
+			em {
+				font-style:italic;
+				font-size:0.7rem;
+			}
+		}
+
+		&.vid header .ico { background:image-url('vid_ico.png') no-repeat center center }
+		&.img header .ico { background:image-url('img_ico.png') no-repeat center center }
+		&.doc header .ico { background:image-url('doc_ico.png') no-repeat center center }
+
+		.author {
+			background:#efefef;
+			border-top:1px solid #e6e6e6;
+			border-bottom:1px solid #e6e6e6;
+			float:left;
+			width:100%;
+
+			.avatar {
+				float:left;
+				border:3px solid white;
+				margin:0 6px 0 0;
+			}
+
+			strong {
+				color:#4b4b4b;
+				font-weight:700;
+				font-size:0.75rem;
+				display:block;
+				line-height:1.1rem;
+				padding:6px 0 2px 0;
+			}
+
+			em {
+				font-style:italic;
+				font-size:0.7rem;
+			}
+		}
+
+		.comments {
+			float:left;
+			width:100%;
+			padding:0 0 10px;
+
+			.seemore {
+				color:#c1c1c1;
+				font-weight:700;
+				font-style:italic;
+				display:block;
+				text-decoration:none;
+				text-align:center;
+				line-height:26px;
+				height:20px;
+				font-size:0.7rem;
+			}
+
+			textarea {
+				border:1px solid #c1c1c1;
+				color:#666;
+				width:227px;
+				height:50px;
+				padding:4px;
+				margin:6px 0 0 6px;
+				font-size:0.9rem;
+				font-family:'Times New Roman',Georgia, serif;
+				font-weight:500;
+				font-style:italic;
+				@include border-radius(4px);
+			}
+
+			button {
+				background:#3e414c;
+				border:0;
+				@include border-radius(4px);
+				color:white;
+				display:block;
+				font-size:0.7rem;
+				font-weight:500;
+				height:25px;
+				margin:5px auto 0;
+			}
+		}
+
+		ul.comments-list {
+			position:relative;
+			overflow:hidden; 
+			border-top:1px solid #ddd;
+			border-bottom:1px solid #ddd; 
+
+			li {
+				float:left;
+				width:100%;
+				background:#efefef;
+				border-bottom:1px solid white;
+
+				&:before {
+				  content: ""; 
+				  position:absolute; 
+				  z-index: 1; 
+				  width:96%;  
+				  top: -10px; 
+				  height: 10px; 
+				  left: 2%; 
+				  border-radius: 100px / 5px; 
+				  box-shadow:0 0 5px rgba(0,0,0,0.1); 
+				}
+
+				&:after {
+				  content: "";
+				  position:absolute;
+				  z-index: 1;
+				  width:96%; 
+				  bottom: -10px;
+				  height: 10px;
+				  left: 2%;
+				  border-radius: 100px / 5px;
+				  box-shadow:0 0 5px rgba(0,0,0,0.1);
+				}
+
+				&:first-child {
+				}
+
+				&:last-child {
+				  border:0;
+				}
+			}
+
+			img {
+				float:left;
+				margin:8px 16px 8px 8px;
+			}
+
+			strong {
+				display:block;
+				color:#4b4b4b;
+				font-weight:700;
+				padding:10px 0 2px;
+				font-size:0.75rem;
+			}
+
+			p {
+				color:#818181;
+				font-size:0.7rem;
+				font-weight:500;
+				line-height:0.85rem;
+				padding:0 0 6px;
+			}
+		}
+	}
+
+	&.preview-mode .file .preview {
+		height:164px;
+		overflow:hidden;
+	}
+}
