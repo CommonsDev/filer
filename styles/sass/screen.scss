@@ -93,11 +93,119 @@ body {
 
 // DRIVE APP
 
-#drive-app {
-	width:90%;
-	margin:20px auto;
+#topbar {
+	height:60px;
+	width:100%;
+	background:#efefef;
 
-	.file {
+	button {
+		cursor:pointer;
+	}
+
+	#search-block {
+		float:left;
+
+		input[type="text"] {
+			height:33px;
+			width:236px;
+			padding:0 13px;
+			border:1px solid #d5d5d5;
+			color:#666;
+			font-style:italic;
+			font-size:0.75rem;
+			margin:14px 0 0 108px;
+			@include border-radius(16px);
+		}
+
+		#search-bt {
+			border:0;
+			height:36px;
+			width:36px;
+			text-indent:-9999em;
+			margin:0 0 0 6px;
+			background:image-url('topbar/search_ico.png');
+		}
+
+		#label-bt {
+			border:0;
+			height:36px;
+			width:36px;
+			text-indent:-9999em;
+			margin:0 0 0 6px;
+			background:image-url('topbar/label_ico.png');
+		}
+	}
+
+	.actions {
+		float:right;
+
+		button.action {
+			height:40px;
+			width:40px;
+			border:0;
+			text-indent:-9999rem;
+			margin:10px 12px 0 0;
+			float:left;
+		}
+
+		button.del {
+			background:image-url('topbar/del_ico.png') no-repeat center center;
+		}
+
+		button.tools {
+			background:image-url('topbar/tools_ico.png') no-repeat center center;
+		}
+
+		button.fav {
+			background:image-url('topbar/fav_ico.png') no-repeat center center;
+		}
+	}
+
+	#display-mode {
+		float:left;
+		margin:16px;
+
+		button {
+			width:28px;
+			height:28px;
+			background-color:#ffffff;
+			border:1px solid #d5d5d5;
+			text-indent:-9999rem;
+			margin:0;
+			float:left;
+
+			&.active {
+				background-color:#4b4b4b;
+			}
+		}
+
+		#display1-bt {
+			background-image:image-url('topbar/display1_ico.png');
+			background-repeat:no-repeat;
+			background-position:center center;
+			@include border-radius(4px 0 0 4px);
+		}
+
+		#display2-bt {
+			border-left:0;
+			background-image:image-url('topbar/display2_ico.png');
+			background-repeat:no-repeat;
+			background-position:center center;
+			@include border-radius(0 4px 4px 0);
+		}
+	}
+}
+
+#drive-app {
+	width:100%;
+	margin:0 auto;
+	padding-left:60px;
+
+	#cards-wrapper {
+		margin:20px 0 0 20px;
+	}
+
+	.file {	
 		width:240px;
 		float:left;
 		margin:0 12px 12px 0;

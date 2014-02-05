@@ -28,98 +28,120 @@
 
         <section id="drive-app"> <!-- CLASS preview-mode -->
             <div id="topbar">
+                <div id="search-block">
+                    <form>
+                        <input type="text" placeholder="Rechercher ou ajouter un label..." />
+                        <button id="search-bt">Rechercher un fichier</button>
+                        <button id="label-bt">Rechercher un label</button>
+                    </form>
+                </div>
+                <div class="actions">
+                    <button class="action del">Supprimer</button>
+                    <button class="action tools">Options</button>
+                    <button class="action fav">Favori</button>
+
+                    <div id="display-mode">
+                        <button class="active" id="display1-bt">Afficher en blocs</button>
+                        <button id="display2-bt">Afficher en lignes</button>
+                    </div>
+                    <div id="sort-mode">
+                        
+                    </div>
+                </div>
             </div>
 
-	    <ul id="file-list" ng-controller="FileListCtrl">
-	      <li ng-repeat="file in files">{{ file.name }}</li>
-	    </ul>
+    	    <ul id="file-list" ng-controller="FileListCtrl">
+    	      <li ng-repeat="file in files">{{ file.name }}</li>
+    	    </ul>
 
-            <!-- TYPE VIDEO -->
-            <article class="vid file">
-                <div class="preview">
-                    <img src="img/_TEMP/vid_preview.png" alt="" />
-                </div>
-                <header>
-                    <div class="ico">Contenu vidéo</div>
-                    <h1><a href="#">Nomdelavidéo.mov</a></h1>
-                    <em>Modifié le 22 nov 2014</em>
-                </header>
-                <div class="author">
-                    <img class="avatar" src="img/_TEMP/avatar.jpg" />
-                    <strong>Grohl Dave</strong>
-                    <em>Foo Fighters</em>
-                </div>
-                <section class="comments">
-                    <a href="#" class="seemore">12 commentaires</a>
-                    <form method="post" action="#">
-                        <textarea placeholder="Ajouter un commentaire"></textarea>
-                        <button>Envoyer</button>
-                    </form>
-                </section>
-            </article>
+            <div id="cards-wrapper">
+                <!-- TYPE VIDEO -->
+                <article class="vid file">
+                    <div class="preview">
+                        <img src="img/_TEMP/vid_preview.png" alt="" />
+                    </div>
+                    <header>
+                        <div class="ico">Contenu vidéo</div>
+                        <h1><a href="#">Nomdelavidéo.mov</a></h1>
+                        <em>Modifié le 22 nov 2014</em>
+                    </header>
+                    <div class="author">
+                        <img class="avatar" src="img/_TEMP/avatar.jpg" />
+                        <strong>Grohl Dave</strong>
+                        <em>Foo Fighters</em>
+                    </div>
+                    <section class="comments">
+                        <a href="#" class="seemore">12 commentaires</a>
+                        <form method="post" action="#">
+                            <textarea placeholder="Ajouter un commentaire"></textarea>
+                            <button>Envoyer</button>
+                        </form>
+                    </section>
+                </article>
 
-            <!-- TYPE IMAGE -->
-            <article class="img file">
-                <div class="preview">
-                    <img src="img/_TEMP/img_preview.jpg" alt="" />
-                </div>
-                <header>
-                    <div class="ico">Contenu image</div>
-                    <h1><a href="#">Nomdufichier.png</a></h1>
-                    <em>Modifié le 22 nov 2014</em>
-                </header>
-                <div class="author">
-                    <img class="avatar" src="img/_TEMP/avatar2.jpg" />
-                    <strong>Ellen Page</strong>
-                    <em>Petite licorne</em>
-                </div>
-                <section class="comments">
-                    <ul class="comments-list">
-                        <li>
-                            <img src="img/_TEMP/emptyavatar.jpg" alt="" />
-                            <strong>Mehdi Ghilaci</strong>
-                            <p>
-                                Blabla bloubli blablabla bloublou bli lalalala loulilala loulilou
-                            </p>
-                        </li>
-                        <li>
-                            <img src="img/_TEMP/emptyavatar.jpg" alt="" />
-                            <strong>Oscar Cheddar</strong>
-                            <p>
-                                Blabla bloubli
-                            </p>
-                        </li>
-                    </ul>
-                    <a href="#" class="seemore">Voir tout (4)</a>
-                    <form method="post" action="#">
-                        <textarea placeholder="Ajouter un commentaire"></textarea>
-                        <button>Envoyer</button>
-                    </form>
-                </section>
-            </article>
+                <!-- TYPE IMAGE -->
+                <article class="img file">
+                    <div class="preview">
+                        <img src="img/_TEMP/img_preview.jpg" alt="" />
+                    </div>
+                    <header>
+                        <div class="ico">Contenu image</div>
+                        <h1><a href="#">Nomdufichier.png</a></h1>
+                        <em>Modifié le 22 nov 2014</em>
+                    </header>
+                    <div class="author">
+                        <img class="avatar" src="img/_TEMP/avatar2.jpg" />
+                        <strong>Ellen Page</strong>
+                        <em>Petite licorne</em>
+                    </div>
+                    <section class="comments">
+                        <ul class="comments-list">
+                            <li>
+                                <img src="img/_TEMP/emptyavatar.jpg" alt="" />
+                                <strong>Mehdi Ghilaci</strong>
+                                <p>
+                                    Blabla bloubli blablabla bloublou bli lalalala loulilala loulilou
+                                </p>
+                            </li>
+                            <li>
+                                <img src="img/_TEMP/emptyavatar.jpg" alt="" />
+                                <strong>Oscar Cheddar</strong>
+                                <p>
+                                    Blabla bloubli
+                                </p>
+                            </li>
+                        </ul>
+                        <a href="#" class="seemore">Voir tout (4)</a>
+                        <form method="post" action="#">
+                            <textarea placeholder="Ajouter un commentaire"></textarea>
+                            <button>Envoyer</button>
+                        </form>
+                    </section>
+                </article>
 
-            <!-- TYPE DOC -->
-            <article class="doc file">
-                 <div class="preview">
-                    <img src="img/_TEMP/doc_preview.jpg" alt="" />
-                </div>
-                <header>
-                    <div class="ico">Document texte</div>
-                    <h1><a href="#">Nomdufichier.doc</a></h1>
-                    <em>Modifié le 22 nov 2014</em>
-                </header>
-                <div class="author">
-                    <img class="avatar" src="img/_TEMP/avatar3.jpg" />
-                    <strong>Hannah Mac Kay</strong>
-                    <em>Nounou argentine</em>
-                </div>
-                <section class="comments">
-                    <form method="post" action="#">
-                        <textarea placeholder="Ajouter un commentaire"></textarea>
-                        <button>Envoyer</button>
-                    </form>
-                </section>
-            </article>
+                <!-- TYPE DOC -->
+                <article class="doc file">
+                     <div class="preview">
+                        <img src="img/_TEMP/doc_preview.jpg" alt="" />
+                    </div>
+                    <header>
+                        <div class="ico">Document texte</div>
+                        <h1><a href="#">Nomdufichier.doc</a></h1>
+                        <em>Modifié le 22 nov 2014</em>
+                    </header>
+                    <div class="author">
+                        <img class="avatar" src="img/_TEMP/avatar3.jpg" />
+                        <strong>Hannah Mac Kay</strong>
+                        <em>Nounou argentine</em>
+                    </div>
+                    <section class="comments">
+                        <form method="post" action="#">
+                            <textarea placeholder="Ajouter un commentaire"></textarea>
+                            <button>Envoyer</button>
+                        </form>
+                    </section>
+                </article>
+            </div>
         </section>
     </body>
 
