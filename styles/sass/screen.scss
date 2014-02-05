@@ -16,6 +16,10 @@ body {
 	@include box-sizing("border-box");
 }
 
+button {
+	cursor:pointer;
+}
+
 /* ============= TOOLBAR ============= */
 
 #toolbar {
@@ -91,16 +95,47 @@ body {
 	}
 }
 
+// Labels
+
+.labels-list {
+	li {
+		display:block;
+		float:left;
+		background:#efefef;
+		height:28px;
+		line-height:28px;
+		border:1px solid #d5d5d5;
+		margin:0 4px 0 0;
+		@include border-radius(5px);
+	}
+
+	span {
+		font-weight:700;
+		color:#5672ad;
+		font-size:0.65rem;
+		font-style:italic;
+		padding:0 10px;
+		line-height:28px;
+		display:block;
+		float:left;
+	}
+
+	button {
+		height:26px;
+		width:28px;
+		border:0;
+		border-left:1px solid #d5d5d5;
+		text-indent:-9999rem;
+		background:image-url('cross.png') no-repeat center center;
+	}
+}
+
 // DRIVE APP
 
 #topbar {
 	height:60px;
 	width:100%;
 	background:#efefef;
-
-	button {
-		cursor:pointer;
-	}
 
 	#search-block {
 		float:left;
@@ -193,6 +228,29 @@ body {
 			background-position:center center;
 			@include border-radius(0 4px 4px 0);
 		}
+	}
+}
+
+#current-labels {
+	padding:0 0 0 32px;
+	margin:20px;
+	float:left;
+	width:100%;
+	background:image-url('labels_ico.png') no-repeat center left;
+
+	.erase-all {
+		background:none;
+		border:0;
+		border-left:1px solid #bdbdbd;
+		padding-left:6px;
+		font-size:0.65rem;
+		height:21px;
+		display:block;
+		float:left;
+		line-height:21px;
+		color:#bdbdbd;
+		font-weight:700;
+		margin:4px 0 0 8px;
 	}
 }
 

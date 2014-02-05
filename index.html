@@ -50,6 +50,16 @@
                 </div>
             </div>
 
+            <div id="current-labels">
+                <ul class="labels-list">
+                    <li><span>Label 1</span> <button>Supprimer</button></li>
+                    <li><span>Label un peu long</span> <button>Supprimer</button></li>
+                    <li><span>Label rouge</span> <button>Supprimer</button></li>
+                    <li><span>Label bleu</span> <button>Supprimer</button></li>
+                </ul>
+                <button class="erase-all">Tout supprimer</button>
+            </div>
+
     	    <ul id="file-list" ng-controller="FileListCtrl">
     	      <li ng-repeat="file in files">{{ file.name }}</li>
     	    </ul>
