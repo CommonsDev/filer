@@ -105,7 +105,7 @@ button {
 		height:28px;
 		line-height:28px;
 		border:1px solid #d5d5d5;
-		margin:0 4px 0 0;
+		margin:0 4px 4px 0;
 		@include border-radius(5px);
 	}
 
@@ -232,11 +232,11 @@ button {
 }
 
 #current-labels {
-	padding:0 0 0 32px;
-	margin:20px;
+	padding:0 0 0 52px;
+	margin:20px 0;
 	float:left;
 	width:100%;
-	background:image-url('labels_ico.png') no-repeat center left;
+	background:image-url('labels_ico.png') no-repeat 20px center;
 
 	.erase-all {
 		background:none;
@@ -462,3 +462,186 @@ button {
 		overflow:hidden;
 	}
 }
+
+// Labelisation
+
+#labelisation {
+	width:100%;
+	height:100%;
+	min-height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	background:rgba(0,0,0,0.8);
+	z-index:2000;
+
+	.wrap-content {
+		min-height:560px;
+		max-height:700px;
+		width:900px;
+		margin:-280px -450px;
+		position:absolute;
+		left:50%;
+		top:50%;
+	}
+
+	h1 {
+		height:84px;
+		color:white;
+		padding:0 300px 0 90px;
+		font-size:1.7rem;
+		line-height:1.8rem;
+		background:image-url('big_label.png') no-repeat top left;
+	}
+
+	.content {
+		background:white;
+		float:left;
+		padding:12px 0 0 0;
+		width:100%;
+		@include border-radius(10px);
+	}
+
+	.left {
+		float:left;
+		width:592px;
+		padding:0 12px;
+		border-right:1px solid #e6e6e6;
+
+		.files-list {
+			max-height:278px;
+			float:left;
+			width:100%;
+			overflow:auto;
+		}
+
+		.file {
+			padding:4px;
+			width:100%;
+			float:left;
+			position:relative;
+			@include border-radius(4px);
+
+			&:hover {
+				background:#f5f5f5;
+			}
+
+			img {
+				float:left;
+				margin:0 10px 0 0;
+			}
+
+			.infos {
+				padding-left:178px;
+				strong {
+					color:#4b4b4b;
+					display:block;
+					font-size:0.7rem;
+					text-align:center;
+					font-weight:bold;
+					padding:5px 0 15px;
+
+					span {
+						font-weight:normal;
+					}
+				}
+
+				button.close {
+					position:absolute;
+					top:10px;
+					right:10px;
+					width:20px;
+					height:20px;
+					background:image-url('close.png') no-repeat center center;
+					border:0;
+					text-indent:-9999em;
+				}
+			}
+		}
+
+		.newfile {
+			height:134px;
+			width:100%;
+			color:#dadada;
+			position:relative;
+			border-top:1px solid #e6e6e6;
+			margin-top:6px;
+			float:left;
+
+			span {
+				display:block;
+				width:200px; 
+				height:80px;
+				background:image-url('new_file.png') no-repeat center left;
+				padding:15px 0 0 55px;
+				font-weight:bold;
+				font-size:1.2rem;
+				line-height:1.5rem;
+				position:absolute;
+				margin:-40px -100px;
+				top:50%;
+				left:50%;
+			}
+		}
+	}
+
+	.right {
+		margin:0 0 0 602px;
+		padding-right:12px;
+
+		p {
+			font-style:italic;
+			font-weight:bold;
+			background:image-url('i.png') no-repeat 90% 20px;
+			padding:15px 110px 20px 0;
+			line-height:1.2rem;
+		}
+
+		input[type="text"] {
+			height:33px;
+			width:236px;
+			padding:0 13px;
+			border:1px solid #d5d5d5;
+			color:#666;
+			font-style:italic;
+			font-size:0.75rem;
+			@include border-radius(16px);
+		}
+
+		h2 {
+			font-weight:bold;
+			font-size:0.85rem;
+			margin:35px 0 25px;
+		}
+	}
+
+	.bottom {
+		width:100%;
+		float:left;
+		background:#efefef;
+		height:52px;
+		padding:10px 8px;
+		@include border-radius(0 0 10px 10px);
+
+		button {
+			height:35px;
+			padding:0 35px;
+			color:white;
+			font-size:0.8rem;
+			margin-right:4px;
+			border:0;
+			font-weight:300;
+			float:left;
+			@include border-radius(6px);
+
+			&.abort {
+				background:#a7a7a7;
+			}
+
+			&.valid {
+				background:#7bbae7;
+			}
+		}
+	}
+}
+// Fin Labelisation
