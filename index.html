@@ -26,34 +26,39 @@
             </ul>
         </div>
 
-        <section id="drive-app"> <!-- CLASS preview-mode -->
+        <section id="drive-app" ng-controller="FileListCtrl"> <!-- CLASS preview-mode -->
             <div id="topbar">
             </div>
 
-	    <ul id="file-list" ng-controller="FileListCtrl">
-	      <li ng-repeat="file in files">{{ file.name }}</li>
-	    </ul>
-
             <!-- TYPE VIDEO -->
-            <article class="vid file">
+            <article class="vid file" ng-repeat="file in files" >
                 <div class="preview">
-                    <img src="img/_TEMP/vid_preview.png" alt="" />
+                    <img width="240px" ng-src="http://localhost:8000/media/{{ file.thumbnail_url }}" alt="" />
                 </div>
                 <header>
                     <div class="ico">Contenu vidéo</div>
-                    <h1><a href="#">Nomdelavidéo.mov</a></h1>
-                    <em>Modifié le 22 nov 2014</em>
+                    <h1><a href="#">{{ file.description }}</a></h1>
+                    <em>Modifié le {{ file.uploaded_on }}</em>
                 </header>
                 <div class="author">
                     <img class="avatar" src="img/_TEMP/avatar.jpg" />
-                    <strong>Grohl Dave</strong>
+                    <strong>Dave Grohl</strong>
                     <em>Foo Fighters</em>
                 </div>
-                <section class="comments">
+                <section ng-controller="FileCommentCtrl" class="comments">
+                     <ul class="comments-list">
+                        <li ng-repeat=" comment in comments">
+                            <img src="img/_TEMP/emptyavatar.jpg" alt="" />
+                            <strong>{{ comment.submitter.username }}</strong>
+                            <p>
+                                {{ comment.text }}
+                            </p>
+                        </li>
+                    </ul>
                     <a href="#" class="seemore">12 commentaires</a>
-                    <form method="post" action="#">
-                        <textarea placeholder="Ajouter un commentaire"></textarea>
-                        <button>Envoyer</button>
+                    <form>
+                        <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire"></textarea>
+                        <button ng-click="submitForm()" >Envoyer</button>
                     </form>
                 </section>
             </article>

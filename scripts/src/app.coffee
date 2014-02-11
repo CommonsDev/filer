@@ -5,13 +5,14 @@ angular.module('unisson_filer', ['ui.router', 'ngAnimate', 'restangular', 'filer
 # CORS
 .config(['$httpProvider', ($httpProvider) ->
         $httpProvider.defaults.useXDomain = true
+        #$httpProvider.defaults.headers({"Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787"})
         delete $httpProvider.defaults.headers.common['X-Requested-With']
 ])
 
 # Tastypie
 .config((RestangularProvider) ->
         RestangularProvider.setBaseUrl(config.rest_uri)
-
+        RestangularProvider.setDefaultHeaders({"Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787"});
         # Tastypie patch
         RestangularProvider.setResponseExtractor((response, operation, what, url) ->
                 newResponse = null;
