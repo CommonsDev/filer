@@ -26,9 +26,92 @@
             </ul>
         </div>
 
-        <section id="drive-app" ng-controller="FileListCtrl"> <!-- CLASS preview-mode -->
+        <!-- Labelisation -->
+        <div id="labelisation">
+            <div class="wrap-content">
+                <h1>Veuillez ajouter les labels correspondants à vos fichiers</h1>
+                <div class="content">
+                    <div class="left">
+                        <div class="files-list">
+                            <div class="file">
+                                <img width="168" height="115" src="img/_TEMP/vid_preview.png" alt="" />
+                                <div class="infos">
+                                    <button class="close">Fermer</button>
+                                    <strong>Document1.doc <span>- 12 mo</span></strong>
+                                    <ul class="labels-list">
+                                        <li><span>Label 1</span> <button>Supprimer</button></li>
+                                        <li><span>Label un peu long</span> <button>Supprimer</button></li>
+                                        <li><span>Label rouge</span> <button>Supprimer</button></li>
+                                        <li><span>Label bleu</span> <button>Supprimer</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="file">
+                                <img width="168" height="115" src="img/_TEMP/vid_preview.png" alt="" />
+                                <div class="infos">
+                                    <button class="close">Fermer</button>
+                                    <strong>Document1.doc <span>- 12 mo</span></strong>
+                                    <ul class="labels-list">
+                                        <li><span>Label 1</span> <button>Supprimer</button></li>
+                                        <li><span>Label un peu long</span> <button>Supprimer</button></li>
+                                        <li><span>Label rouge</span> <button>Supprimer</button></li>
+                                        <li><span>Label bleu</span> <button>Supprimer</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="file">
+                                <img width="168" height="115" src="img/_TEMP/img_preview.jpg" alt="" />
+                                <div class="infos">
+                                    <button class="close">Fermer</button>
+                                    <strong>Document2.doc <span>- 12 mo</span></strong>
+                                    <ul class="labels-list">
+                                        <li><span>Label 1</span> <button>Supprimer</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="file">
+                                <img width="168" height="115" src="img/_TEMP/img_preview.jpg" alt="" />
+                                <div class="infos">
+                                    <button class="close">Fermer</button>
+                                    <strong>Document2.doc <span>- 12 mo</span></strong>
+                                    <ul class="labels-list">
+                                        <li><span>Label 1</span> <button>Supprimer</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="newfile">
+                            <span>Ajouter un autre fichier</span>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <p>Faites un glissé / déposé du label vers son fichier pour qu’il lui soit assigné</p>
+                        <form>
+                            <input type="text" placeholder="Ajouter / Rechercher un label..." />
+                        </form>
+                        <h2>Labels récemments utilisés</h2>
+                        <ul class="labels-list">
+                            <li><span>Label 1</span> <button>Supprimer</button></li>
+                            <li><span>Label un peu long</span> <button>Supprimer</button></li>
+                            <li><span>Label rouge</span> <button>Supprimer</button></li>
+                            <li><span>Label bleu</span> <button>Supprimer</button></li>
+                            <li><span>Label 1</span> <button>Supprimer</button></li>
+                            <li><span>Label un peu long</span> <button>Supprimer</button></li>
+                            <li><span>Label rouge</span> <button>Supprimer</button></li>
+                            <li><span>Label bleu</span> <button>Supprimer</button></li>
+                        </ul>
+                    </div>
+                    <div class="bottom">
+                        <button class="abort">Annuler</button>
+                        <button class="valid">Valider</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Labelisation -->
+
+        <section id="drive-app"> <!-- CLASS preview-mode -->
             <div id="topbar">
-           <!-- </div>-->
                 <div id="search-block">
                     <form>
                         <input type="text" placeholder="Rechercher ou ajouter un label..." />
@@ -51,55 +134,34 @@
                 </div>
             </div>
 
-            <div id="current-labels">
-                <ul class="labels-list">
-                    <li><span>Label 1</span> <button>Supprimer</button></li>
-                    <li><span>Label un peu long</span> <button>Supprimer</button></li>
-                    <li><span>Label rouge</span> <button>Supprimer</button></li>
-                    <li><span>Label bleu</span> <button>Supprimer</button></li>
-                </ul>
-                <button class="erase-all">Tout supprimer</button>
-            </div>
-
-    	    <!--
-            <ul id="file-list" ng-controller="FileListCtrl">
+    	    <ul id="file-list" ng-controller="FileListCtrl">
     	      <li ng-repeat="file in files">{{ file.name }}</li>
     	    </ul>
-            -->
 
             <div id="cards-wrapper">
                 <!-- TYPE VIDEO -->
-            <article class="vid file" ng-repeat="file in files" >
-                <div class="preview">
-                    <img width="240px" ng-src="http://localhost:8000/media/{{ file.thumbnail_url }}" alt="" />
-                </div>
-                <header>
-                    <div class="ico">Contenu vidéo</div>
-                    <h1><a href="#">{{ file.description }}</a></h1>
-                    <em>Modifié le {{ file.uploaded_on }}</em>
-                </header>
-                <div class="author">
-                    <img class="avatar" src="img/_TEMP/avatar.jpg" />
-                    <strong>Dave Grohl</strong>
-                    <em>Foo Fighters</em>
-                </div>
-                <section ng-controller="FileCommentCtrl" class="comments">
-                     <ul class="comments-list">
-                        <li ng-repeat=" comment in comments">
-                            <img src="img/_TEMP/emptyavatar.jpg" alt="" />
-                            <strong>{{ comment.submitter.username }}</strong>
-                            <p>
-                                {{ comment.text }}
-                            </p>
-                        </li>
-                    </ul>
-                    <a href="#" class="seemore">12 commentaires</a>
-                    <form>
-                        <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire"></textarea>
-                        <button ng-click="submitForm()" >Envoyer</button>
-                    </form>
-                </section>
-            </article>
+                <article class="vid file">
+                    <div class="preview">
+                        <img src="img/_TEMP/vid_preview.png" alt="" />
+                    </div>
+                    <header>
+                        <div class="ico">Contenu vidéo</div>
+                        <h1><a href="#">Nomdelavidéo.mov</a></h1>
+                        <em>Modifié le 22 nov 2014</em>
+                    </header>
+                    <div class="author">
+                        <img class="avatar" src="img/_TEMP/avatar.jpg" />
+                        <strong>Grohl Dave</strong>
+                        <em>Foo Fighters</em>
+                    </div>
+                    <section class="comments">
+                        <a href="#" class="seemore">12 commentaires</a>
+                        <form method="post" action="#">
+                            <textarea placeholder="Ajouter un commentaire"></textarea>
+                            <button>Envoyer</button>
+                        </form>
+                    </section>
+                </article>
 
                 <!-- TYPE IMAGE -->
                 <article class="img file">
