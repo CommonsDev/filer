@@ -29,10 +29,10 @@
         <section id="drive-app" ng-controller="FileListCtrl"> <!-- CLASS preview-mode -->
             <div id="topbar">
            <!-- </div>-->
-                <div id="search-block">
+                <div id="search-block" >
                     <form>
-                        <input type="text" placeholder="Rechercher ou ajouter un label..." />
-                        <button id="search-bt">Rechercher un fichier</button>
+                        <input type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
+                        <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
                         <button id="label-bt">Rechercher un label</button>
                     </form>
                 </div>
@@ -76,7 +76,7 @@
                 <header>
                     <div class="ico">Contenu vidéo</div>
                     <h1><a href="#">{{ file.description }}</a></h1>
-                    <em>Modifié le {{ file.uploaded_on }}</em>
+                    <em>Modifié le {{ file.uploaded_on | date:"dd/MM/yyyy - h:m" }}</em>
                 </header>
                 <div class="author">
                     <img class="avatar" src="img/_TEMP/avatar.jpg" />

@@ -3,11 +3,23 @@ module = angular.module('filer.controllers', ['restangular'])
 class FileListCtrl
         constructor: (@$scope, @Restangular) ->
                 @$scope.files = []
-
-                @Restangular.one('bucket', 1).get().then((bucket)=>
+                @$scope.currentBucket = 1
+                @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket)=>
                         @$scope.files = bucket.files
                         )
+
+                @$scope.search_form =
+                        query: ""
+                @$scope.searchFiles = this.searchFiles
                 
+        searchFiles: =>
+                console.debug("searching with: "+@$scope.search_form.query)
+                #search URL : http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?format=json&q=blabla
+                searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
+                searchFilesObject.getList('search', {q: @$scope.search_form.query }).then((result)=>
+                         @$scope.files = result
+                )
+        
 class FileCommentCtrl
         constructor: (@$scope, @Restangular) ->
                 @$scope.comment_form = 

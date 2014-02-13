@@ -5,7 +5,6 @@ angular.module('unisson_filer', ['ui.router', 'ngAnimate', 'restangular', 'filer
 # CORS
 .config(['$httpProvider', ($httpProvider) ->
         $httpProvider.defaults.useXDomain = true
-        #$httpProvider.defaults.headers({"Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787"})
         delete $httpProvider.defaults.headers.common['X-Requested-With']
 ])
 
@@ -30,16 +29,16 @@ angular.module('unisson_filer', ['ui.router', 'ngAnimate', 'restangular', 'filer
 
 # URI config
 .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', ($locationProvider, $stateProvider, $urlRouterProvider) ->
-                                $locationProvider.html5Mode(config.useHtml5Mode)
-                                $urlRouterProvider.otherwise("/")
+        $locationProvider.html5Mode(config.useHtml5Mode)
+        $urlRouterProvider.otherwise("/")
 
-                                $stateProvider.state('index',
-                                        url: '/'
-                                        # controller: 'MapNewCtrl'
-                                        page_title: 'Bienvenue'
-                                        # templateUrl: moduleTemplateBaseUrl + 'map_new.html',
-                                )
-                        ])
+        $stateProvider.state('index',
+                url: '/'
+                # controller: 'MapNewCtrl'
+                page_title: 'Bienvenue'
+                # templateUrl: moduleTemplateBaseUrl + 'map_new.html',
+        )
+])
 
 
 angular.bootstrap(document, ['unisson_filer'])
