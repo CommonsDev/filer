@@ -2,7 +2,7 @@
 <article class="vid file item">
   <div class="preview">
     <a ui-sref="bucket.file({fileId: file.id})">
-      <img width="240px" ng-src="{{ file.thumbnail_url }}" alt="{{ file.name }}" />
+      <img width="240px" ng-src="{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
     </a>
   </div>
   <header>
@@ -11,8 +11,8 @@
     <em>Modifié le {{ file.uploaded_on | date:"dd/MM/yyyy - h:m" }}</em>
   </header>
   <div class="author">
-    <img class="avatar" src="img/_TEMP/avatar.jpg" />
-    <strong>FIXME_AUTHOR</strong>
+    <img class="avatar" src="{{ file.uploaded_by.mugshot || 'img/_TEMP/emptyavatar.jpg' }}" />
+    <strong>{{ file.uploaded_by.username }}</strong>
     <em>FIXME_GROUP</em>
   </div>
   <section ng-controller="FileCommentCtrl" class="comments">

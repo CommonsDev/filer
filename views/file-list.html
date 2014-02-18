@@ -1,0 +1,56 @@
+<div id="toolbar">
+  <ul>
+    <li class="open"><button>Déplier</button></li>
+    <li class="search"><button>Rechercher</button></li>
+    <li class="add"><button>Ajouter</button></li>
+    <li class="files"><button>Fichiers</button></li>
+    <li class="recent"><button>Récents</button></li>
+    <li class="fav"><button>Favoris</button></li>
+  </ul>
+</div>
+
+<section id="drive-app"> <!-- CLASS preview-mode -->
+  <div id="topbar">
+
+    <div ng-controller="FileListCtrl">
+      <div id="search-block" >
+	<form>
+          <input type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
+          <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
+          <button id="label-bt">Rechercher un label</button>
+	</form>
+      </div>
+
+      <div class="actions">
+	<button class="action del">Supprimer</button>
+	<button class="action tools">Options</button>
+	<button class="action fav">Favori</button>
+	
+	<div id="display-mode">
+          <button class="active" id="display1-bt">Afficher en blocs</button>
+          <button id="display2-bt">Afficher en lignes</button>
+	</div>
+	<div id="sort-mode"></div>
+    </div>
+    
+    <div id="current-labels">
+      <ul class="labels-list">
+	<li><span>Label 1</span> <button>Supprimer</button></li>
+	<li><span>Label un peu long</span> <button>Supprimer</button></li>
+	<li><span>Label rouge</span> <button>Supprimer</button></li>
+	<li><span>Label bleu</span> <button>Supprimer</button></li>
+      </ul>
+      <button class="erase-all">Tout supprimer</button>
+    </div>
+    
+    <div id="cards-wrapper">
+      <ng-include src="'views/file-card.html'" ng-repeat="file in files" /> 
+    </div>
+
+    <!-- temp: move me! -->
+    <div ui-view></div>
+  
+  </div>
+
+
+</section>
