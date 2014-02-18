@@ -30,13 +30,17 @@ angular.module('unisson_filer', ['ui.router', 'ngAnimate', 'restangular', 'filer
 # URI config
 .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', ($locationProvider, $stateProvider, $urlRouterProvider) ->
         $locationProvider.html5Mode(config.useHtml5Mode)
-        $urlRouterProvider.otherwise("/")
+        $urlRouterProvider.otherwise("/bucket")
 
-        $stateProvider.state('index',
-                url: '/'
+        $stateProvider.state('bucket',
+                url: '^/bucket'
                 # controller: 'MapNewCtrl'
                 page_title: 'Bienvenue'
                 # templateUrl: moduleTemplateBaseUrl + 'map_new.html',
+        )
+        .state('bucket.file',
+                url: '/file/:fileId'
+                templateUrl: "views/file-preview.html"
         )
 ])
 

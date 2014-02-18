@@ -61,110 +61,12 @@
                 <button class="erase-all">Tout supprimer</button>
             </div>
 
-    	    <!--
-            <ul id="file-list" ng-controller="FileListCtrl">
-    	      <li ng-repeat="file in files">{{ file.name }}</li>
-    	    </ul>
-            -->
-
             <div id="cards-wrapper">
-                <!-- TYPE VIDEO -->
-            <article class="vid file" ng-repeat="file in files" >
-                <div class="preview">
-                    <img width="240px" ng-src="http://localhost:8000/media/{{ file.thumbnail_url }}" alt="" />
-                </div>
-                <header>
-                    <div class="ico">Contenu vidéo</div>
-                    <h1><a href="#">{{ file.description }}</a></h1>
-                    <em>Modifié le {{ file.uploaded_on | date:"dd/MM/yyyy - h:m" }}</em>
-                </header>
-                <div class="author">
-                    <img class="avatar" src="img/_TEMP/avatar.jpg" />
-                    <strong>Dave Grohl</strong>
-                    <em>Foo Fighters</em>
-                </div>
-                <section ng-controller="FileCommentCtrl" class="comments">
-                     <ul class="comments-list">
-                        <li ng-repeat=" comment in comments">
-                            <img src="img/_TEMP/emptyavatar.jpg" alt="" />
-                            <strong>{{ comment.submitter.username }}</strong>
-                            <p>
-                                {{ comment.text }}
-                            </p>
-                        </li>
-                    </ul>
-                    <a href="#" class="seemore">12 commentaires</a>
-                    <form>
-                        <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire"></textarea>
-                        <button ng-click="submitForm()" >Envoyer</button>
-                    </form>
-                </section>
-            </article>
-
-                <!-- TYPE IMAGE -->
-                <article class="img file">
-                    <div class="preview">
-                        <img src="img/_TEMP/img_preview.jpg" alt="" />
-                    </div>
-                    <header>
-                        <div class="ico">Contenu image</div>
-                        <h1><a href="#">Nomdufichier.png</a></h1>
-                        <em>Modifié le 22 nov 2014</em>
-                    </header>
-                    <div class="author">
-                        <img class="avatar" src="img/_TEMP/avatar2.jpg" />
-                        <strong>Ellen Page</strong>
-                        <em>Petite licorne</em>
-                    </div>
-                    <section class="comments">
-                        <ul class="comments-list">
-                            <li>
-                                <img src="img/_TEMP/emptyavatar.jpg" alt="" />
-                                <strong>Mehdi Ghilaci</strong>
-                                <p>
-                                    Blabla bloubli blablabla bloublou bli lalalala loulilala loulilou
-                                </p>
-                            </li>
-                            <li>
-                                <img src="img/_TEMP/emptyavatar.jpg" alt="" />
-                                <strong>Oscar Cheddar</strong>
-                                <p>
-                                    Blabla bloubli
-                                </p>
-                            </li>
-                        </ul>
-                        <a href="#" class="seemore">Voir tout (4)</a>
-                        <form method="post" action="#">
-                            <textarea placeholder="Ajouter un commentaire"></textarea>
-                            <button>Envoyer</button>
-                        </form>
-                    </section>
-                </article>
-
-                <!-- TYPE DOC -->
-                <article class="doc file">
-                     <div class="preview">
-                        <img src="img/_TEMP/doc_preview.jpg" alt="" />
-                    </div>
-                    <header>
-                        <div class="ico">Document texte</div>
-                        <h1><a href="#">Nomdufichier.doc</a></h1>
-                        <em>Modifié le 22 nov 2014</em>
-                    </header>
-                    <div class="author">
-                        <img class="avatar" src="img/_TEMP/avatar3.jpg" />
-                        <strong>Hannah Mac Kay</strong>
-                        <em>Nounou argentine</em>
-                    </div>
-                    <section class="comments">
-                        <form method="post" action="#">
-                            <textarea placeholder="Ajouter un commentaire"></textarea>
-                            <button>Envoyer</button>
-                        </form>
-                    </section>
-                </article>
+	      <ng-include src="'views/file-card.html'" ng-repeat="file in files" /> 
             </div>
         </section>
+
+	<div ui-view></div>
     </body>
 
     <!-- vendor includes -->

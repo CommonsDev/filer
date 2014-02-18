@@ -1,0 +1,34 @@
+<!-- TYPE VIDEO XXX: Should not make a difference -->
+<article class="vid file">
+  <div class="preview">
+    <a ui-sref="bucket.file({fileId: file.id})">
+      <img width="240px" ng-src="{{ file.thumbnail_url }}" alt="{{ file.name }}" />
+    </a>
+  </div>
+  <header>
+    <div class="ico">Contenu FIXME</div>
+    <h1><a href="#">{{ file.description }}</a></h1>
+    <em>Modifié le {{ file.uploaded_on | date:"dd/MM/yyyy - h:m" }}</em>
+  </header>
+  <div class="author">
+    <img class="avatar" src="img/_TEMP/avatar.jpg" />
+    <strong>FIXME_AUTHOR</strong>
+    <em>FIXME_GROUP</em>
+  </div>
+  <section ng-controller="FileCommentCtrl" class="comments">
+    <ul class="comments-list">
+      <li ng-repeat=" comment in comments">
+        <img src="img/_TEMP/emptyavatar.jpg" alt="" />
+        <strong>{{ comment.submitter.username }}</strong>
+        <p>
+          {{ comment.text }}
+        </p>
+      </li>
+    </ul>
+    <a href="#" class="seemore">FIXME commentaires</a>
+    <form>
+      <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire"></textarea>
+      <button ng-click="submitForm()" >Envoyer</button>
+    </form>
+  </section>
+</article>
