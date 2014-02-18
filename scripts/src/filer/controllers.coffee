@@ -5,11 +5,18 @@ class FileDetailCtrl
                 console.debug("started file detail")
 
 class FileListCtrl
-        constructor: (@$scope, $timeout, @Restangular) ->
+        constructor: (@$rootScope, @$scope, $timeout, $fileUploader, @Restangular) ->
                 @$scope.files = []
                 @$scope.currentBucket = 1
                 @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket) =>
                         @$scope.files = bucket.files
+                )
+
+                @$scope.uploader = $fileUploader.create(
+                        scope: @$rootScope
+                        autoUpload: true
+                        url: 'http://localhost:8000/bucket/upload/'
+                        formData: [{bucket: 1}] # FIXME
                 )
 
                 @$scope.search_form =
@@ -22,7 +29,7 @@ class FileListCtrl
                                 # Run isotope
                                 container = $('#cards-wrapper')
                                 container.isotope(
-                                  itemSelector: '.item',
+                                  itemSelector: '.element'
                                   layoutMode: 'fitRows'
                                 )
                         )
@@ -60,5 +67,5 @@ class FileCommentCtrl
                                 )
 
 module.controller("FileDetailCtrl", ['$scope', 'Restangular', FileDetailCtrl])
-module.controller("FileListCtrl", ['$scope', '$timeout', 'Restangular', FileListCtrl])
+module.controller("FileListCtrl", ['$rootScope', '$scope', '$timeout', '$fileUploader', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])

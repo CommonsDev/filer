@@ -10,9 +10,9 @@
 </div>
 
 <section id="drive-app"> <!-- CLASS preview-mode -->
-  <div id="topbar">
+  <div ng-controller="FileListCtrl">
 
-    <div ng-controller="FileListCtrl">
+    <div id="topbar">
       <div id="search-block" >
 	<form>
           <input type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
@@ -31,20 +31,21 @@
           <button id="display2-bt">Afficher en lignes</button>
 	</div>
 	<div id="sort-mode"></div>
-    </div>
-    
-    <div id="current-labels">
-      <ul class="labels-list">
-	<li><span>Label 1</span> <button>Supprimer</button></li>
-	<li><span>Label un peu long</span> <button>Supprimer</button></li>
-	<li><span>Label rouge</span> <button>Supprimer</button></li>
-	<li><span>Label bleu</span> <button>Supprimer</button></li>
-      </ul>
-      <button class="erase-all">Tout supprimer</button>
-    </div>
-    
-    <div id="cards-wrapper">
-      <ng-include src="'views/file-card.html'" ng-repeat="file in files" /> 
+      </div>
+
+      <div id="current-labels">
+	<ul class="labels-list">
+	  <li><span>Label 1</span> <button>Supprimer</button></li>
+	  <li><span>Label un peu long</span> <button>Supprimer</button></li>
+	  <li><span>Label rouge</span> <button>Supprimer</button></li>
+	  <li><span>Label bleu</span> <button>Supprimer</button></li>
+	</ul>
+	<button class="erase-all">Tout supprimer</button>
+      </div>
+      
+      <div id="cards-wrapper">
+	<ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" /> 
+      </div>
     </div>
 
     <!-- temp: move me! -->
