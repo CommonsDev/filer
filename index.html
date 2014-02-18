@@ -62,7 +62,7 @@
             </div>
 
             <div id="cards-wrapper">
-	      <ng-include src="'views/file-card.html'" ng-repeat="file in files" /> 
+	           <ng-include src="'views/file-card.html'" ng-repeat="file in files" /> 
             </div>
         </section>
 
@@ -84,6 +84,7 @@
     <script type="text/javascript" src="scripts/vendor/restangular/dist/restangular.min.js"></script>
     <script src="scripts/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="scripts/vendor/angular-image-upload/image-upload.min.js"></script>
+    <script src="scripts/vendor/ng-isotope/isotope.pkgd.js"></script>
 
     <!-- no auth for now
     <script src="scripts/vendor/http-auth-interceptor.js"></script>
@@ -96,6 +97,4 @@
     <!-- app files -->
     <script src="scripts/lib/filer/controllers.js"></script>
     <script src="scripts/lib/app.js"></script>
-
-
 </html>
