@@ -5,7 +5,7 @@
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="">
+        <meta name="description" content="Filer">
 	<base href="/"></base>
 
         <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700' rel='stylesheet' type='text/css'>
@@ -16,132 +16,7 @@
         <![endif]-->
     </head>
     <body ng-file-drop>
-        <div ui-view></div>
-        <div id="toolbar">
-            <ul>
-                <li class="open"><button>Déplier</button></li>
-                <li class="search"><button>Rechercher</button></li>
-                <li class="add"><button>Ajouter</button></li>
-                <li class="files"><button>Fichiers</button></li>
-                <li class="recent"><button>Récents</button></li>
-                <li class="fav"><button>Favoris</button></li>
-            </ul>
-        </div>
-
-        <section id="drive-app" ng-controller="FileListCtrl"> <!-- CLASS preview-mode -->
-            <!-- LEFT PANEL -->
-            <!--
-            <div id="left-panel" class="upload-panel">
-                <div class="top-panel">
-                    <button class="about">A propos</button>
-                    <h2>Ajouter</h2>
-                    <p>
-                        Selectionnez vos fichiers et assignez leurs un ou plusieurs labels
-                    </p>
-                    <button class="add">Ajouter</button>
-                </div>
-
-                <div id="current-files">
-                    <ul>
-                        <li>
-                            <button class="close">Retirer</button>
-                            <strong>Document1.doc</strong>
-                            <em>12 mo</em>
-                            <div class="progressbar">
-                                <span style="width:98%">98%</span>
-                            </div>
-                        </li>
-                        <li>
-                            <button class="close">Retirer</button>
-                            <strong>Document2.doc</strong>
-                            <em>12 mo</em>
-                            <div class="progressbar">
-                                <span style="width:43%">43%</span>
-                            </div>
-                        </li>
-                        <li>
-                            <button class="close">Retirer</button>
-                            <strong>Document3.doc</strong>
-                            <em>12 mo</em>
-                            <div class="progressbar">
-                                <span style="width:68%">68%</span>
-                            </div>
-                        </li>
-                        <li>
-                            <button class="goto">Voir</button>
-                            <strong>Document4.doc</strong>
-                            <em>12 mo</em>
-                            <div class="progressbar complete">
-                                <span>Terminé</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>-->
-            <div id="left-panel" class="search-panel">
-                <div class="top-panel">
-                    <button class="goto">&nbsp</button>
-                    <h2>Rechercher</h2>
-                    <form>
-                        <input type="text" ng-model="search_form.query" placeholder="Entrez votre recherche..." />
-                        <button id="search-bt-2" ng-click="searchFiles()" >Rechercher un fichier</button>
-                        <button id="label-bt-2">Rechercher un label</button>
-                    </form>
-                </div>
-
-                <div id="last-search">
-                    <h3>Vos dernières recherches</h3>
-                    <ul>
-                        <li><a href="">Fichier1.pdf</a></li>
-                        <li><a href="">Document2.doc</a></li>
-                        <li><a href="">Video4.mov</a></li>
-                        <li><a href="">Titre pour un long Fich...</a></li>
-                        <li><a href="">Fichier1.pdf</a></li>
-                        <li><a href="">Document2.doc</a></li>
-                        <li><a href="">Video4.mov</a></li>
-                        <li><a href="">Titre pour un long Fich...</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- FIN LEFT PANEL -->
-            <div id="topbar">
-           <!-- </div>-->
-                <div id="search-block" >
-                    <form>
-                        <input type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
-                        <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
-                        <button id="label-bt">Rechercher un label</button>
-                    </form>
-                </div>
-                <div class="actions">
-                    <button class="action del">Supprimer</button>
-                    <button class="action tools">Options</button>
-                    <button class="action fav">Favori</button>
-
-                    <div id="display-mode">
-                        <button class="active" id="display1-bt">Afficher en blocs</button>
-                        <button id="display2-bt">Afficher en lignes</button>
-                    </div>
-                    <div id="sort-mode">
-                        
-                    </div>
-                </div>
-            </div>
-
-            <div id="current-labels">
-                <ul class="labels-list">
-                    <li><span>Label 1</span> <button>Supprimer</button></li>
-                    <li><span>Label un peu long</span> <button>Supprimer</button></li>
-                    <li><span>Label rouge</span> <button>Supprimer</button></li>
-                    <li><span>Label bleu</span> <button>Supprimer</button></li>
-                </ul>
-                <button class="erase-all">Tout supprimer</button>
-            </div>
-
-            <div id="cards-wrapper">
-	           <ng-include src="'views/file-card.html'" ng-repeat="file in files" /> 
-            </div>
-        </section>
+      <div ui-view></div>
     </body>
 
     <!-- vendor includes -->

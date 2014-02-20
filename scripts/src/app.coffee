@@ -47,5 +47,6 @@ angular.element(document).ready(->
                 )
         ])
 
+        console.debug("running angular app...")
         angular.bootstrap(document, ['unisson_filer'])
 )
