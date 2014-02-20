@@ -38,7 +38,7 @@ button {
 	background:rgba(22,23,25,0.95);
 	z-index:10;
 
-	button {
+	> ul > li > button {
 		display:block;
 		height:60px;
 		width:60px;
