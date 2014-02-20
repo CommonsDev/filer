@@ -2,7 +2,7 @@ module = angular.module('filer.controllers', ['restangular'])
 
 class ToolbarCtrl
         constructor: (@$scope) ->
-                null
+                @$scope.panel = null
 
 class FileDetailCtrl
         constructor: (@$scope, @Restangular) ->

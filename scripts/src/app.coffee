@@ -39,12 +39,6 @@ angular.element(document).ready(->
                                 filelist:
                                         templateUrl: "views/file-list.html"
                 )
-                .state('bucket.search',
-                        url: '/search'
-                        views:
-                                toolbar:
-                                        templateUrl: "views/sidebar-search.html"
-                )
                 .state('bucket.file',
                         url: '/file/:fileId'
                         templateUrl: 'views/file-preview.html'

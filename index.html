@@ -21,16 +21,25 @@
 
 
       <!-- left toolbar -->
-      <div ui-view="toolbar"></div>
       <div id="toolbar" ng-controller="ToolbarCtrl">
 	<ul>
 	  <li class="open"><button>Déplier</button></li>
-	  <li class="search"><a ui-sref="bucket.search">Rechercher</a></li>
-	  <li class="add"><button>Ajouter</button></li>
+	  <li class="search"><button ng-click="panel = 'search'">Rechercher</a></li>
+	  <li class="add"><button ng-click="panel = 'upload'">Ajouter</button></li>
 	  <li class="files"><button>Fichiers</button></li>
 	  <li class="recent"><button>Récents</button></li>
 	  <li class="fav"><button>Favoris</button></li>
 	</ul>
+
+	<ng-switch on="panel">
+	  <div ng-switch-when="search">
+	    <ng-include src="'views/sidebar-search.html'"/>
+	  </div>
+	  <div ng-switch-when="upload">
+	    <ng-include src="'views/sidebar-upload.html'"/>
+	  </div>
+
+	</ng-switch>
       </div>
 
 
