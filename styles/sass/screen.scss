@@ -6,6 +6,12 @@
 @import "compass/reset";
 @import "compass/css3";
 
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
 body {
 	font-family:Raleway,sans-serif;
 	font-size:12px;
@@ -889,8 +895,11 @@ button {
 }
 
 // Fin Left Panel //
-
 #filedrop-overlay {
+    display:none;
+}
+
+body.ng-file-over > #filedrop-overlay {
 	background:rgba(0,0,0,0.8);
 	position:fixed;
 	top:0;
@@ -898,6 +907,7 @@ button {
 	height:100%;
 	width:100%;
 	cursor:crosshair;
+	display: block;
 	z-index:5000;
 
 	.center {

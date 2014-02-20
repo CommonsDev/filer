@@ -1,5 +1,9 @@
 module = angular.module('filer.controllers', ['restangular'])
 
+class ToolbarCtrl
+        constructor: (@$scope) ->
+                null
+
 class FileDetailCtrl
         constructor: (@$scope, @Restangular) ->
                 console.debug("started file detail")
@@ -66,6 +70,7 @@ class FileCommentCtrl
                                 @$scope.comments.push(addedComment)
                                 )
 
+module.controller("ToolbarCtrl", ['$scope', ToolbarCtrl])
 module.controller("FileDetailCtrl", ['$scope', 'Restangular', FileDetailCtrl])
 module.controller("FileListCtrl", ['$rootScope', '$scope', '$timeout', '$fileUploader', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])

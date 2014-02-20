@@ -35,8 +35,15 @@ angular.element(document).ready(->
 
                 $stateProvider.state('bucket',
                         url: '/bucket'
-                        templateUrl: 'views/file-list.html'
-                        # templateUrl: moduleTemplateBaseUrl + 'map_new.html',
+                        views:
+                                filelist:
+                                        templateUrl: "views/file-list.html"
+                )
+                .state('bucket.search',
+                        url: '/search'
+                        views:
+                                toolbar:
+                                        templateUrl: "views/sidebar-search.html"
                 )
                 .state('bucket.file',
                         url: '/file/:fileId'
