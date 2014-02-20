@@ -890,6 +890,31 @@ button {
 
 // Fin Left Panel //
 
+#filedrop-overlay {
+	background:rgba(0,0,0,0.8);
+	position:fixed;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	cursor:crosshair;
+	z-index:5000;
+
+	.center {
+		width:424px;
+		height:424px;
+		margin:-212px;
+		position:absolute;
+		top:50%;
+		left:50%;
+		background:image-url('filedrop.png');
+
+		&:hover {
+			@include opacity(0.6);
+		}
+	}
+}
+
 // preview
 
 #preview-panel {
