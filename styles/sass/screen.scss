@@ -808,6 +808,86 @@ button {
 	}
 }
 
+.search-panel {
+	padding:0;
+
+	.top-panel {
+		margin:35px 20px 35px;
+		position:relative;
+
+		h2 {
+			color:#4b4b4b;
+			font-size:1.2rem;
+			padding:8px 0 30px;
+		}
+
+		button.goto {
+			position:absolute;
+			top:0;
+			right:0;
+			display:block;
+			border:0;
+			height:32px;
+			width:32px;
+			text-indent:-9999rem;
+			background:image-url('next_ico.png') no-repeat top left;
+		}
+
+		form {
+			input[type="text"] {
+				height:33px;
+				width:100%;
+				padding:0 13px;
+				border:1px solid #d5d5d5;
+				color:#666;
+				font-style:italic;
+				font-size:0.75rem;
+				margin:0 0 20px;
+				@include border-radius(16px);
+			}
+
+			#search-bt-2 {
+				border:0;
+				height:36px;
+				width:36px;
+				text-indent:-9999em;
+				margin:0 0 0 45px;
+				background:image-url('topbar/search_ico.png');
+			}
+
+			#label-bt-2 {
+				border:0;
+				height:36px;
+				width:36px;
+				text-indent:-9999em;
+				margin:0 0 0 6px;
+				background:image-url('topbar/label_ico.png');
+			}
+		}
+	}
+
+	#last-search {
+		h3 {
+			color:#4b4b4b;
+			font-weight:bold;
+			font-size:0.7rem;
+			padding:0 24px 8px;
+			line-height:1rem;
+			border-bottom:1px solid #e6e6e6;
+		}
+
+		li a {
+			display:block;
+			color:#4b4b4b;
+			font-size:0.75rem;
+			line-height:29px;
+			border-bottom:1px solid #e6e6e6;
+			padding:0 24px;
+			text-decoration:none;
+		}
+	}
+}
+
 // Fin Left Panel //
 
 // preview

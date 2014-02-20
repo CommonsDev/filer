@@ -30,6 +30,7 @@
 
         <section id="drive-app" ng-controller="FileListCtrl"> <!-- CLASS preview-mode -->
             <!-- LEFT PANEL -->
+            <!--
             <div id="left-panel" class="upload-panel">
                 <div class="top-panel">
                     <button class="about">A propos</button>
@@ -74,6 +75,31 @@
                                 <span>Terminé</span>
                             </div>
                         </li>
+                    </ul>
+                </div>
+            </div>-->
+            <div id="left-panel" class="search-panel">
+                <div class="top-panel">
+                    <button class="goto">&nbsp</button>
+                    <h2>Rechercher</h2>
+                    <form>
+                        <input type="text" ng-model="search_form.query" placeholder="Entrez votre recherche..." />
+                        <button id="search-bt-2" ng-click="searchFiles()" >Rechercher un fichier</button>
+                        <button id="label-bt-2">Rechercher un label</button>
+                    </form>
+                </div>
+
+                <div id="last-search">
+                    <h3>Vos dernières recherches</h3>
+                    <ul>
+                        <li><a href="">Fichier1.pdf</a></li>
+                        <li><a href="">Document2.doc</a></li>
+                        <li><a href="">Video4.mov</a></li>
+                        <li><a href="">Titre pour un long Fich...</a></li>
+                        <li><a href="">Fichier1.pdf</a></li>
+                        <li><a href="">Document2.doc</a></li>
+                        <li><a href="">Video4.mov</a></li>
+                        <li><a href="">Titre pour un long Fich...</a></li>
                     </ul>
                 </div>
             </div>
