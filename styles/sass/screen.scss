@@ -672,6 +672,144 @@ button {
 }
 // Fin Labelisation
 
+// Left Panel //
+
+#left-panel {
+	width:220px;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:60px;
+	background:white;
+	z-index:3000;
+}
+
+.upload-panel {
+	padding:0 20px;
+
+	.top-panel {
+		margin:35px 0 65px 0;
+		position:relative;
+
+		h2 {
+			color:#4b4b4b;
+			font-size:1.2rem;
+			padding:8px 0 30px;
+		}
+
+		button.add {
+			height:35px;
+			padding:0 35px;
+			color:white;
+			font-size:0.8rem;
+			border:0;
+			font-weight:300;
+			width:100%;
+			@include border-radius(6px);
+			background:#7bbae7;
+		}
+
+		button.about {
+			position:absolute;
+			top:0;
+			right:0;
+			display:block;
+			border:0;
+			height:32px;
+			width:32px;
+			text-indent:-9999rem;
+			background:image-url('i.png') no-repeat top left;
+		}
+
+		p {
+			color: #818181;
+		    font-size: 0.75rem;
+		    line-height: 0.9rem;
+		    padding: 0 0 18px;
+		}
+	}
+
+	#current-files {
+		li {
+			display:block;
+			width:100%;
+			float:left;
+			margin:0 0 15px;
+
+			button.close {
+				width:20px;
+				height:20px;
+				background:image-url('close.png') no-repeat top left;
+				text-indent:-9999rem;
+				border:0;
+				float:right;
+			}
+
+			strong {
+				color:#4b4b4b;
+				display:block;
+				font-size:0.7rem;
+				font-weight:bold;
+				padding:5px 0 2px;
+			}
+
+			em {
+				font-weight:normal;
+				color:#aaa;
+				font-style:italic;
+			}
+
+			.progressbar {
+				height:12px;
+				border:1px solid #d5d5d5;
+				background:#f7f7f7;
+				width:100%;
+				margin:8px 0 0 0;
+				@include border-radius(6px);
+
+				span {
+					text-indent:-9999rem;
+					background:#7bbae7;
+					@include border-radius(6px);
+					height:10px;
+					display:block;
+				}
+
+				&.complete {
+					height:auto;
+					border:0;
+					background:none;
+					width:auto;
+
+					span {
+						text-indent:0;
+						background:image-url('green_v.png') no-repeat left center;
+						padding-left:16px;
+						color:#94c667;
+						line-height:8px;
+						margin:0 0 0 20px;
+						float:left;
+						font-weight:bold;
+						font-style:italic;
+					}
+				}
+			}
+
+			button.goto {
+				height:32px;
+				width:32px;
+				background:image-url('next_ico.png') no-repeat top left;
+				float:right;
+				border:0;
+				text-indent:-9999rem;
+				margin:10px 0 0 0;
+			}
+		}
+	}
+}
+
+// Fin Left Panel //
+
 // preview
 
 #preview-panel {
