@@ -688,6 +688,7 @@ button {
 	left:60px;
 	background:white;
 	z-index:3000;
+	@include box-shadow(2px 0 3px #DDDDDD);
 }
 
 .upload-panel {
