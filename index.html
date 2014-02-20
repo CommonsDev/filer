@@ -27,8 +27,8 @@
 	  <li class="search"><button ng-click="panel = 'search'">Rechercher</a></li>
 	  <li class="add"><button ng-click="panel = 'upload'">Ajouter</button></li>
 	  <li class="files"><button>Fichiers</button></li>
-	  <li class="recent"><button>Récents</button></li>
-	  <li class="fav"><button>Favoris</button></li>
+	  <li class="recent"><button ng-click="panel = 'recents'">Récents</button></li>
+	  <li class="fav"><button ng-click="panel = 'favs'">Favoris</button></li>
 	</ul>
 
 	<ng-switch on="panel">
@@ -38,7 +38,12 @@
 	  <div ng-switch-when="upload">
 	    <ng-include src="'views/sidebar-upload.html'"/>
 	  </div>
-
+      <div ng-switch-when="recents">
+        <ng-include src="'views/sidebar-recents.html'"/>
+      </div>
+      <div ng-switch-when="favs">
+        <ng-include src="'views/sidebar-favs.html'"/>
+      </div>
 	</ng-switch>
       </div>
 
