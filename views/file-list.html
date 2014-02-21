@@ -15,7 +15,7 @@
     <div id="topbar">
       <div id="search-block" >
 	<form>
-          <angucomplete id="searchField" url="http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?auto=" datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
+          <angucomplete id="searchField" minlength="1" url="{{autocompleteUrl}}" datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
           <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
           <button id="label-bt">Rechercher un label</button>
 	</form>

@@ -16,7 +16,8 @@ class FileListCtrl
                 @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket) =>
                         @$scope.files = bucket.files
                 )
-
+                # FIXME: facet parameters should be added dynamically
+                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
                 @$scope.uploader = $fileUploader.create(
                         scope: @$rootScope
                         autoUpload: true
@@ -40,30 +41,33 @@ class FileListCtrl
                 )
                 
                 # watch the selection of a tag and add them
-                @$scope.$watch('search_form.query', (newValue, oldValue) ->
-                        if $scope.search_form.query
-                                $scope.selectedTags.push($scope.search_form.query.title)
+                @$scope.$watch('search_form.query', (newValue, oldValue) =>
+                        if @$scope.search_form.query
+                                tag = @$scope.search_form.query.title
+                                if @$scope.selectedTags.indexOf(tag) == -1    
+                                        @$scope.selectedTags.push(tag)
                         angular.element('#searchField_value').val("")
-                        $scope.search_form =
+                        @$scope.search_form =
                                 query : ""
+                        # refresh search
+                        this.searchFiles()                        
                 )
 
         removeTag: (tag)=>
                 index = @$scope.selectedTags.indexOf(tag)
                 @$scope.selectedTags.splice(index,1)
                 console.debug(" New sel tags == "+@$scope.selectedTags)
+                # refresh search
+                this.searchFiles()
         
         searchFiles: =>
                 console.debug("searching with: ")
-                if @$scope.search_form.query.title
-                        query = @$scope.search_form.query.title
-                else
-                        query = angular.element('#searchField_value').val()
+                query = angular.element('#searchField_value').val()
                 console.debug(query)
                 #search URL : http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?format=json&q=blabla
                 searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
-
-                searchFilesObject.getList('search', {q: query }).then((result) =>
+                
+                searchFilesObject.getList('search', {q: query, facet:@$scope.selectedTags }).then((result) =>
                          @$scope.files = result
                 )
 
