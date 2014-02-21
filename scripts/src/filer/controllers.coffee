@@ -1,11 +1,15 @@
 module = angular.module('filer.controllers', ['restangular'])
 
+class ToolbarCtrl
+        constructor: (@$scope) ->
+                @$scope.panel = null
+
 class FileDetailCtrl
         constructor: (@$scope, @Restangular) ->
                 console.debug("started file detail")
 
 class FileListCtrl
-        constructor: (@$rootScope, @$scope, $timeout, $fileUploader, @Restangular) ->
+        constructor: (@$scope, @filerService, $timeout, @Restangular) ->
                 @$scope.files = []
                 # FIXME: get current bucket from session
                 @$scope.currentBucket = 1 
@@ -32,9 +36,9 @@ class FileListCtrl
                 @$scope.$watch('files', ->
                         $timeout(->
                                 # Run isotope
-                                container = $('#cards-wrapper')
+                                container = angular.element('#cards-wrapper')
                                 container.isotope(
-                                  itemSelector: '.element'
+                                  itemSelector: 'article'
                                   layoutMode: 'fitRows'
                                 )
                         )
@@ -92,6 +96,7 @@ class FileCommentCtrl
                                 @$scope.comments.push(addedComment)
                                 )
 
+module.controller("ToolbarCtrl", ['$scope', ToolbarCtrl])
 module.controller("FileDetailCtrl", ['$scope', 'Restangular', FileDetailCtrl])
-module.controller("FileListCtrl", ['$rootScope', '$scope', '$timeout', '$fileUploader', 'Restangular', FileListCtrl])
+module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])

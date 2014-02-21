@@ -5,7 +5,7 @@
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="">
+        <meta name="description" content="Filer">
 	<base href="/"></base>
 
         <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700' rel='stylesheet' type='text/css'>
@@ -16,8 +16,41 @@
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
     </head>
-    <body ng-file-drop>
-      <div ui-view></div>
+    <body ng-file-drop ng-file-over="ng-file-over">
+      <!-- overlay when dragndropping -->
+      <div id="filedrop-overlay"><div class="center">&nbsp;</div></div>
+
+
+      <!-- left toolbar -->
+      <div id="toolbar" ng-controller="ToolbarCtrl">
+	<ul>
+	  <li class="open"><button>Déplier</button></li>
+	  <li class="search"><button ng-click="panel = 'search'">Rechercher</a></li>
+	  <li class="add"><button ng-click="panel = 'upload'">Ajouter</button></li>
+	  <li class="files"><button>Fichiers</button></li>
+	  <li class="recent" ng-click="panel = 'recent'"><button>Récents</button></li>
+	  <li class="fav" ng-click="panel = 'favorite'"><button>Favoris</button></li>
+	</ul>
+
+	<ng-switch on="panel">
+	  <div ng-switch-when="search">
+	    <ng-include src="'views/sidebar-search.html'"/>
+	  </div>
+	  <div ng-switch-when="upload">
+	    <ng-include src="'views/sidebar-upload.html'"/>
+	  </div>
+      <div ng-switch-when="recents">
+        <ng-include src="'views/sidebar-recents.html'"/>
+      </div>
+      <div ng-switch-when="favs">
+        <ng-include src="'views/sidebar-favs.html'"/>
+      </div>
+	</ng-switch>
+      </div>
+
+
+      <!-- right placeholder -->
+      <div ui-view="filelist"></div>
     </body>
 
     <!-- vendor includes -->
@@ -26,7 +59,7 @@
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 
     <!-- Angular -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.min.js"></script>
     <script type="text/javascript" src="//underscorejs.org/underscore-min.js"></script>
 
@@ -48,6 +81,7 @@
     <script src="scripts/config.js"></script>
 
     <!-- app files -->
+    <script src="scripts/lib/filer/services.js"></script>
     <script src="scripts/lib/filer/controllers.js"></script>
     <script src="scripts/lib/app.js"></script>
 </html>

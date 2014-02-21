@@ -1,5 +1,5 @@
 angular.element(document).ready(->
-        angular.module('filer', ['filer.controllers'])
+        angular.module('filer', ['filer.controllers', 'filer.services'])
 
         angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete'])
 
@@ -35,8 +35,9 @@ angular.element(document).ready(->
 
                 $stateProvider.state('bucket',
                         url: '/bucket'
-                        templateUrl: 'views/file-list.html'
-                        # templateUrl: moduleTemplateBaseUrl + 'map_new.html',
+                        views:
+                                filelist:
+                                        templateUrl: "views/file-list.html"
                 )
                 .state('bucket.file',
                         url: '/file/:fileId'
@@ -47,5 +48,6 @@ angular.element(document).ready(->
                 )
         ])
 
+        console.debug("running angular app...")
         angular.bootstrap(document, ['unisson_filer'])
 )

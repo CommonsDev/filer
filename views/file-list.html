@@ -1,13 +1,3 @@
-<div id="toolbar">
-  <ul>
-    <li class="open"><button>Déplier</button></li>
-    <li class="search"><button>Rechercher</button></li>
-    <li class="add"><button>Ajouter</button></li>
-    <li class="files"><button>Fichiers</button></li>
-    <li class="recent"><button>Récents</button></li>
-    <li class="fav"><button>Favoris</button></li>
-  </ul>
-</div>
 
 <section id="drive-app"> <!-- CLASS preview-mode -->
   <div ng-controller="FileListCtrl">
@@ -39,16 +29,15 @@
 	</ul>
 	<button class="erase-all">Tout supprimer</button>
       </div>
+    </div>
       
-      <div id="cards-wrapper">
-	<ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" /> 
-      </div>
+    <div id="cards-wrapper">
+      <ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" /> 
     </div>
 
     <!-- temp: move me! -->
     <div ui-view></div>
   
   </div>
-
 
 </section>
