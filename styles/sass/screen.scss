@@ -895,6 +895,71 @@ button {
 	}
 }
 
+.fileslist-panel {
+	padding:0;
+
+	.top-panel {
+		margin:35px 20px 0;
+		position:relative;
+
+		h2 {
+			color:#4b4b4b;
+			font-size:1.2rem;
+			padding:8px 0 29px;
+		}
+
+		button.goto {
+			position:absolute;
+			top:0;
+			right:0;
+			display:block;
+			border:0;
+			height:32px;
+			width:32px;
+			text-indent:-9999rem;
+			background:image-url('next_ico.png') no-repeat top left;
+		}
+	}
+
+	.fileslist {
+		li {
+			&.doc {
+				background:image-url('minidoc_ico.png') no-repeat 14px center;
+			}
+
+			&.vid {
+				background:image-url('minivid_ico.png') no-repeat 14px center;
+			}
+
+			&.img {
+				background:image-url('miniimg_ico.png') no-repeat 14px center;
+			}
+
+			&:hover {
+				background-color:#efefef;
+
+				a {
+					background:image-url('mini_goto.png') no-repeat 95% center;
+				}
+			}
+
+			a {
+				display:block;
+				color:#4b4b4b;
+				font-size:0.75rem;
+				line-height:29px;
+				border-bottom:1px solid #e6e6e6;
+				padding:0 24px 0 45px;
+				text-decoration:none;
+			}
+		}
+
+		li:first-child a {
+			border-top:1px solid #e6e6e6;
+		}
+	}
+}
+
 // Fin Left Panel //
 #filedrop-overlay {
     display:none;
