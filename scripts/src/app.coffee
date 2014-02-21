@@ -48,6 +48,10 @@ angular.element(document).ready(->
                 )
         ])
 
+        .run(['$rootScope', ($rootScope) ->
+                $rootScope.config = config;
+        ])
+
         console.debug("running angular app...")
         angular.bootstrap(document, ['unisson_filer'])
 )
