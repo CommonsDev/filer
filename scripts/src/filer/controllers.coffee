@@ -9,31 +9,25 @@ class FileDetailCtrl
                 console.debug("started file detail")
 
 class FileListCtrl
-        constructor: (@$rootScope, @$scope, $timeout, $fileUploader, @Restangular) ->
+        constructor: (@$scope, @filerService, $timeout, @Restangular) ->
                 @$scope.files = []
                 @$scope.currentBucket = 1
                 @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket) =>
                         @$scope.files = bucket.files
                 )
 
-                @$scope.uploader = $fileUploader.create(
-                        scope: @$rootScope
-                        autoUpload: true
-                        url: 'http://localhost:8000/bucket/upload/'
-                        formData: [{bucket: 1}] # FIXME
-                )
-
                 @$scope.search_form =
                         query: ""
+
                 @$scope.searchFiles = this.searchFiles
 
                 # Quick hack so isotope renders when file changes
                 @$scope.$watch('files', ->
                         $timeout(->
                                 # Run isotope
-                                container = $('#cards-wrapper')
+                                container = angular.element('#cards-wrapper')
                                 container.isotope(
-                                  itemSelector: '.element'
+                                  itemSelector: 'article'
                                   layoutMode: 'fitRows'
                                 )
                         )
@@ -72,5 +66,5 @@ class FileCommentCtrl
 
 module.controller("ToolbarCtrl", ['$scope', ToolbarCtrl])
 module.controller("FileDetailCtrl", ['$scope', 'Restangular', FileDetailCtrl])
-module.controller("FileListCtrl", ['$rootScope', '$scope', '$timeout', '$fileUploader', 'Restangular', FileListCtrl])
+module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])

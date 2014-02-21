@@ -27,8 +27,8 @@
 	  <li class="search"><button ng-click="panel = 'search'">Rechercher</a></li>
 	  <li class="add"><button ng-click="panel = 'upload'">Ajouter</button></li>
 	  <li class="files"><button>Fichiers</button></li>
-	  <li class="recent"><button>Récents</button></li>
-	  <li class="fav"><button>Favoris</button></li>
+	  <li class="recent" ng-click="panel = 'recent'"><button>Récents</button></li>
+	  <li class="fav" ng-click="panel = 'favorite'"><button>Favoris</button></li>
 	</ul>
 
 	<ng-switch on="panel">
@@ -53,7 +53,7 @@
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 
     <!-- Angular -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.min.js"></script>
     <script type="text/javascript" src="//underscorejs.org/underscore-min.js"></script>
 
@@ -74,6 +74,7 @@
     <script src="scripts/config.js"></script>
 
     <!-- app files -->
+    <script src="scripts/lib/filer/services.js"></script>
     <script src="scripts/lib/filer/controllers.js"></script>
     <script src="scripts/lib/app.js"></script>
 </html>
