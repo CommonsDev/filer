@@ -2,7 +2,7 @@
 <article class="vid file item">
   <div class="preview">
     <a ui-sref="bucket.file({fileId: file.id})">
-      <img width="240px" ng-src="{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
+      <img width="240px" ng-src="http://localhost:8000/media/{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
     </a>
   </div>
   <header>

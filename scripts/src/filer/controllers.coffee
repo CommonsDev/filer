@@ -7,7 +7,12 @@ class FileDetailCtrl
 class FileListCtrl
         constructor: (@$rootScope, @$scope, $timeout, $fileUploader, @Restangular) ->
                 @$scope.files = []
-                @$scope.currentBucket = 1
+                # FIXME: get current bucket from session
+                @$scope.currentBucket = 1 
+                @$scope.selectedTags = []
+                @$scope.search_form =
+                        query: ""
+                
                 @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket) =>
                         @$scope.files = bucket.files
                 )
@@ -18,11 +23,10 @@ class FileListCtrl
                         url: 'http://localhost:8000/bucket/upload/'
                         formData: [{bucket: 1}] # FIXME
                 )
-
-                @$scope.search_form =
-                        query: ""
+                
                 @$scope.searchFiles = this.searchFiles
-
+                @$scope.removeTag = this.removeTag
+                
                 # Quick hack so isotope renders when file changes
                 @$scope.$watch('files', ->
                         $timeout(->
@@ -34,14 +38,32 @@ class FileListCtrl
                                 )
                         )
                 )
+                
+                # watch the selection of a tag and add them
+                @$scope.$watch('search_form.query', (newValue, oldValue) ->
+                        if $scope.search_form.query
+                                $scope.selectedTags.push($scope.search_form.query.title)
+                        angular.element('#searchField_value').val("")
+                        $scope.search_form =
+                                query : ""
+                )
 
-
+        removeTag: (tag)=>
+                index = @$scope.selectedTags.indexOf(tag)
+                @$scope.selectedTags.splice(index,1)
+                console.debug(" New sel tags == "+@$scope.selectedTags)
+        
         searchFiles: =>
-                console.debug("searching with: #{@$scope.search_form.query}")
+                console.debug("searching with: ")
+                if @$scope.search_form.query.title
+                        query = @$scope.search_form.query.title
+                else
+                        query = angular.element('#searchField_value').val()
+                console.debug(query)
                 #search URL : http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?format=json&q=blabla
                 searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
 
-                searchFilesObject.getList('search', {q: @$scope.search_form.query }).then((result) =>
+                searchFilesObject.getList('search', {q: query }).then((result) =>
                          @$scope.files = result
                 )
 
