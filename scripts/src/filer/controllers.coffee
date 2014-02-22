@@ -1,8 +1,9 @@
 module = angular.module('filer.controllers', ['restangular'])
 
 class ToolbarCtrl
-        constructor: (@$scope) ->
+        constructor: (@$scope, @filerService) ->
                 @$scope.panel = null
+                @$scope.filerService = @filerService
 
 class FileDetailCtrl
         constructor: (@$scope, @Restangular) ->
@@ -64,7 +65,7 @@ class FileCommentCtrl
                                 @$scope.comments.push(addedComment)
                                 )
 
-module.controller("ToolbarCtrl", ['$scope', ToolbarCtrl])
+module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
 module.controller("FileDetailCtrl", ['$scope', 'Restangular', FileDetailCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])
