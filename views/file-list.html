@@ -5,7 +5,7 @@
     <div id="topbar">
       <div id="search-block" >
 	<form>
-          <input type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
+          <angucomplete id="searchField" minlength="1" url="{{autocompleteUrl}}" datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
           <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
           <button id="label-bt">Rechercher un label</button>
 	</form>
@@ -25,10 +25,7 @@
 
       <div id="current-labels">
 	<ul class="labels-list">
-	  <li><span>Label 1</span> <button>Supprimer</button></li>
-	  <li><span>Label un peu long</span> <button>Supprimer</button></li>
-	  <li><span>Label rouge</span> <button>Supprimer</button></li>
-	  <li><span>Label bleu</span> <button>Supprimer</button></li>
+	  <li ng-repeat="tag in selectedTags"><span>{{tag}}</span> <button ng-click="removeTag(tag)">Supprimer</button></li>
 	</ul>
 	<button class="erase-all">Tout supprimer</button>
       </div>

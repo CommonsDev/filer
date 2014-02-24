@@ -1,7 +1,7 @@
 angular.element(document).ready(->
         angular.module('filer', ['filer.controllers', 'filer.services'])
 
-        angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular'])
+        angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete'])
 
         # CORS
         .config(['$httpProvider', ($httpProvider) ->
