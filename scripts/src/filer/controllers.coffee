@@ -23,13 +23,6 @@ class FileListCtrl
                 )
                 # FIXME: facet parameters should be added dynamically
                 @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
-                @$scope.uploader = $fileUploader.create(
-                        scope: @$rootScope
-                        autoUpload: true
-                        url: 'http://localhost:8000/bucket/upload/'
-                        formData: [{bucket: 1}] # FIXME
-                )
-                
                 @$scope.searchFiles = this.searchFiles
                 @$scope.removeTag = this.removeTag
                 
@@ -55,7 +48,12 @@ class FileListCtrl
                         @$scope.search_form =
                                 query : ""
                         # refresh search
-                        this.searchFiles()                        
+                        this.searchFiles()
+                        # add facet to autocomplete URL$
+                        facets = ["facet="+facet for facet in @$scope.selectedTags]
+                        facetQuery = facets.toString()
+                        console.debug(facets)
+                        @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"&auto="                        
                 )
 
         removeTag: (tag)=>
@@ -64,6 +62,12 @@ class FileListCtrl
                 console.debug(" New sel tags == "+@$scope.selectedTags)
                 # refresh search
                 this.searchFiles()
+                # add facet to autocomplete URL$
+                facets = ["facet="+facet for facet in @$scope.selectedTags] 
+                facetQuery = facets.toString()
+                console.debug(facets)
+                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"auto="                        
+
         
         searchFiles: =>
                 console.debug("searching with: ")
