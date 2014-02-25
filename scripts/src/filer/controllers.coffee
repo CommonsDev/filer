@@ -13,19 +13,20 @@ class FileListCtrl
         constructor: (@$scope, @filerService, $timeout, @Restangular) ->
                 @$scope.files = []
                 # FIXME: get current bucket from session
-                @$scope.currentBucket = 1 
+                @$scope.currentBucket = 1
                 @$scope.selectedTags = []
                 @$scope.search_form =
                         query: ""
-                
+
                 @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket) =>
                         @$scope.files = bucket.files
                 )
                 # FIXME: facet parameters should be added dynamically
                 @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
+
                 @$scope.searchFiles = this.searchFiles
                 @$scope.removeTag = this.removeTag
-                
+
                 # Quick hack so isotope renders when file changes
                 @$scope.$watch('files', ->
                         $timeout(->
@@ -37,23 +38,24 @@ class FileListCtrl
                                 )
                         )
                 )
-                
+
                 # watch the selection of a tag and add them
                 @$scope.$watch('search_form.query', (newValue, oldValue) =>
                         if @$scope.search_form.query
                                 tag = @$scope.search_form.query.title
-                                if @$scope.selectedTags.indexOf(tag) == -1    
+                                if @$scope.selectedTags.indexOf(tag) == -1
                                         @$scope.selectedTags.push(tag)
                         angular.element('#searchField_value').val("")
                         @$scope.search_form =
                                 query : ""
                         # refresh search
                         this.searchFiles()
+
                         # add facet to autocomplete URL$
                         facets = ["facet="+facet for facet in @$scope.selectedTags]
                         facetQuery = facets.toString()
                         console.debug(facets)
-                        @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"&auto="                        
+                        @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"&auto="
                 )
 
         removeTag: (tag)=>
@@ -62,20 +64,20 @@ class FileListCtrl
                 console.debug(" New sel tags == "+@$scope.selectedTags)
                 # refresh search
                 this.searchFiles()
+
                 # add facet to autocomplete URL$
-                facets = ["facet="+facet for facet in @$scope.selectedTags] 
+                facets = ["facet="+facet for facet in @$scope.selectedTags]
                 facetQuery = facets.toString()
                 console.debug(facets)
-                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"auto="                        
+                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"auto="
 
-        
         searchFiles: =>
                 console.debug("searching with: ")
                 query = angular.element('#searchField_value').val()
                 console.debug(query)
                 #search URL : http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?format=json&q=blabla
                 searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
-                
+
                 searchFilesObject.getList('search', {q: query, facet:@$scope.selectedTags }).then((result) =>
                          @$scope.files = result
                 )

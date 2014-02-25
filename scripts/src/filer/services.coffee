@@ -6,6 +6,8 @@ class FilerService
                         scope: @$rootScope
                         autoUpload: true
                         url: 'http://localhost:8000/bucket/upload/'
+                        headers:
+                                "Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787" # FIXME
                         formData: [{bucket: 1}] # FIXME
                 )
 
