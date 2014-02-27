@@ -1,4 +1,4 @@
-angular.element(document).ready(->
+angular.element(document).on('ready page:load', ->
         angular.module('filer', ['filer.controllers', 'filer.services'])
 
         angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete'])

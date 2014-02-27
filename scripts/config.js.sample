@@ -2,6 +2,7 @@ config = {
     templateBaseUrl: '/views/',
     bucket_uri: 'http://BUCKET_SERVER_URI/bucket/upload/',
     useHtml5Mode: false,
+    bucket_preview_uri: 'http://localhost:8000',
     media_uri: 'http://MEDIA_SERVER/',
     rest_uri: "http://REST_API_SERVER/api/v0"
 }
