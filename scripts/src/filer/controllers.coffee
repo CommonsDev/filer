@@ -13,19 +13,21 @@ class FileListCtrl
         constructor: (@$scope, @filerService, $timeout, @Restangular) ->
                 @$scope.files = []
                 # FIXME: get current bucket from session
-                @$scope.currentBucket = 1 
+                @$scope.currentBucket = 1
                 @$scope.selectedTags = []
                 @$scope.search_form =
                         query: ""
-                
                 @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket) =>
                         @$scope.files = bucket.files
                 )
+               
                 @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
+
+                # Methods declaration
                 @$scope.updateAutocompleteURL = this.updateAutocompleteURL
                 @$scope.searchFiles = this.searchFiles
                 @$scope.removeTag = this.removeTag
-                
+
                 # Quick hack so isotope renders when file changes
                 @$scope.$watch('files', ->
                         $timeout(->
@@ -37,12 +39,12 @@ class FileListCtrl
                                 )
                         )
                 )
-                
+
                 # watch the selection of a tag and add them
                 @$scope.$watch('search_form.query', (newValue, oldValue) =>
                         if @$scope.search_form.query
                                 tag = @$scope.search_form.query.title
-                                if @$scope.selectedTags.indexOf(tag) == -1    
+                                if @$scope.selectedTags.indexOf(tag) == -1
                                         @$scope.selectedTags.push(tag)
                         angular.element('#searchField_value').val("")
                         @$scope.search_form =
@@ -68,6 +70,7 @@ class FileListCtrl
                 this.searchFiles()
                 this.updateAutocompleteURL()
         
+
         searchFiles: =>
                 console.debug("searching with: ")
                 query = angular.element('#searchField_value').val()
