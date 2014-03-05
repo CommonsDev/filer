@@ -10,7 +10,10 @@ class FilerService
                                 "Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787" # FIXME
                         formData: [{bucket: 1}] # FIXME
                 )
-
+                @$rootScope.uploader.bind('success', (event, xhr, item, response) => 
+                        console.log('Success', item, response)
+                        # open labellisation for this file
+                )
 
 
 # Services

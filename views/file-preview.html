@@ -7,13 +7,13 @@
     <span class="preview-next">Suivant</span>
     <div class="left">
       <div id="sample">
-        <img src="img/_TEMP/big_preview.jpg" alt="" />
+        <img ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=385" alt="" />
       </div>
       <div class="infos">
         <div class="author">
-          <img class="avatar" src="img/_TEMP/avatar2.jpg" />
-          <strong>FIXME_NAME</strong>
-          <em>Petite licorne</em>
+          <img class="avatar" src="img/_TEMP/emptyavatar.jpg" />
+          <strong>{{ file.uploaded_by.username }}</strong>
+          <!--<em>Petite licorne</em>-->
         </div> 
         <button class="opendoc">Ouvrir le document</button>
         <button class="fav">Favori</button>
@@ -21,13 +21,13 @@
     </div>
     <div class="right">
       <ul class="tabs">
-        <li><a href="#preview-tab1">Détails du document</a></li>
-        <li class="active"><a href="#preview-tab2"><span>12</span>Commentaires</a></li>
+        <li><a href ng:click="tab=1">Détails du document</a></li>
+        <li class="active"><a href ng:click="tab=2" ><span>{{ file.comments.length }}</span>Commentaires</a></li>
       </ul>
-      <div style="display:none" id="preview-tab1">
+      <div ng:show="tab == 1" id="preview-tab1">
         <div class="infos img">
-          <strong>FIXME_FILENAME</strong>
-          <em>FIXME_UPDATED_ON <a href="#">FIXME_UPDATED_BY</a></em>
+          <strong>{{ file.filename }}</strong>
+          <em>{{ file.uploaded_on }} <a href="#">{{ file.uploaded_by.username }}</a></em>
         </div>
         <ul>
           <li><a href="#">Imprimer</a></li>
@@ -40,21 +40,23 @@
           Label 3, label 2, Labelilalala
         </p>
       </div>
-      <div id="preview-tab2">
-        <ul class="comments-list">
-          <li>
-            <img src="img/_TEMP/avatar2.jpg" alt="" />
-            <p> 
-              <strong>FIXME_NAME -</strong>
-              FIXME_COMMENT
-            </p>
-            <span class="date">FIXME_WHEN</span>
-          </li>
-        </ul>
-        <form>
-          <textarea placeholder="Ajouter un commentaire..."></textarea>
-          <button type="submit">Ok</button>
-        </form>
+      <div ng:show=" tab == 2" id="preview-tab2">
+        <section ng-controller="FileCommentCtrl" class="comments">
+          <ul class="comments-list">
+            <li ng-repeat=" comment in comments">
+              <img src="img/_TEMP/emptyavatar.jpg" alt="" />
+              <strong>{{ comment.submitter.username }}</strong>
+              <p>
+                {{ comment.text }}
+              </p>
+            </li>
+          </ul>
+          <!--<a href="#" class="seemore">FIXME commentaires</a>-->
+          <form>
+            <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire"></textarea>
+            <button type="submit" ng-click="submitForm()" >Envoyer</button>
+          </form>
+        </section>
       </div>
     </div>
   </div>
