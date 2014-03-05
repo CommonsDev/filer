@@ -6,9 +6,21 @@ class ToolbarCtrl
                 @$scope.filerService = @filerService
 
 class FileDetailCtrl
-        constructor: (@$scope, @Restangular) ->
-                console.debug("started file detail")
+        constructor: (@$scope, @Restangular, @$stateParams) ->
+                @$scope.tab = 1
+                @$scope.file = 
+                        id: @$stateParams.fileId
+                console.debug("started file detail on file:"+ @$stateParams.fileId)
+                # http://localhost:8000/bucket/api/v0/bucketfile/1
+                @Restangular.one('bucketfile', @$scope.file.id ).get().then((result)=>
+                        @$scope.file = result
+                        console.debug(@$scope.file)
+                )
 
+class FileLabellisationCtrl
+        constructor:  (@$scope, @Restangular, @$stateParams) ->
+                console.log(" labellilabello started !!")
+                
 class FileListCtrl
         constructor: (@$scope, @filerService, $timeout, @Restangular) ->
                 @$scope.files = []
@@ -17,8 +29,9 @@ class FileListCtrl
                 @$scope.selectedTags = []
                 @$scope.search_form =
                         query: ""
-                @Restangular.one('bucket', @$scope.currentBucket).get().then((bucket) =>
-                        @$scope.files = bucket.files
+                @$scope.searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
+                @$scope.searchFilesObject.getList('search',{}).then((result) =>
+                         @$scope.files = result
                 )
                
                 @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
@@ -42,6 +55,7 @@ class FileListCtrl
 
                 # watch the selection of a tag and add them
                 @$scope.$watch('search_form.query', (newValue, oldValue) =>
+                        console.debug("== Tag selected !")
                         if @$scope.search_form.query
                                 tag = @$scope.search_form.query.title
                                 if @$scope.selectedTags.indexOf(tag) == -1
@@ -76,8 +90,7 @@ class FileListCtrl
                 query = angular.element('#searchField_value').val()
                 console.debug(query)
                 #search URL : http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?format=json&q=blabla
-                searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
-                searchFilesObject.getList('search', {q: query, facet:@$scope.selectedTags }).then((result) =>
+                @$scope.searchFilesObject.getList('search', {q: query, facet:@$scope.selectedTags }).then((result) =>
                          @$scope.files = result
                 )
 
@@ -103,6 +116,7 @@ class FileCommentCtrl
                                 )
 
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
-module.controller("FileDetailCtrl", ['$scope', 'Restangular', FileDetailCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'Restangular', '$stateParams', FileDetailCtrl])
+module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])

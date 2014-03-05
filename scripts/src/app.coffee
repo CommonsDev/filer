@@ -42,9 +42,15 @@ angular.element(document).on('ready page:load', ->
                 .state('bucket.file',
                         url: '/file/:fileId'
                         templateUrl: 'views/file-preview.html'
+                        controller: 'FileDetailCtrl'
                 )
                 .state('bucket.upload',
                         url: '/upload'
+                )
+                .state('bucket.labellisation',
+                        url: '/labellisation'
+                        templateUrl: 'views/labellisation-overlay.html'
+                        controller: 'FileLabellisationCtrl'
                 )
         ])
 

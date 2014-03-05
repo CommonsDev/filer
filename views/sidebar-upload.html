@@ -13,8 +13,8 @@
       <li ng-repeat="item in uploader.queue">
 	<button ng-show="item.isSuccess" class="goto">Voir</button>
 	<button ng-show="item.isReady || item.isUploading" class="close">Retirer</button>
-	<strong>{{ item.alias }}</strong>
-	<em>FIXME_SIZE</em>
+	<strong>{{ item.file.name }}</strong>
+	<em>{{ item.file.size/1024/1024|number:2 }} MB</em>
 	<div ng-show="item.isReady || item.isUploading" class="progressbar">
           <span style="width:{{ item.progress }}%">{{ item.progress }}%</span>
 	</div>
