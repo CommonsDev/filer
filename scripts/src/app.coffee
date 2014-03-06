@@ -48,7 +48,7 @@ angular.element(document).on('ready page:load', ->
                         url: '/upload'
                 )
                 .state('bucket.labellisation',
-                        url: '/labellisation'
+                        url: '/labellisation/:filesIds'
                         templateUrl: 'views/labellisation-overlay.html'
                         controller: 'FileLabellisationCtrl'
                 )

@@ -6,20 +6,65 @@ class ToolbarCtrl
                 @$scope.filerService = @filerService
 
 class FileDetailCtrl
-        constructor: (@$scope, @Restangular, @$stateParams) ->
+        constructor: (@$scope, @Restangular, @$stateParams, @$state) ->
+                console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
                 @$scope.file = 
                         id: @$stateParams.fileId
-                console.debug("started file detail on file:"+ @$stateParams.fileId)
+                
                 # http://localhost:8000/bucket/api/v0/bucketfile/1
                 @Restangular.one('bucketfile', @$scope.file.id ).get().then((result)=>
                         @$scope.file = result
                         console.debug(@$scope.file)
                 )
+                # Method
+                @$scope.addLabels = (fileId)=>
+                        console.log(" == + == adding labels for file : "+fileId)
+                        params =
+                                filesIds: fileId
+                        console.log(params)
+                        @$state.transitionTo('bucket.labellisation',params)
 
 class FileLabellisationCtrl
-        constructor:  (@$scope, @Restangular, @$stateParams) ->
+        constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter) ->
                 console.log(" labellilabello started !!")
+                # Populating file if provided as stateParam
+                @$scope.files = []
+                @$scope.taggingQueue = {}
+                if @$stateParams.filesIds
+                        @Restangular.one('bucketfile').one("set", @$stateParams.filesIds).getList().then((result) =>
+                                @$scope.files = result
+                                # Populating tagging queue with current tags if any
+                                for file in @$scope.files
+                                        do(file)=>
+                                                @$scope.taggingQueue[file.id] = file.tags
+                        )
+                
+                # Populating most used tags
+                @$scope.suggestedTags = []
+                @$scope.tagsList = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
+                @$scope.tagsList.getList('search',{ auto: ""}).then((result) =>
+                         @$scope.suggestedTags = result
+                )
+                console.log(" suggested tags ")
+                console.log(@$scope.suggestedTags)
+                
+                # Methods   
+                @$scope.addTag = this.addTag     
+                @$scope.updateTags = this.updateTags
+                @$scope.goHome = ()=>
+                        @$state.transitionTo('bucket')
+        
+        addTag: (fileId, tag)=>
+                console.log( "++ adding tag : " + tag.name + " to file :" +fileId)
+                file = @$filter('filter')(@$scope.files, {id : fileId})[0]
+                console.log(file)
+                console.log(@$scope.files)
+                @$scope.taggingQueue[fileId].push(tag)
+                
+        updateTags: =>
+                console.log("updating tags")
+                
                 
 class FileListCtrl
         constructor: (@$scope, @filerService, $timeout, @Restangular) ->
@@ -116,7 +161,7 @@ class FileCommentCtrl
                                 )
 
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
-module.controller("FileDetailCtrl", ['$scope', 'Restangular', '$stateParams', FileDetailCtrl])
-module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams', FileLabellisationCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'Restangular', '$stateParams','$state', FileDetailCtrl])
+module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])

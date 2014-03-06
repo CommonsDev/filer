@@ -11,7 +11,7 @@
   <div id="current-files">
     <ul>
       <li ng-repeat="item in uploader.queue">
-	<button ng-show="item.isSuccess" class="goto">Voir</button>
+	<button ng-show="item.isSuccess" ng-click="seeUploadedFile(item._xhr.response)" class="goto">Voir</button>
 	<button ng-show="item.isReady || item.isUploading" class="close">Retirer</button>
 	<strong>{{ item.file.name }}</strong>
 	<em>{{ item.file.size/1024/1024|number:2 }} MB</em>

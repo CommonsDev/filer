@@ -34,10 +34,12 @@
           <li><a href="#">Supprimer le fichier</a></li>
           <li><a href="#">Partager</a></li>
           <li><a href="#">Envoyer vers</a></li>
+          <li><a href ng-click="addLabels(file.id)"> Ajouter des labels </a></li>
         </ul>
         <p class="labels">
           <em>Labels associés</em>
-          Label 3, label 2, Labelilalala
+          
+          <span ng-repeat="tag in file.tags"> {{ tag.name }},</span>
         </p>
       </div>
       <div ng:show=" tab == 2" id="preview-tab2">
