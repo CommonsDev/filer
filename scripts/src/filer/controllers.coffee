@@ -50,20 +50,45 @@ class FileLabellisationCtrl
                 console.log(@$scope.suggestedTags)
                 
                 # Methods   
-                @$scope.addTag = this.addTag     
+                @$scope.addTag = this.addTag 
+                @$scope.removeTag = this.removeTag    
                 @$scope.updateTags = this.updateTags
                 @$scope.goHome = ()=>
                         @$state.transitionTo('bucket')
+                @$scope.goToFile = (id)=>
+                        params=
+                                fileId: id
+                        @$state.transitionTo('bucket/file', params)
         
         addTag: (fileId, tag)=>
                 console.log( "++ adding tag : " + tag.name + " to file :" +fileId)
                 file = @$filter('filter')(@$scope.files, {id : fileId})[0]
-                console.log(file)
-                console.log(@$scope.files)
-                @$scope.taggingQueue[fileId].push(tag)
+                if @$scope.taggingQueue[fileId].indexOf(tag) == -1
+                        @$scope.taggingQueue[fileId].push(tag)
+                console.log("+new tagging queue+")
+                console.log(@$scope.taggingQueue)
+        
+        removeTag: (fileId, tag)=>
+                console.log( "++ removing tag : " + tag.name + " from file :" +fileId)
+                index = @$scope.taggingQueue[fileId].indexOf(tag)
+                @$scope.taggingQueue[fileId].splice(index, 1)
+                console.log("+new tagging queue+")
+                console.log(@$scope.taggingQueue)
                 
         updateTags: =>
                 console.log("updating tags")
+                # loop in tagging queue, and do a PATCH
+                for fileId, tags of @$scope.taggingQueue
+                        do (fileId, tags)=>
+                                console.log("tags for file: "+fileId)
+                                tagsObject = 
+                                        tags:tags
+                                console.log(tagsObject)
+                                fileRestObject = @Restangular.one('bucketfile', fileId)                
+                                fileRestObject.patch(tagsObject).then(()=>
+                                        console.debug(" tags updated ! " )
+                                        )
+                @$scope.goHome()
                 
                 
 class FileListCtrl
@@ -78,7 +103,7 @@ class FileListCtrl
                 @$scope.searchFilesObject.getList('search',{}).then((result) =>
                          @$scope.files = result
                 )
-               
+                # FIXME : get root URL from config file
                 @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
 
                 # Methods declaration

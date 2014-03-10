@@ -11,7 +11,7 @@
 			    <button class="close">Fermer</button>
 			    <strong>{{ file.filename }}</strong>
 			    <ul class="labels-list">
-				<li ng-repeat="tag in taggingQueue[file.id]" ><span>{{ tag.name }}</span> <button>Supprimer</button></li>
+				<li ng-repeat="tag in taggingQueue[file.id]" ><span>{{ tag.name }}</span> <button ng-click="removeTag(file.id, tag)">Supprimer</button></li>
 			    </ul>
 			</div>
 		    </div>
