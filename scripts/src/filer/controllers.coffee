@@ -9,10 +9,10 @@ class FileDetailCtrl
         constructor: (@$scope, @Restangular, @$stateParams, @$state) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
+                # FIXME ? we build a dummy file object here that can be immediately used 
+                # by child controllers (as FileCommentCtrl) before the promisse is realized
                 @$scope.file = 
                         id: @$stateParams.fileId
-                
-                # http://localhost:8000/bucket/api/v0/bucketfile/1
                 @Restangular.one('bucketfile', @$scope.file.id ).get().then((result)=>
                         @$scope.file = result
                         console.debug(@$scope.file)
@@ -26,6 +26,7 @@ class FileDetailCtrl
                         @$state.transitionTo('bucket.labellisation',params)
 
 class FileLabellisationCtrl
+# designed for multifiles, but multifile selection is still missing
         constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter) ->
                 console.log(" labellilabello started !!")
                 # Populating file if provided as stateParam
@@ -40,16 +41,40 @@ class FileLabellisationCtrl
                                                 @$scope.taggingQueue[file.id] = file.tags
                         )
                 
-                # Populating most used tags
+                # Populating suggested (most used) tags
                 @$scope.suggestedTags = []
                 @$scope.tagsList = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
                 @$scope.tagsList.getList('search',{ auto: ""}).then((result) =>
-                         @$scope.suggestedTags = result
+                         @$scope.suggestedTags = result.slice(0,10)
                 )
                 console.log(" suggested tags ")
                 console.log(@$scope.suggestedTags)
                 
-                # Methods   
+                # Watch selection of existing tag and add to suggested tags 
+                @$scope.tagAutocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
+                @$scope.tag_search_form =
+                        query: ""
+                @$scope.$watch('tag_search_form.query', (newValue, oldValue) =>
+                        console.debug("== Tag selected (labellisation)!")
+                        if @$scope.tag_search_form.query
+                                tag = 
+                                        name: @$scope.tag_search_form.query.title
+                                # FIXME: according to Hervé's design, here we only add tag to suggested tags queue, 
+                                # but I think it'll be quicker to add them directly to all files (bulk tagging)
+                                if @$scope.suggestedTags.indexOf(tag) == -1
+                                        @$scope.suggestedTags.push(tag)
+                                if @$scope.taggingQueue[@$scope.files[0].id].indexOf(tag) == -1
+                                        @$scope.taggingQueue[@$scope.files[0].id].push(tag)
+                        # empty search box 
+                        angular.element('#tagSearchField_value').val("")
+                        @$scope.tag_search_form =
+                                query : ""
+                )
+                
+                
+                
+                # Methods  
+                @$scope.addToSuggestedTags = this.addToSuggestedTags
                 @$scope.addTag = this.addTag 
                 @$scope.removeTag = this.removeTag    
                 @$scope.updateTags = this.updateTags
@@ -59,6 +84,15 @@ class FileLabellisationCtrl
                         params=
                                 fileId: id
                         @$state.transitionTo('bucket/file', params)
+        
+        addToSuggestedTags: =>
+                tagString = angular.element('#tagSearchField_value').val()
+                console.debug(tagString)
+                tag = 
+                        name: tagString
+                if @$scope.suggestedTags.indexOf(tag) == -1
+                        @$scope.suggestedTags.push(tag)
+                angular.element('#tagSearchField_value').val("")
         
         addTag: (fileId, tag)=>
                 console.log( "++ adding tag : " + tag.name + " to file :" +fileId)
@@ -104,7 +138,7 @@ class FileListCtrl
                          @$scope.files = result
                 )
                 # FIXME : get root URL from config file
-                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
+                @$scope.autocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
 
                 # Methods declaration
                 @$scope.updateAutocompleteURL = this.updateAutocompleteURL
@@ -143,7 +177,7 @@ class FileListCtrl
                 facets = ["facet="+facet for facet in @$scope.selectedTags]
                 facetQuery = facets.join("&")
                 console.debug(facets)
-                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"&auto="                        
+                @$scope.autocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"&auto="                        
 
         
         removeTag: (tag)=>
@@ -159,12 +193,13 @@ class FileListCtrl
                 console.debug("searching with: ")
                 query = angular.element('#searchField_value').val()
                 console.debug(query)
-                #search URL : http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?format=json&q=blabla
+                #search URL : config.rest_uri+ /bucketfile/bucket/1/search?format=json&q=blabla
                 @$scope.searchFilesObject.getList('search', {q: query, facet:@$scope.selectedTags }).then((result) =>
                          @$scope.files = result
                 )
 
 class FileCommentCtrl
+# child controller of either FileDetail or FileList, hence the dependency on @$scope.file
         constructor: (@$scope, @Restangular) ->
                 @$scope.comment_form =
                         text: ""
