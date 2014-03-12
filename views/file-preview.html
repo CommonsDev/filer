@@ -30,10 +30,10 @@
           <em>{{ file.uploaded_on }} <a href="#">{{ file.uploaded_by.username }}</a></em>
         </div>
         <ul>
-          <li><a href="#">Imprimer</a></li>
-          <li><a href="#">Supprimer le fichier</a></li>
-          <li><a href="#">Partager</a></li>
-          <li><a href="#">Envoyer vers</a></li>
+          <!--<li><a href>Imprimer</a></li>-->
+          <li><a href ng-click="deleteFile(file.id)">Supprimer le fichier</a></li>
+          <!--<li><a href="#">Partager</a></li>-->
+          <!--<li><a href="#">Envoyer vers</a></li>-->
           <li><a href ng-click="addLabels(file.id)"> Ajouter des labels </a></li>
         </ul>
         <p class="labels">

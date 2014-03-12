@@ -19,13 +19,17 @@ class FilerService
                 )
                 @$rootScope.seeUploadedFile = (file)=>
                         filed = angular.fromJson(file)
-                        console.log(file)
-                        console.log(filed)
                         toParams =
                                 fileId:filed.id
                         @$state.transitionTo('bucket.file', toParams)
-
-
+                @$rootScope.deleteFile = (fileId)=>
+                        @Restangular.one('bucketfile', fileId).remove().then(()=>
+                                console.debug(" File deleted ! " )
+                                #reload home
+                                console.log("reloading to home")
+                                @$state.go('bucket',{}, {reload:true})
+                                )
+                        
 # Services
 module.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', ($rootScope, $compile, $fileUploader, Restangular, $state) ->
         return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state)

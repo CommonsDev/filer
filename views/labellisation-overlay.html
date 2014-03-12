@@ -23,8 +23,8 @@
 	    <div class="right">
 		<p>Cliquer sur un label pour qu’il soit assigné au fichier</p>
 		<form>
-		    <angucomplete id="tagSearchField" minlength="1" url="{{tagAutocompleteUrl}}" datafield="objects" titlefield="name" selectedobject="tag_search_form.query" type="text" ng-model="tag_search_form.query" placeholder="Rechercher ou ajouter un label..." />
-		    <button id="label-bt" ng-click="addToSuggestedTags()" >Ajouter un tag</button>
+		    <button id="label-bt" ng-click="addToSuggestedTags()" >Add</button>
+		    <angucomplete id="tagSearchField" pause="100" minlength="1" url="{{tagAutocompleteUrl}}" datafield="objects" titlefield="name" selectedobject="tag_search_form.query" type="text" ng-model="tag_search_form.query" placeholder="Rechercher ou ajouter un label..." />
 		</form>
 		<h2>Labels récemments utilisés</h2>
 		<ul class="labels-list">

@@ -6,7 +6,7 @@ class ToolbarCtrl
                 @$scope.filerService = @filerService
 
 class FileDetailCtrl
-        constructor: (@$scope, @Restangular, @$stateParams, @$state) ->
+        constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
                 # FIXME ? we build a dummy file object here that can be immediately used 
@@ -86,13 +86,17 @@ class FileLabellisationCtrl
                         @$state.transitionTo('bucket/file', params)
         
         addToSuggestedTags: =>
+                console.log("add t suggested tags")
                 tagString = angular.element('#tagSearchField_value').val()
                 console.debug(tagString)
                 tag = 
                         name: tagString
+                angular.element('#tagSearchField_value').val("")
                 if @$scope.suggestedTags.indexOf(tag) == -1
                         @$scope.suggestedTags.push(tag)
-                angular.element('#tagSearchField_value').val("")
+                if @$scope.taggingQueue[@$scope.files[0].id].indexOf(tag) == -1
+                        @$scope.taggingQueue[@$scope.files[0].id].push(tag)
+                
         
         addTag: (fileId, tag)=>
                 console.log( "++ adding tag : " + tag.name + " to file :" +fileId)
@@ -221,7 +225,7 @@ class FileCommentCtrl
                                 )
 
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
-module.controller("FileDetailCtrl", ['$scope', 'Restangular', '$stateParams','$state', FileDetailCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])
