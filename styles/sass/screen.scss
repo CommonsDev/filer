@@ -145,34 +145,42 @@ button {
 
 	#search-block {
 		float:left;
-
+		
+		.angucomplete-holder {
+			float:left;
+			margin-left:108px;
+		}
+		
 		input[type="text"] {
 			height:33px;
-			width:236px;
+			width:265px;
+			position:relative;
+			left:-8px;
 			padding:0 13px;
 			border:1px solid #d5d5d5;
 			color:#666;
 			font-style:italic;
 			font-size:0.75rem;
-			margin:14px 0 0 108px;
+			margin:14px 0 0 0;
 			@include border-radius(16px);
+			outline:0 !important;
 		}
 
 		#search-bt {
 			border:0;
 			height:36px;
-			width:36px;
+			width:35px;
 			text-indent:-9999em;
-			margin:0 0 0 6px;
+			margin:12px 0 0 6px;
 			background:image-url('topbar/search_ico.png');
 		}
 
 		#label-bt {
 			border:0;
 			height:36px;
-			width:36px;
+			width:35px;
 			text-indent:-9999em;
-			margin:0 0 0 6px;
+			margin:12px 0 0 6px;
 			background:image-url('topbar/label_ico.png');
 		}
 	}
@@ -330,6 +338,9 @@ button {
 				display:block;
 				line-height:1rem;
 				padding:6px 0 0 0;
+				// TODO change that shit
+				height:22px;
+				overflow:hidden;
 			}
 
 			em {

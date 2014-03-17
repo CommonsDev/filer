@@ -9,6 +9,8 @@ class FileDetailCtrl
         constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
+                # change class of drive-app div
+                angular.element("#drive-app").addClass("preview-mode")
                 # FIXME ? we build a dummy file object here that can be immediately used 
                 # by child controllers (as FileCommentCtrl) before the promisse is realized
                 @$scope.file = 
@@ -18,6 +20,12 @@ class FileDetailCtrl
                         console.debug(@$scope.file)
                 )
                 # Method
+                @$scope.exit = ()=>
+                        angular.element("#drive-app").removeClass("preview-mode")
+                        @$state.transitionTo('bucket')
+                        @$scope.runIsotope()
+                        return true
+                        
                 @$scope.addLabels = (fileId)=>
                         console.log(" == + == adding labels for file : "+fileId)
                         params =
@@ -79,7 +87,7 @@ class FileLabellisationCtrl
                 @$scope.removeTag = this.removeTag    
                 @$scope.updateTags = this.updateTags
                 @$scope.goHome = ()=>
-                        @$state.transitionTo('bucket')
+                        @$state.transitionTo('bucket',{},{reload:true})
                 @$scope.goToFile = (id)=>
                         params=
                                 fileId: id
@@ -151,13 +159,9 @@ class FileListCtrl
 
                 # Quick hack so isotope renders when file changes
                 @$scope.$watch('files', ->
-                        $timeout(->
-                                # Run isotope
-                                container = angular.element('#cards-wrapper')
-                                container.isotope(
-                                  itemSelector: 'article'
-                                  layoutMode: 'fitRows'
-                                )
+                        $timeout(()->
+                                $scope.runIsotope()
+                        ,1000
                         )
                 )
 

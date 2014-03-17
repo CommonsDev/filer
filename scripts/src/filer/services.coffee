@@ -15,7 +15,9 @@ class FilerService
                         # open labellisation for this file
                         console.log("fileID = "+response.id)
                         console.log(item)
-                        @$state.transitionTo('bucket.labellisation')
+                        toParams =
+                                filesIds:response.id
+                        @$state.transitionTo('bucket.labellisation', toParams)
                 )
                 @$rootScope.seeUploadedFile = (file)=>
                         filed = angular.fromJson(file)
@@ -29,6 +31,13 @@ class FilerService
                                 console.log("reloading to home")
                                 @$state.go('bucket',{}, {reload:true})
                                 )
+                @$rootScope.runIsotope = ()=>
+                        # Run isotope
+                        container = angular.element('#cards-wrapper')
+                        container.isotope(
+                          itemSelector: '.element'
+                          layoutMode: 'masonry'
+                        )
                         
 # Services
 module.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', ($rootScope, $compile, $fileUploader, Restangular, $state) ->

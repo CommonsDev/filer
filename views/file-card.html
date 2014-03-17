@@ -1,5 +1,5 @@
 <!-- TYPE VIDEO XXX: Should not make a difference -->
-<article class="vid file item">
+<article ui-sref-active="previewed" class="vid file item">
   <div class="preview">
     <a ui-sref="bucket.file({fileId: file.id})">
       <img width="240px" ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
@@ -31,4 +31,5 @@
       <button ng-click="submitForm()" >Envoyer</button>
     </form>
   </section>
+  <span class="preview-cursor">&nbsp;</span>
 </article>

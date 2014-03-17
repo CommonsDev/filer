@@ -2,7 +2,7 @@
 
 <div id="preview-panel" class="item" ng-controller="FileDetailCtrl">
   <div class="wrap-content">
-    <a ui-sref="bucket"><span class="preview-close">Fermer</span></a>
+    <a ng-click="exit()"><span class="preview-close">Fermer</span></a>
     <span class="preview-prev">Précédent</span>
     <span class="preview-next">Suivant</span>
     <div class="left">
@@ -27,7 +27,7 @@
       <div ng:show="tab == 1" id="preview-tab1">
         <div class="infos img">
           <strong>{{ file.filename }}</strong>
-          <em>{{ file.uploaded_on }} <a href="#">{{ file.uploaded_by.username }}</a></em>
+          <em>{{ file.uploaded_on | date:"dd/MM/yyyy - h:m"}} <a href="#">{{ file.uploaded_by.username }}</a></em>
         </div>
         <ul>
           <!--<li><a href>Imprimer</a></li>-->
