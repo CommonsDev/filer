@@ -33,10 +33,20 @@ class FilerService
                                 )
                 @$rootScope.runIsotope = ()=>
                         # Run isotope
+                        console.log(" RUN ISOTOPE = ")
                         container = angular.element('#cards-wrapper')
                         container.isotope(
-                          itemSelector: '.element'
-                          layoutMode: 'masonry'
+                                itemSelector: '.element'
+                                layoutMode: 'masonry'
+                                onLayout: () =>
+                                        #`this` refers to jQuery object of the container element
+                                        console.log("on layout!!!!!!")
+                                        angular.element("#drive-app").css("background","red")
+                                        return true
+                                        # callback provides jQuery object of laid-out item elements
+                                        #$elems.css({ background: 'blue' });
+                                        # instance is the Isotope instance
+                                        #console.log( instance.$filteredAtoms.length );
                         )
                         
 # Services

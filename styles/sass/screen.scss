@@ -284,6 +284,7 @@ button {
 		margin:0 0 12px 12px;
 		background:white;
 		position:relative;
+		border:2px solid transparent;
 
 		.preview-cursor { display:none }
 
@@ -1003,6 +1004,10 @@ body.ng-file-over > #filedrop-overlay {
 }
 
 // preview
+
+#preview-panel-wrapper {
+	width:100%;
+}
 
 #preview-panel {
 	width:100%;

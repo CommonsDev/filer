@@ -5,7 +5,7 @@
     <div id="topbar">
       <div id="search-block" >
 	<form>
-          <angucomplete id="searchField" minlength="1" url="{{autocompleteUrl}}" datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
+          <angucomplete id="searchField" autocomplete="off" minlength="1" url="{{autocompleteUrl}}" datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
           <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
           <button id="label-bt">Rechercher un label</button>
 	</form>
@@ -36,7 +36,7 @@
     </div>
 
     <!-- temp: move me! -->
-    <div ui-view></div>
+    <div id="preview-panel-wrapper" class="element" ui-view></div>
   
   </div>
 

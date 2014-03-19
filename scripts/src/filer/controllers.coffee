@@ -6,11 +6,34 @@ class ToolbarCtrl
                 @$scope.filerService = @filerService
 
 class FileDetailCtrl
-        constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state) ->
+        constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, $timeout) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
-                # change class of drive-app div
-                angular.element("#drive-app").addClass("preview-mode")
+                # == CReate preview layout == 
+                $timeout(()-> 
+                        container = angular.element('#cards-wrapper')
+                        container.isotope('destroy')
+                        # 1. change class of drive-app div
+                        angular.element("#drive-app").addClass("preview-mode")
+                        console.log("AVANT RUN ISOTOPE ")
+                        # fetch the index of the current element
+                        listItemPreviewed = angular.element('.previewed').parent('.element')
+                        index = angular.element('.element').index(listItemPreviewed)
+                        # get the width of the container, here we are talking about cards-wrapper
+                        containerWidth = angular.element('#cards-wrapper').width()
+                        # get the number of cards per line we can have
+                        cardsNumberPerLine = parseInt(containerWidth / 252);
+                        # get the line of the current element
+                        currentLine = parseInt(index / cardsNumberPerLine);
+                        # get the element after which we will have to inject the preview panel
+                        lastElement = currentLine * cardsNumberPerLine + cardsNumberPerLine
+                        cardsNumberTotal = angular.element('.element').length
+                        if lastElement > cardsNumberTotal
+                                lastElement = cardsNumberTotal
+                        # move the preview panel in the right place
+                        angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
+                ,300
+                )
                 # FIXME ? we build a dummy file object here that can be immediately used 
                 # by child controllers (as FileCommentCtrl) before the promisse is realized
                 @$scope.file = 
@@ -19,11 +42,15 @@ class FileDetailCtrl
                         @$scope.file = result
                         console.debug(@$scope.file)
                 )
+                
                 # Method
                 @$scope.exit = ()=>
                         angular.element("#drive-app").removeClass("preview-mode")
                         @$state.transitionTo('bucket')
-                        @$scope.runIsotope()
+                        $timeout(()->
+                                $scope.runIsotope()
+                        ,1000
+                        )
                         return true
                         
                 @$scope.addLabels = (fileId)=>
@@ -147,11 +174,16 @@ class FileListCtrl
                         query: ""
                 @$scope.searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
                 @$scope.searchFilesObject.getList('search',{}).then((result) =>
-                         @$scope.files = result
+                        @$scope.files = result
                 )
+                # AUTOCOMPLETE SETUP
                 # FIXME : get root URL from config file
                 @$scope.autocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
-
+                # needed to avoid default browser's autocomplete
+                $timeout(()->
+                        angular.element("#searchField_value").attr("autocomplete", "off")
+                ,1000
+                )
                 # Methods declaration
                 @$scope.updateAutocompleteURL = this.updateAutocompleteURL
                 @$scope.searchFiles = this.searchFiles
@@ -160,8 +192,9 @@ class FileListCtrl
                 # Quick hack so isotope renders when file changes
                 @$scope.$watch('files', ->
                         $timeout(()->
+                                console.log(" === runIsotope wthon FileLIst after timeout") 
                                 $scope.runIsotope()
-                        ,1000
+                        ,2500
                         )
                 )
 
@@ -229,7 +262,7 @@ class FileCommentCtrl
                                 )
 
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
-module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', FileDetailCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])
