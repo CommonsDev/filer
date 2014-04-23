@@ -4,5 +4,8 @@ config = {
     useHtml5Mode: false,
     bucket_preview_uri: 'http://localhost:8000',
     media_uri: 'http://MEDIA_SERVER/',
-    rest_uri: "http://REST_API_SERVER/api/v0"
+    rest_uri: "http://REST_API_SERVER/api/v0", 
+    rootUrl: 'http://localhost:8081/',
+    homeStateName: 'bucket',
+    loginBaseUrl: 'http://localhost:8000/api/v0'
 }

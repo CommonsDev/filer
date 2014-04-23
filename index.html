@@ -11,12 +11,13 @@
         <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700' rel='stylesheet' type='text/css'>
         <link href='styles/css/screen.css' rel='stylesheet' type='text/css'>
         <link href='scripts/vendor/angucomplete/angucomplete.css' rel='stylesheet' type='text/css'>
-
+	
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
     </head>
-    <body ng-file-drop ng-file-over="ng-file-over">
+    <body  ng-file-drop ng-file-over="ng-file-over">
+    <div id="wrap-page" ng-controller="LoginCtrl">
       <!-- overlay when dragndropping -->
       <div id="filedrop-overlay"><div class="center">&nbsp;</div></div>
 
@@ -30,38 +31,79 @@
 	  <li class="files"><button>Fichiers</button></li>
 	  <li class="recent" ng-click="panel = 'recent'"><button>Récents</button></li>
 	  <li class="fav" ng-click="panel = 'favorite'"><button>Favoris</button></li>
+	  <li class="connected">
+	    <a ng-toggle="" href="javascript:void(0)"><img src="img/login/connected_ico.png" alt="" /></a>
+	  </li>
 	</ul>
 
 	<ng-switch on="panel">
-	  <div ng-switch-when="search">
+	<div ng-switch-when="search">
 	    <ng-include src="'views/sidebar-search.html'"/>
-	  </div>
-	  <div ng-switch-when="upload">
+	</div>
+	<div ng-switch-when="upload">
 	    <ng-include src="'views/sidebar-upload.html'"/>
-	  </div>
-	  <div ng-switch-when="recents">
-            <ng-include src="'views/sidebar-recents.html'"/>
-	  </div>
-	  <div ng-switch-when="favs">
-            <ng-include src="'views/sidebar-favs.html'"/>
-	  </div>
+	</div>
+	<div ng-switch-when="recents">
+	    <ng-include src="'views/sidebar-recents.html'"/>
+	</div>
+	<div ng-switch-when="favs">
+	    <ng-include src="'views/sidebar-favs.html'"/>
+	</div>
 	</ng-switch>
-      </div>
+	</div>
 
+	<!-- Logout panel -->
+	<div id="connected-user-block">
+	    <strong>{{ authVars.username }}</strong>
+	    <button ng-click="logout()">Déconnexion</button>
+	    <span class="little-arrow">&nbsp;</span>
+	</div>
 
       <!-- right placeholder -->
-      <div ui-view="filelist"></div>
+	<div ui-view="filelist"></div>
+      
+       <!-- login box -->
+	<div id="wrap-login" class="ng-cloak" ng-show="authVars.loginrequired">
+	    <div id="inner-login">
+		<div class="left">
+		    <div class="title">Entrez votre identifiant pour vous connecter</div>
+		    <form name="loginForm">
+		      <p>
+			  <label for="login-field">Email</label>
+			  <input id="login-field" type="text" ng-model="authVars.username" placeholder="Votre nom d'utilisateur..." required>
+		      </p>
+		      <p>
+			  <label for="pass-field">Password</label>
+			  <input id="pass-field" type="password" ng-model="authVars.password" placeholder="Votre mot de passe..." required>
+		      </p>
+		      <button ng-click="submit()" ng-disabled="form.$invalid" class="submit">Login</button>
+		      <a class="forgotten" href="#">Mot de passe oublié ?</a>
+		    </form>
+		</div>
+		<div class="right">
+		    <ul>
+			<li><button class="account">S'inscrire</button></li>
+			<li><button ng-click="authenticateGoogle()" class="gplus">Google +</button></li>
+			<li><button class="facebook">Facebook</button></li>
+		    </ul>
+		</div>
+		<a href="javascript:void(0)" ng-click="authVars.loginrequired=false" class="close">Fermer</a> 
+		<!-- TODO: changer cette méthode de fermeture de l'overlay -->
+	    </div>
+	</div>
+    </div>
     </body>
 
     <!-- vendor includes -->
 
-    <!-- jquery and plugins -->
+	<!-- jquery and plugins -->
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 
     <!-- Angular -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.min.js"></script>
     <script type="text/javascript" src="//underscorejs.org/underscore-min.js"></script>
+
 
     <!-- bower includes -->
     <script src="scripts/vendor/angular-cookies/angular-cookies.min.js"></script>
@@ -72,16 +114,19 @@
     <script src="scripts/vendor/angular-file-upload/angular-file-upload.min.js"></script>
     <script src="scripts/vendor/angucomplete/angucomplete.js"></script>
 
-    <!-- no auth for now
-    <script src="scripts/vendor/http-auth-interceptor.js"></script>
-    <script src="scripts/vendor/angularOauth.js"></script>
-    <script src="scripts/vendor/googleOauth.js"></script>
-    -->
-
+    <!-- auth -->
+    <script src="scripts/vendor/angular-http-auth/src/http-auth-interceptor.js"></script>
+    <script src="scripts/vendor/angular-image-upload/angular-imageupload.js"></script>
+    <script src="scripts/vendor/angular-oauth/src/js/angularOauth.js"></script>
+    <script src="scripts/vendor/angular-oauth/src/js/googleOauth.js"></script>
+    <script src="scripts/vendor/angular-unisson-auth/angular-unisson-auth.js"></script>
+    
     <script src="scripts/config.js"></script>
-
+    <script src="scripts/script.js"></script>
     <!-- app files -->
     <script src="scripts/lib/filer/services.js"></script>
     <script src="scripts/lib/filer/controllers.js"></script>
     <script src="scripts/lib/app.js"></script>
+   
+    
 </html>

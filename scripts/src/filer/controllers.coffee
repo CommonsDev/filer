@@ -1,4 +1,8 @@
-module = angular.module('filer.controllers', ['restangular'])
+module = angular.module('filer.controllers', ['restangular', 'angular-unisson-auth'])
+
+class LoginCtrl
+        constructor: (@$scope, @loginService) ->
+                @$scope.loginService = @loginService
 
 class ToolbarCtrl
         constructor: (@$scope, @filerService) ->
@@ -257,10 +261,12 @@ class FileCommentCtrl
                 if newComment.text.length > 3
                         @commentsObject.post(newComment).then((addedComment)=>
                                 console.debug(" comment saved ! " )
+                                console.debug(@$scope.comments)
                                 @$scope.comment_form.text=""
                                 @$scope.comments.push(addedComment)
                                 )
 
+module.controller("LoginCtrl", ['$scope','loginService', LoginCtrl])
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
 module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', FileLabellisationCtrl])
