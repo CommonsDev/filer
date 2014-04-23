@@ -5,40 +5,20 @@
     <p>
       Selectionnez vos fichiers et assignez leurs un ou plusieurs labels
     </p>
-    <button class="add">Ajouter</button>
+    <input type="file" ng-file-select class="add" value="Ajouter"/>
   </div>
 
   <div id="current-files">
     <ul>
-      <li>
-	<button class="close">Retirer</button>
-	<strong>Document1.doc</strong>
-	<em>12 mo</em>
-	<div class="progressbar">
-          <span style="width:98%">98%</span>
+      <li ng-repeat="item in uploader.queue">
+	<button ng-show="item.isSuccess" class="goto">Voir</button>
+	<button ng-show="item.isReady || item.isUploading" class="close">Retirer</button>
+	<strong>{{ item.file.name }}</strong>
+	<em>{{ item.file.size/1024/1024|number:2 }} MB</em>
+	<div ng-show="item.isReady || item.isUploading" class="progressbar">
+          <span style="width:{{ item.progress }}%">{{ item.progress }}%</span>
 	</div>
-      </li>
-      <li>
-	<button class="close">Retirer</button>
-	<strong>Document2.doc</strong>
-	<em>12 mo</em>
-	<div class="progressbar">
-          <span style="width:43%">43%</span>
-	</div>
-      </li>
-      <li>
-	<button class="close">Retirer</button>
-	<strong>Document3.doc</strong>
-	<em>12 mo</em>
-	<div class="progressbar">
-          <span style="width:68%">68%</span>
-	</div>
-      </li>
-      <li>
-	<button class="goto">Voir</button>
-	<strong>Document4.doc</strong>
-	<em>12 mo</em>
-	<div class="progressbar complete">
+	<div ng-show="item.isSuccess" class="progressbar complete">
           <span>Terminé</span>
 	</div>
       </li>

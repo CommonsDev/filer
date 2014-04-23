@@ -1,7 +1,7 @@
-angular.element(document).ready(->
-        angular.module('filer', ['filer.controllers'])
+angular.element(document).on('ready page:load', ->
+        angular.module('filer', ['filer.controllers', 'filer.services'])
 
-        angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload'])
+        angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete'])
 
         # CORS
         .config(['$httpProvider', ($httpProvider) ->
@@ -42,10 +42,20 @@ angular.element(document).ready(->
                 .state('bucket.file',
                         url: '/file/:fileId'
                         templateUrl: 'views/file-preview.html'
+                        controller: 'FileDetailCtrl'
                 )
                 .state('bucket.upload',
                         url: '/upload'
                 )
+                .state('bucket.labellisation',
+                        url: '/labellisation'
+                        templateUrl: 'views/labellisation-overlay.html'
+                        controller: 'FileLabellisationCtrl'
+                )
+        ])
+
+        .run(['$rootScope', ($rootScope) ->
+                $rootScope.config = config;
         ])
 
         console.debug("running angular app...")

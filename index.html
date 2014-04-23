@@ -10,6 +10,7 @@
 
         <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700' rel='stylesheet' type='text/css'>
         <link href='styles/css/screen.css' rel='stylesheet' type='text/css'>
+        <link href='scripts/vendor/angucomplete/angucomplete.css' rel='stylesheet' type='text/css'>
 
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -27,8 +28,8 @@
 	  <li class="search"><button ng-click="panel = 'search'">Rechercher</a></li>
 	  <li class="add"><button ng-click="panel = 'upload'">Ajouter</button></li>
 	  <li class="files"><button>Fichiers</button></li>
-	  <li class="recent"><button ng-click="panel = 'recents'">Récents</button></li>
-	  <li class="fav"><button ng-click="panel = 'favs'">Favoris</button></li>
+	  <li class="recent" ng-click="panel = 'recent'"><button>Récents</button></li>
+	  <li class="fav" ng-click="panel = 'favorite'"><button>Favoris</button></li>
 	</ul>
 
 	<ng-switch on="panel">
@@ -38,12 +39,12 @@
 	  <div ng-switch-when="upload">
 	    <ng-include src="'views/sidebar-upload.html'"/>
 	  </div>
-      <div ng-switch-when="recents">
-        <ng-include src="'views/sidebar-recents.html'"/>
-      </div>
-      <div ng-switch-when="favs">
-        <ng-include src="'views/sidebar-favs.html'"/>
-      </div>
+	  <div ng-switch-when="recents">
+            <ng-include src="'views/sidebar-recents.html'"/>
+	  </div>
+	  <div ng-switch-when="favs">
+            <ng-include src="'views/sidebar-favs.html'"/>
+	  </div>
 	</ng-switch>
       </div>
 
@@ -59,7 +60,7 @@
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 
     <!-- Angular -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.min.js"></script>
     <script type="text/javascript" src="//underscorejs.org/underscore-min.js"></script>
 
@@ -70,6 +71,7 @@
     <script src="scripts/vendor/ng-isotope/isotope.pkgd.js"></script>
     <script src="scripts/vendor/es5-shim/es5-shim.min.js"></script>
     <script src="scripts/vendor/angular-file-upload/angular-file-upload.min.js"></script>
+    <script src="scripts/vendor/angucomplete/angucomplete.js"></script>
 
     <!-- no auth for now
     <script src="scripts/vendor/http-auth-interceptor.js"></script>
@@ -80,6 +82,7 @@
     <script src="scripts/config.js"></script>
 
     <!-- app files -->
+    <script src="scripts/lib/filer/services.js"></script>
     <script src="scripts/lib/filer/controllers.js"></script>
     <script src="scripts/lib/app.js"></script>
 </html>
