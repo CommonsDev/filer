@@ -29,10 +29,124 @@
 	</ul>
 	<button class="erase-all">Tout supprimer</button>
       </div>
-    </div>
+
+      <div id="list-wrapper">
+          <div id="sort-list">
+             <div class="check">
+              <input type="checkbox" />
+              </div>
+              <div class="fav">
+                &nbsp;
+              </div>
+              <div class="type">
+                <a href="#">Type</a>
+              </div>
+              <div class="title">
+                <a href="#">Titre</a>
+              </div>
+              <div class="author">
+                <a href="#">Auteur</a>
+              </div>
+              <div class="etab">
+                <a href="#">Etablissement</a>
+              </div>
+              <div class="last-mod">
+                <a href="#">Dernière modification</a>
+              </div>
+            </div>
+            <div class="wrapper">
+              <div class="element">
+                <div class="check">
+                  <input type="checkbox" />
+                </div>   
+                <div class="fav">
+                  <button>Favori</button>
+                </div>
+                <div class="type">
+                  <span class="doc">Doc</span>
+                </div>
+                <div class="title">
+                  Nomdudoc.doc
+                </div>
+                <div class="author">
+                  Fajfer Hervé
+                </div>
+                <div class="etab">
+                  La Coroutine
+                </div>
+                <div class="last-mod">
+                  Lundi 12 Avril 2014
+                </div>
+                <div class="more">
+                  <a class="infos">Infos</a>
+                  <a class="comments">12</a>
+                  <button>Ouvrir</button>
+                </div>
+              </div>
+              <div class="element">
+                <div class="check">
+                  <input type="checkbox" />
+                </div>   
+                <div class="fav">
+                  <button>Favori</button>
+                </div>
+                <div class="type">
+                  <span class="vid">Vidéo</span>
+                </div>
+                <div class="title">
+                  Nomdelavideo.mov
+                </div>
+                <div class="author">
+                  Fajfer Hervé
+                </div>
+                <div class="etab">
+                  La Coroutine
+                </div>
+                <div class="last-mod">
+                  Lundi 12 Avril 2014
+                </div>
+                <div class="more">
+                  <a class="infos">Infos</a>
+                  <a class="comments">12</a>
+                  <button>Ouvrir</button>
+                </div>
+              </div>
+              <div class="element">
+                <div class="check">
+                  <input type="checkbox" />
+                </div>   
+                <div class="fav">
+                  <button>Favori</button>
+                </div>
+                <div class="type">
+                  <span class="img">Image</span>
+                </div>
+                <div class="title">
+                  Nomdelimage.jpg
+                </div>
+                <div class="author">
+                  Fajfer Hervé
+                </div>
+                <div class="etab">
+                  La Coroutine
+                </div>
+                <div class="last-mod">
+                  Lundi 12 Avril 2014
+                </div>
+                <div class="more">
+                  <a class="infos">Infos</a>
+                  <a class="comments">12</a>
+                  <button>Ouvrir</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
       
-    <div id="cards-wrapper">
-      <ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" /> 
+      <div id="cards-wrapper">
+	     <ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" /> 
+        
+      </div>
     </div>
 
     <!-- temp: move me! -->
