@@ -5,7 +5,7 @@ angular.element(document).on('ready page:load', ->
         
         .config(['TokenProvider', '$locationProvider', (TokenProvider, $locationProvider) ->
                 TokenProvider.extendConfig({
-                        clientId: '645581170749.apps.googleusercontent.com',
+                        clientId: config.clientId,
                         redirectUri: config.rootUrl+'oauth2callback.html',
                         scopes: ["https://www.googleapis.com/auth/userinfo.email",
                                 "https://www.googleapis.com/auth/userinfo.profile"],

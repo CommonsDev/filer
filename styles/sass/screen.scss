@@ -1261,7 +1261,7 @@ body.ng-file-over > #filedrop-overlay {
 
 		.author {
 			float:left;
-			width:50%;
+			width:35%;
 
 			.avatar {
 				float:left;
@@ -1646,7 +1646,6 @@ body.ng-file-over > #filedrop-overlay {
 /* ================= CONNECTED USER BLOCK ================== */
 
 #connected-user-block {
-	display:none;
 	position:absolute;
 	bottom:0;
 	left:90px;

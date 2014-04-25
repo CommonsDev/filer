@@ -13,7 +13,7 @@ class FileDetailCtrl
         constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, $timeout) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
-                # == CReate preview layout == 
+                # == CReate preview layout ==  FIXME (so ugly!!)
                 $timeout(()-> 
                         container = angular.element('#cards-wrapper')
                         container.isotope('destroy')

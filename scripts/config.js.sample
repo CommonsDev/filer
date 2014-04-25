@@ -1,11 +1,12 @@
 config = {
     templateBaseUrl: '/views/',
+    cliendId: 'AUTH_CLIENT_ID',
     bucket_uri: 'http://BUCKET_SERVER_URI/bucket/upload/',
     useHtml5Mode: false,
-    bucket_preview_uri: 'http://localhost:8000',
+    bucket_preview_uri: 'BUCKET_SERVER_URI',
     media_uri: 'http://MEDIA_SERVER/',
     rest_uri: "http://REST_API_SERVER/api/v0", 
-    rootUrl: 'http://localhost:8081/',
+    rootUrl: 'APP_SERVER_URI',
     homeStateName: 'bucket',
-    loginBaseUrl: 'http://localhost:8000/api/v0'
+    loginBaseUrl: 'LOGIN_API_SERVER/api/v0'
 }

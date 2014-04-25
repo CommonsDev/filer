@@ -5,7 +5,7 @@ class FilerService
                 @$rootScope.uploader = $fileUploader.create(
                         scope: @$rootScope
                         autoUpload: true
-                        url: 'http://localhost:8000/bucket/upload/?format=json'
+                        url: 'http://localhost:8000/bucket/upload/?format=json' # FIXME
                         headers:
                                 "Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787" # FIXME
                         formData: [{bucket: 1}] # FIXME
@@ -38,15 +38,6 @@ class FilerService
                         container.isotope(
                                 itemSelector: '.element'
                                 layoutMode: 'masonry'
-                                onLayout: () =>
-                                        #`this` refers to jQuery object of the container element
-                                        console.log("on layout!!!!!!")
-                                        angular.element("#drive-app").css("background","red")
-                                        return true
-                                        # callback provides jQuery object of laid-out item elements
-                                        #$elems.css({ background: 'blue' });
-                                        # instance is the Isotope instance
-                                        #console.log( instance.$filteredAtoms.length );
                         )
                         
 # Services
