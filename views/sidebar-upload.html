@@ -1,9 +1,11 @@
 <div id="left-panel" class="upload-panel">
   <div class="top-panel">
-    <button class="about">A propos</button>
+<!--
+FIXME    <button class="about">A propos</button>
+-->
     <h2>Ajouter</h2>
     <p>
-      Selectionnez vos fichiers et assignez leurs un ou plusieurs labels
+      Selectionnez les fichiers à télécharger
     </p>
     <input type="file" ng-file-select class="add" value="Ajouter"/>
   </div>
@@ -11,10 +13,14 @@
   <div id="current-files">
     <ul>
       <li ng-repeat="item in uploader.queue">
-	<button ng-show="item.isSuccess" class="goto">Voir</button>
-	<button ng-show="item.isReady || item.isUploading" class="close">Retirer</button>
+	<strong ng-show="item.formData[0].id">Fichier mis à jour:</strong>
 	<strong>{{ item.file.name }}</strong>
 	<em>{{ item.file.size/1024/1024|number:2 }} MB</em>
+	<button ng-click="seeUploadedFile(item._xhr.response)" class="goto" ng-show="item.isSuccess" >Voir</button>
+	<button ng-click="item.remove()" class="remove" ng-disabled="item.isUploading || item.isSuccess">Retirer</button>
+	<button ng-click="item.upload()" class="upload" ng-disabled="item.isUploading || item.isSuccess">Uploader</button>
+	<button ng-click="item.cancel()" class="cancel" ng-show="item.isUploading">Annuler</button>
+
 	<div ng-show="item.isReady || item.isUploading" class="progressbar">
           <span style="width:{{ item.progress }}%">{{ item.progress }}%</span>
 	</div>
@@ -25,3 +31,6 @@
     </ul>
   </div>
 </div>
+
+
+

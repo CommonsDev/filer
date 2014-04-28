@@ -1,4 +1,8 @@
-module = angular.module('filer.controllers', ['restangular'])
+module = angular.module('filer.controllers', ['restangular', 'angular-unisson-auth'])
+
+class LoginCtrl
+        constructor: (@$scope, @loginService) ->
+                @$scope.loginService = @loginService
 
 class ToolbarCtrl
         constructor: (@$scope, @filerService) ->
@@ -6,20 +10,167 @@ class ToolbarCtrl
                 @$scope.filerService = @filerService
 
 class FileDetailCtrl
-        constructor: (@$scope, @Restangular, @$stateParams) ->
+        constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, $timeout, $window) ->
+                console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
+                # == CReate preview layout ==  FIXME (so ugly!!)
+                $timeout(()-> 
+                        container = angular.element('#cards-wrapper')
+                        container.isotope('destroy')
+                        # 1. change class of drive-app div
+                        angular.element("#drive-app").addClass("preview-mode")
+                        console.log("AVANT RUN ISOTOPE ")
+                        # fetch the index of the current element
+                        listItemPreviewed = angular.element('.previewed').parent('.element')
+                        index = angular.element('.element').index(listItemPreviewed)
+                        # get the width of the container, here we are talking about cards-wrapper
+                        containerWidth = angular.element('#cards-wrapper').width()
+                        # get the number of cards per line we can have
+                        cardsNumberPerLine = parseInt(containerWidth / 252);
+                        # get the line of the current element
+                        currentLine = parseInt(index / cardsNumberPerLine);
+                        # get the element after which we will have to inject the preview panel
+                        lastElement = currentLine * cardsNumberPerLine + cardsNumberPerLine
+                        cardsNumberTotal = angular.element('.element').length
+                        if lastElement > cardsNumberTotal
+                                lastElement = cardsNumberTotal
+                        # move the preview panel in the right place
+                        angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
+                ,300
+                )
+                # FIXME ? we build a dummy file object here that can be immediately used 
+                # by child controllers (as FileCommentCtrl) before the promisse is realized
                 @$scope.file = 
                         id: @$stateParams.fileId
-                console.debug("started file detail on file:"+ @$stateParams.fileId)
-                # http://localhost:8000/bucket/api/v0/bucketfile/1
                 @Restangular.one('bucketfile', @$scope.file.id ).get().then((result)=>
                         @$scope.file = result
                         console.debug(@$scope.file)
                 )
-
+                
+                # Method
+                @$scope.exit = ()=>
+                        angular.element("#drive-app").removeClass("preview-mode")
+                        @$state.transitionTo('bucket')
+                        $timeout(()->
+                                $scope.runIsotope()
+                        ,1000
+                        )
+                        return true
+                        
+                @$scope.addLabels = (fileId)=>
+                        console.log(" == + == adding labels for file : "+fileId)
+                        params =
+                                filesIds: fileId
+                        console.log(params)
+                        @$state.transitionTo('bucket.labellisation',params)
+                
+                @$scope.openFile = (file)=>
+                        console.log("opening file "+file)
+                        $window.open(config.bucket_preview_uri+file)
+                
 class FileLabellisationCtrl
-        constructor:  (@$scope, @Restangular, @$stateParams) ->
+# designed for multifiles, but multifile selection is still missing
+        constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter) ->
                 console.log(" labellilabello started !!")
+                # Populating file if provided as stateParam
+                @$scope.files = []
+                @$scope.taggingQueue = {}
+                if @$stateParams.filesIds
+                        @Restangular.one('bucketfile').one("set", @$stateParams.filesIds).getList().then((result) =>
+                                @$scope.files = result
+                                # Populating tagging queue with current tags if any
+                                for file in @$scope.files
+                                        do(file)=>
+                                                @$scope.taggingQueue[file.id] = file.tags
+                        )
+                
+                # Populating suggested (most used) tags
+                @$scope.suggestedTags = []
+                @$scope.tagsList = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
+                @$scope.tagsList.getList('search',{ auto: ""}).then((result) =>
+                         @$scope.suggestedTags = result.slice(0,10)
+                )
+                console.log(" suggested tags ")
+                console.log(@$scope.suggestedTags)
+                
+                # Watch selection of existing tag and add to suggested tags 
+                @$scope.tagAutocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
+                @$scope.tag_search_form =
+                        query: ""
+                @$scope.$watch('tag_search_form.query', (newValue, oldValue) =>
+                        console.debug("== Tag selected (labellisation)!")
+                        if @$scope.tag_search_form.query
+                                tag = 
+                                        name: @$scope.tag_search_form.query.title
+                                # FIXME: according to Hervé's design, here we only add tag to suggested tags queue, 
+                                # but I think it'll be quicker to add them directly to all files (bulk tagging)
+                                if @$scope.suggestedTags.indexOf(tag) == -1
+                                        @$scope.suggestedTags.push(tag)
+                                if @$scope.taggingQueue[@$scope.files[0].id].indexOf(tag) == -1
+                                        @$scope.taggingQueue[@$scope.files[0].id].push(tag)
+                        # empty search box 
+                        angular.element('#tagSearchField_value').val("")
+                        @$scope.tag_search_form =
+                                query : ""
+                )
+                
+                
+                
+                # Methods  
+                @$scope.addToSuggestedTags = this.addToSuggestedTags
+                @$scope.addTag = this.addTag 
+                @$scope.removeTag = this.removeTag    
+                @$scope.updateTags = this.updateTags
+                @$scope.goHome = ()=>
+                        @$state.transitionTo('bucket',{},{reload:true})
+                @$scope.goToFile = (id)=>
+                        params=
+                                fileId: id
+                        @$state.transitionTo('bucket/file', params)
+        
+        addToSuggestedTags: =>
+                console.log("add t suggested tags")
+                tagString = angular.element('#tagSearchField_value').val()
+                console.debug(tagString)
+                tag = 
+                        name: tagString
+                angular.element('#tagSearchField_value').val("")
+                if @$scope.suggestedTags.indexOf(tag) == -1
+                        @$scope.suggestedTags.push(tag)
+                if @$scope.taggingQueue[@$scope.files[0].id].indexOf(tag) == -1
+                        @$scope.taggingQueue[@$scope.files[0].id].push(tag)
+                
+        
+        addTag: (fileId, tag)=>
+                console.log( "++ adding tag : " + tag.name + " to file :" +fileId)
+                file = @$filter('filter')(@$scope.files, {id : fileId})[0]
+                if @$scope.taggingQueue[fileId].indexOf(tag) == -1
+                        @$scope.taggingQueue[fileId].push(tag)
+                console.log("+new tagging queue+")
+                console.log(@$scope.taggingQueue)
+        
+        removeTag: (fileId, tag)=>
+                console.log( "++ removing tag : " + tag.name + " from file :" +fileId)
+                index = @$scope.taggingQueue[fileId].indexOf(tag)
+                @$scope.taggingQueue[fileId].splice(index, 1)
+                console.log("+new tagging queue+")
+                console.log(@$scope.taggingQueue)
+                
+        updateTags: =>
+                console.log("updating tags")
+                # loop in tagging queue, and do a PATCH
+                for fileId, tags of @$scope.taggingQueue
+                        do (fileId, tags)=>
+                                console.log("tags for file: "+fileId)
+                                tagsObject = 
+                                        tags:tags
+                                console.log(tagsObject)
+                                fileRestObject = @Restangular.one('bucketfile', fileId)                
+                                fileRestObject.patch(tagsObject).then(()=>
+                                        console.debug(" tags updated ! " )
+                                        )
+                @$scope.goHome()
+                
                 
 class FileListCtrl
         constructor: (@$scope, @filerService, $timeout, @Restangular) ->
@@ -31,11 +182,16 @@ class FileListCtrl
                         query: ""
                 @$scope.searchFilesObject = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
                 @$scope.searchFilesObject.getList('search',{}).then((result) =>
-                         @$scope.files = result
+                        @$scope.files = result
                 )
-               
-                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
-
+                # AUTOCOMPLETE SETUP
+                # FIXME : get root URL from config file
+                @$scope.autocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
+                # needed to avoid default browser's autocomplete
+                $timeout(()->
+                        angular.element("#searchField_value").attr("autocomplete", "off")
+                ,1000
+                )
                 # Methods declaration
                 @$scope.updateAutocompleteURL = this.updateAutocompleteURL
                 @$scope.searchFiles = this.searchFiles
@@ -43,13 +199,10 @@ class FileListCtrl
 
                 # Quick hack so isotope renders when file changes
                 @$scope.$watch('files', ->
-                        $timeout(->
-                                # Run isotope
-                                container = angular.element('#cards-wrapper')
-                                container.isotope(
-                                  itemSelector: 'article'
-                                  layoutMode: 'fitRows'
-                                )
+                        $timeout(()->
+                                console.log(" === runIsotope wthon FileLIst after timeout") 
+                                $scope.runIsotope()
+                        ,2500
                         )
                 )
 
@@ -73,7 +226,7 @@ class FileListCtrl
                 facets = ["facet="+facet for facet in @$scope.selectedTags]
                 facetQuery = facets.join("&")
                 console.debug(facets)
-                @$scope.autocompleteUrl = "http://localhost:8000/bucket/api/v0/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"&auto="                        
+                @$scope.autocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?"+facetQuery+"&auto="                        
 
         
         removeTag: (tag)=>
@@ -89,12 +242,13 @@ class FileListCtrl
                 console.debug("searching with: ")
                 query = angular.element('#searchField_value').val()
                 console.debug(query)
-                #search URL : http://localhost:8000/bucket/api/v0/bucketfile/bucket/1/search?format=json&q=blabla
+                #search URL : config.rest_uri+ /bucketfile/bucket/1/search?format=json&q=blabla
                 @$scope.searchFilesObject.getList('search', {q: query, facet:@$scope.selectedTags }).then((result) =>
                          @$scope.files = result
                 )
 
 class FileCommentCtrl
+# child controller of either FileDetail or FileList, hence the dependency on @$scope.file
         constructor: (@$scope, @Restangular) ->
                 @$scope.comment_form =
                         text: ""
@@ -111,12 +265,14 @@ class FileCommentCtrl
                 if newComment.text.length > 3
                         @commentsObject.post(newComment).then((addedComment)=>
                                 console.debug(" comment saved ! " )
+                                console.debug(@$scope.comments)
                                 @$scope.comment_form.text=""
                                 @$scope.comments.push(addedComment)
                                 )
 
+module.controller("LoginCtrl", ['$scope','loginService', LoginCtrl])
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
-module.controller("FileDetailCtrl", ['$scope', 'Restangular', '$stateParams', FileDetailCtrl])
-module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams', FileLabellisationCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
+module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])

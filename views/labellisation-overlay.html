@@ -1,83 +1,41 @@
 <!-- Labelisation -->
-        <div id="labelisation">
-            <div class="wrap-content">
-                <h1>Veuillez ajouter les labels correspondants à vos fichiers</h1>
-                <div class="content">
-                    <div class="left">
-                        <div class="files-list">
-                            <div class="file">
-                                <img width="168" height="115" src="img/_TEMP/vid_preview.png" alt="" />
-                                <div class="infos">
-                                    <button class="close">Fermer</button>
-                                    <strong>Document1.doc <span>- 12 mo</span></strong>
-                                    <ul class="labels-list">
-                                        <li><span>Label 1</span> <button>Supprimer</button></li>
-                                        <li><span>Label un peu long</span> <button>Supprimer</button></li>
-                                        <li><span>Label rouge</span> <button>Supprimer</button></li>
-                                        <li><span>Label bleu</span> <button>Supprimer</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="file">
-                                <img width="168" height="115" src="img/_TEMP/vid_preview.png" alt="" />
-                                <div class="infos">
-                                    <button class="close">Fermer</button>
-                                    <strong>Document1.doc <span>- 12 mo</span></strong>
-                                    <ul class="labels-list">
-                                        <li><span>Label 1</span> <button>Supprimer</button></li>
-                                        <li><span>Label un peu long</span> <button>Supprimer</button></li>
-                                        <li><span>Label rouge</span> <button>Supprimer</button></li>
-                                        <li><span>Label bleu</span> <button>Supprimer</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="file">
-                                <img width="168" height="115" src="img/_TEMP/img_preview.jpg" alt="" />
-                                <div class="infos">
-                                    <button class="close">Fermer</button>
-                                    <strong>Document2.doc <span>- 12 mo</span></strong>
-                                    <ul class="labels-list">
-                                        <li><span>Label 1</span> <button>Supprimer</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="file">
-                                <img width="168" height="115" src="img/_TEMP/img_preview.jpg" alt="" />
-                                <div class="infos">
-                                    <button class="close">Fermer</button>
-                                    <strong>Document2.doc <span>- 12 mo</span></strong>
-                                    <ul class="labels-list">
-                                        <li><span>Label 1</span> <button>Supprimer</button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="newfile">
-                            <span>Ajouter un autre fichier</span>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <p>Faites un glissé / déposé du label vers son fichier pour qu’il lui soit assigné</p>
-                        <form>
-                            <input type="text" placeholder="Ajouter / Rechercher un label..." />
-                        </form>
-                        <h2>Labels récemments utilisés</h2>
-                        <ul class="labels-list">
-                            <li><span>Label 1</span> <button>Supprimer</button></li>
-                            <li><span>Label un peu long</span> <button>Supprimer</button></li>
-                            <li><span>Label rouge</span> <button>Supprimer</button></li>
-                            <li><span>Label bleu</span> <button>Supprimer</button></li>
-                            <li><span>Label 1</span> <button>Supprimer</button></li>
-                            <li><span>Label un peu long</span> <button>Supprimer</button></li>
-                            <li><span>Label rouge</span> <button>Supprimer</button></li>
-                            <li><span>Label bleu</span> <button>Supprimer</button></li>
-                        </ul>
-                    </div>
-                    <div class="bottom">
-                        <button class="abort">Annuler</button>
-                        <button class="valid">Valider</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div id="labelisation" ng-controller="FileLabellisationCtrl">
+    <div class="wrap-content">
+	<h1>Veuillez ajouter les labels correspondants à ce fichier</h1>
+	<div class="content">
+	    <div class="left">
+		<div class="files-list">
+		    <div class="file" ng-repeat="file in files">
+			<img width="168" height="115" ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=168" alt="{{ file.name }}"  />
+			<div class="infos">
+			    <button class="close">Fermer</button>
+			    <strong>{{ file.filename }}</strong>
+			    <ul class="labels-list">
+				<li ng-repeat="tag in taggingQueue[file.id]" ><span>{{ tag.name }}</span> <button ng-click="removeTag(file.id, tag)">Supprimer</button></li>
+			    </ul>
+			</div>
+		    </div>
+		</div>
+		<!--<div class="newfile">
+		    <span>Ajouter un autre fichier</span>
+		</div>-->
+	    </div> 
+	    <div class="right">
+		<p>Cliquer sur un label pour qu’il soit assigné au fichier</p>
+		<form>
+		    <button id="label-bt" ng-click="addToSuggestedTags()" >Add</button>
+		    <angucomplete id="tagSearchField" pause="100" minlength="1" url="{{tagAutocompleteUrl}}" datafield="objects" titlefield="name" selectedobject="tag_search_form.query" type="text" ng-model="tag_search_form.query" placeholder="Rechercher ou ajouter un label..." />
+		</form>
+		<h2>Labels récemments utilisés</h2>
+		<ul class="labels-list">
+		    <li ng-repeat="tag in suggestedTags"><span ng-click="addTag(files[0].id,tag)">{{ tag.name }}</span> <button>Supprimer</button></li>
+		</ul>
+	    </div>
+	    <div class="bottom">
+		<button class="abort" ng-click="goHome()">Annuler</button>
+		<button class="valid" ng-click="updateTags()">Valider</button>
+	    </div>
+	</div>
+    </div>
+</div>
         <!-- Fin Labelisation -->

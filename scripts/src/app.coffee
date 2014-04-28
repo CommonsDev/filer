@@ -1,8 +1,17 @@
 angular.element(document).on('ready page:load', ->
         angular.module('filer', ['filer.controllers', 'filer.services'])
 
-        angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete'])
-
+        angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete', 'angular-unisson-auth'])
+        
+        .config(['TokenProvider', '$locationProvider', (TokenProvider, $locationProvider) ->
+                TokenProvider.extendConfig({
+                        clientId: 'config.cliend_id', #FIXME: does not let me load this from config 
+                        redirectUri: config.rootUrl+'oauth2callback.html',
+                        scopes: ["https://www.googleapis.com/auth/userinfo.email",
+                                "https://www.googleapis.com/auth/userinfo.profile"],
+                        });
+                ])
+        
         # CORS
         .config(['$httpProvider', ($httpProvider) ->
                 $httpProvider.defaults.useXDomain = true
@@ -12,7 +21,7 @@ angular.element(document).on('ready page:load', ->
         # Tastypie
         .config((RestangularProvider) ->
                 RestangularProvider.setBaseUrl(config.rest_uri)
-                RestangularProvider.setDefaultHeaders({"Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787"});
+                #RestangularProvider.setDefaultHeaders({"Authorization": "ApiKey pipo:46fbf0f29a849563ebd36176e1352169fd486787"});
                 # Tastypie patch
                 RestangularProvider.setResponseExtractor((response, operation, what, url) ->
                         newResponse = null;
@@ -48,7 +57,7 @@ angular.element(document).on('ready page:load', ->
                         url: '/upload'
                 )
                 .state('bucket.labellisation',
-                        url: '/labellisation'
+                        url: '/labellisation/:filesIds'
                         templateUrl: 'views/labellisation-overlay.html'
                         controller: 'FileLabellisationCtrl'
                 )
@@ -56,6 +65,9 @@ angular.element(document).on('ready page:load', ->
 
         .run(['$rootScope', ($rootScope) ->
                 $rootScope.config = config;
+                $rootScope.loginBaseUrl = config.loginBaseUrl
+                $rootScope.homeStateName = config.homeStateName
+                
         ])
 
         console.debug("running angular app...")
