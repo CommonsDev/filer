@@ -15,7 +15,7 @@
           <strong>{{ file.uploaded_by.username }}</strong>
           <!--<em>Petite licorne</em>-->
         </div> 
-        <button ng-click="openFile(file.file)" class="opendoc">Ouvrir</button>
+        <button ng-click="openFile()" class="opendoc">Ouvrir</button>
 <!--
  FIXME       <button class="fav">Favori</button>
 -->
@@ -34,7 +34,7 @@
         <ul>
           <!--<li><a href>Imprimer</a></li>-->
           <li><a href ng-click="deleteFile(file.id)">Supprimer le fichier</a></li>
-          <li><a href ng-click="">Ouvrir pour édition</a></li>
+          <li><a href ng-click="openForEdition(file.id)">Ouvrir pour édition</a></li>
           <li><input style="opacity:0; position:absolute; cursor:pointer; height:46px; width:485px" type="file" ng-file-select="{'formData':[{ 'bucket': 1, 'id':{{file.id}} }]}" 
             class="add" value="Ajouter"/><a style="z-index:-10">Mettre à jour</a></li>
           <!--<li><a href="#">Partager</a></li>-->

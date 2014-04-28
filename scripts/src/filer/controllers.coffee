@@ -38,13 +38,13 @@ class FileDetailCtrl
                         angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
                 ,300
                 )
-                # FIXME ? we build a dummy file object here that can be immediately used 
+                # FIXME ? we build a dummy and temporary file object here that can be immediately used 
                 # by child controllers (as FileCommentCtrl) before the promisse is realized
                 @$scope.file = 
                         id: @$stateParams.fileId
-                @Restangular.one('bucketfile', @$scope.file.id ).get().then((result)=>
+                @$scope.fileRestObject = @Restangular.one('bucketfile', @$scope.file.id) 
+                @$scope.fileRestObject.get().then((result)=>
                         @$scope.file = result
-                        console.debug(@$scope.file)
                 )
                 
                 # Method
@@ -58,16 +58,22 @@ class FileDetailCtrl
                         return true
                         
                 @$scope.addLabels = (fileId)=>
-                        console.log(" == + == adding labels for file : "+fileId)
                         params =
                                 filesIds: fileId
-                        console.log(params)
                         @$state.transitionTo('bucket.labellisation',params)
                 
-                @$scope.openFile = (file)=>
-                        console.log("opening file "+file)
-                        $window.open(config.bucket_preview_uri+file)
+                @$scope.openFile = ()=>
+                        $window.open(config.bucket_preview_uri + @$scope.file.file)
                 
+                 @$scope.openForEdition = (fileId)=>
+                        console.log("opening file "+fileId+" for edition")
+                        # patch file with object {"being_edited_by": {"pk": "9"}}
+                        @$scope.fileRestObject.patch({"being_edited_by": {"pk": @$scope.authVars.profile_id}}).then((result)=>
+                                console.debug(" file is now being updated " )
+                                @$scope.openFile()
+                        )
+                        
+                        
 class FileLabellisationCtrl
 # designed for multifiles, but multifile selection is still missing
         constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter) ->
@@ -113,8 +119,6 @@ class FileLabellisationCtrl
                         @$scope.tag_search_form =
                                 query : ""
                 )
-                
-                
                 
                 # Methods  
                 @$scope.addToSuggestedTags = this.addToSuggestedTags
