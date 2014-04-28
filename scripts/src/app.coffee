@@ -5,7 +5,7 @@ angular.element(document).on('ready page:load', ->
         
         .config(['TokenProvider', '$locationProvider', (TokenProvider, $locationProvider) ->
                 TokenProvider.extendConfig({
-                        clientId: config.clientId,
+                        clientId: 'config.cliend_id', #FIXME: does not let me load this from config 
                         redirectUri: config.rootUrl+'oauth2callback.html',
                         scopes: ["https://www.googleapis.com/auth/userinfo.email",
                                 "https://www.googleapis.com/auth/userinfo.profile"],

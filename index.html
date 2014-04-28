@@ -12,6 +12,7 @@
         <link href='styles/css/screen.css' rel='stylesheet' type='text/css'>
         <link href='scripts/vendor/angucomplete/angucomplete.css' rel='stylesheet' type='text/css'>
 	
+	
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -25,16 +26,26 @@
       <!-- left toolbar -->
       <div id="toolbar" ng-controller="ToolbarCtrl">
 	<ul>
-	  <li class="open"><button ng-click="panel = ''">Déplier</button></li>
-	  <li class="search"><button ng-click="panel = 'search'">Rechercher</a></li>
-	  <li class="add"><button ng-click="panel = 'upload'">Ajouter</button></li>
-	  <li class="files"><button>Fichiers</button></li>
-	  <li class="recent" ng-click="panel = 'recent'"><button>Récents</button></li>
-	  <li class="fav" ng-click="panel = 'favorite'"><button>Favoris</button></li>
-	  <li class="connected"><a ng-click="panel = 'logout'"><img src="img/login/connected_ico.png" alt="" /></a></li>
+<!--
+FIXME	  <li class="open"><button ng-click="$root.panel = ''">Déplier</button></li>
+-->
+<!--
+FIXME	  <li class="search"><button ng-click="$root.panel = 'search'">Rechercher</a></li>
+-->
+	  <li class="add"><button ng-click="$root.panel = ($root.panel=='upload') ? '' : 'upload'">Ajouter</button></li>
+<!--
+FIXME	  <li class="files"><button>Fichiers</button></li>
+-->
+<!--
+FIXME	  <li class="recent" ng-click="$root.panel = 'recent'"><button>Récents</button></li>
+-->
+<!--
+FIXME	  <li class="fav" ng-click="$root.panel = 'favorite'"><button>Favoris</button></li>
+-->
+	  <li class="connected"><a ng-click="$root.panel = 'logout'"><img src="img/login/connected_ico.png" alt="" /></a></li>
 	</ul>
 
-	<ng-switch on="panel">
+	<ng-switch on="$root.panel">
 	<div ng-switch-when="search">
 	    <ng-include src="'views/sidebar-search.html'"/>
 	</div>
@@ -123,9 +134,8 @@
     <script src="scripts/vendor/angular-oauth/src/js/googleOauth.js"></script>
     <script src="scripts/vendor/angular-unisson-auth/angular-unisson-auth.js"></script>
     
-    <script src="scripts/config.js"></script>
-    <script src="scripts/script.js"></script>
     <!-- app files -->
+    <script src="scripts/config.js"></script>
     <script src="scripts/lib/filer/services.js"></script>
     <script src="scripts/lib/filer/controllers.js"></script>
     <script src="scripts/lib/app.js"></script>

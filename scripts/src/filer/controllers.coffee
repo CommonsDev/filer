@@ -10,7 +10,7 @@ class ToolbarCtrl
                 @$scope.filerService = @filerService
 
 class FileDetailCtrl
-        constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, $timeout) ->
+        constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, $timeout, $window) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
                 @$scope.tab = 1
                 # == CReate preview layout ==  FIXME (so ugly!!)
@@ -63,7 +63,11 @@ class FileDetailCtrl
                                 filesIds: fileId
                         console.log(params)
                         @$state.transitionTo('bucket.labellisation',params)
-
+                
+                @$scope.openFile = (file)=>
+                        console.log("opening file "+file)
+                        $window.open(config.bucket_preview_uri+file)
+                
 class FileLabellisationCtrl
 # designed for multifiles, but multifile selection is still missing
         constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter) ->
@@ -268,7 +272,7 @@ class FileCommentCtrl
 
 module.controller("LoginCtrl", ['$scope','loginService', LoginCtrl])
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
-module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', FileDetailCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular', FileCommentCtrl])
