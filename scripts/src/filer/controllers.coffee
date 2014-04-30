@@ -12,7 +12,6 @@ class ToolbarCtrl
 class FileDetailCtrl
         constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, @$timeout, @$window) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
-                @$scope.tab = 1
                 # FIXME: we build a dummy and temporary file object here that can be immediately used 
                 #        by child controllers (as FileCommentCtrl) before the promisse is realized
                 @$scope.file = 
@@ -30,7 +29,7 @@ class FileDetailCtrl
                                 console.log('receive File list complete [FileDetailCtr]')
                                 @$timeout(() =>
                                         @$scope.setPreviewLayout() 
-                                ,300
+                                ,1000
                                 )
                         )
                 else
@@ -46,6 +45,7 @@ class FileDetailCtrl
                 @$scope.openForEdition = this.openForEdition
                 @$scope.openFile = this.openFile
                 @$scope.addLabels = this.addLabels 
+                @$scope.cancelOpenForEdition = this.cancelOpenForEdition
                 
         setPreviewLayout: ()=>
                 console.log("== Setting preview layout ==")
@@ -96,11 +96,19 @@ class FileDetailCtrl
                                 username: @$scope.authVars.username
                         @$scope.openFile()
                 )
+        
+        cancelOpenForEdition: (fileId)=>
+                console.log("Cancelling opening file "+fileId+" for edition")
+                # patch file with object {}
+                @$scope.fileRestObject.patch({"being_edited_by": {}}).then((result)=>
+                        console.debug(" file is no longer being updated " )
+                        @$scope.file.being_edited_by = null
+                )
                         
                         
 class FileLabellisationCtrl
 # designed for multifiles, but multifile selection is still missing
-        constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter) ->
+        constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter, @$timeout) ->
                 console.log(" labellilabello started !!")
                 # Populating file if provided as stateParam
                 @$scope.files = []
@@ -118,26 +126,30 @@ class FileLabellisationCtrl
                 @$scope.suggestedTags = []
                 @$scope.tagsList = @Restangular.one('bucketfile').one('bucket', @$scope.currentBucket)
                 @$scope.tagsList.getList('search',{ auto: ""}).then((result) =>
-                         @$scope.suggestedTags = result.slice(0,10)
+                         @$scope.suggestedTags = result.slice(0,15)
                 )
-                console.log(" suggested tags ")
-                console.log(@$scope.suggestedTags)
+                console.log("[FileLabellisation] suggested tags : "+@$scope.suggestedTags)
+
+                # needed to avoid default browser's autocomplete
+                @$timeout(()->
+                        angular.element("#tagSearchField_value").attr("autocomplete", "off")
+                ,1000
+                )
                 
-                # Watch selection of existing tag and add to suggested tags 
+                # Watch selection of suggested (autocomplete) tag and add it
                 @$scope.tagAutocompleteUrl = config.rest_uri+"/bucketfile/bucket/"+@$scope.currentBucket+"/search?auto="
                 @$scope.tag_search_form =
                         query: ""
-                @$scope.$watch('tag_search_form.query', (newValue, oldValue) =>
-                        console.debug("== Tag selected (labellisation)!")
+                @$scope.$watch('tag_search_form.query.title', (newValue, oldValue) =>
+                        console.debug("[FileLabellisation] Suggested Tag selected : "+@$scope.tag_search_form.query.title)
                         if @$scope.tag_search_form.query
-                                tag = 
+                                newTag = 
                                         name: @$scope.tag_search_form.query.title
-                                # FIXME: according to Hervé's design, here we only add tag to suggested tags queue, 
-                                # but I think it'll be quicker to add them directly to all files (bulk tagging)
-                                if @$scope.suggestedTags.indexOf(tag) == -1
-                                        @$scope.suggestedTags.push(tag)
-                                if @$scope.taggingQueue[@$scope.files[0].id].indexOf(tag) == -1
-                                        @$scope.taggingQueue[@$scope.files[0].id].push(tag)
+                                found = @$scope.taggingQueue[@$scope.files[0].id].some((el)->
+                                        return el.name == newTag.name
+                                )
+                                if (!found) 
+                                        @$scope.taggingQueue[@$scope.files[0].id].push(newTag)
                         # empty search box 
                         angular.element('#tagSearchField_value').val("")
                         @$scope.tag_search_form =
@@ -151,21 +163,23 @@ class FileLabellisationCtrl
                 @$scope.updateTags = this.updateTags
                 @$scope.goHome = ()=>
                         @$state.transitionTo('bucket',{},{reload:true})
+                @$scope.cancel = ()=>
+                        @$state.transitionTo(@$state.previous, @$state.previous_params)
                 @$scope.goToFile = (id)=>
                         params=
                                 fileId: id
                         @$state.transitionTo('bucket/file', params)
         
         addToSuggestedTags: =>
-                console.log("add to suggested tags")
                 tagString = angular.element('#tagSearchField_value').val()
-                console.debug(tagString)
+                console.log("Adding a tag : " +tagString)
                 tag = 
                         name: tagString
                 angular.element('#tagSearchField_value').val("")
-                if @$scope.suggestedTags.indexOf(tag) == -1
-                        @$scope.suggestedTags.push(tag)
-                if @$scope.taggingQueue[@$scope.files[0].id].indexOf(tag) == -1
+                found = @$scope.taggingQueue[@$scope.files[0].id].some((el)->
+                                        return el.name == tag.name
+                )
+                if (!found) 
                         @$scope.taggingQueue[@$scope.files[0].id].push(tag)
                 
         
@@ -306,6 +320,6 @@ class FileCommentCtrl
 module.controller("LoginCtrl", ['$scope','loginService', LoginCtrl])
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
 module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
-module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', FileLabellisationCtrl])
+module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', '$timeout', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', '$rootScope', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular','$rootScope', FileCommentCtrl])

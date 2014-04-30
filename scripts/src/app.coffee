@@ -69,7 +69,10 @@ angular.element(document).on('ready page:load', ->
                 )
         ])
 
-        .run(['$rootScope', ($rootScope) ->
+        .run(['$rootScope', '$state', ($rootScope, $state) ->
+                $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) ->
+                        $state.previous = fromState
+                        $state.previous_params = fromParams)
                 $rootScope.config = config;
                 $rootScope.loginBaseUrl = config.loginBaseUrl
                 $rootScope.homeStateName = config.homeStateName
