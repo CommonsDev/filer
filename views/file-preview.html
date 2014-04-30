@@ -1,10 +1,12 @@
 <!-- PREVIEW PANEL -->
 
 <div id="preview-panel" ng-controller="FileDetailCtrl">
-  <div class="wrap-content">
+  <div class="wrap-content" ng-cloak>
     <a ng-click="exit()"><span class="preview-close">Fermer</span></a>
-    <span class="preview-prev">Précédent</span>
-    <span class="preview-next">Suivant</span>
+<!--
+FIXME    <span class="preview-prev">Précédent</span>
+         <span class="preview-next">Suivant</span>
+-->
     <div class="left">
       <div id="sample">
         <img ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=385" alt="" />
@@ -15,7 +17,7 @@
           <strong>{{ file.uploaded_by.username }}</strong>
           <!--<em>Petite licorne</em>-->
         </div> 
-        <button ng-click="openFile(file.file)" class="opendoc">Ouvrir</button>
+        <button ng-click="openFile()" class="opendoc">Ouvrir</button>
 <!--
  FIXME       <button class="fav">Favori</button>
 -->
@@ -34,9 +36,18 @@
         <ul>
           <!--<li><a href>Imprimer</a></li>-->
           <li><a href ng-click="deleteFile(file.id)">Supprimer le fichier</a></li>
-          <li><a href ng-click="">Ouvrir pour édition</a></li>
-          <li><input style="opacity:0; position:absolute; cursor:pointer; height:46px; width:485px" type="file" ng-file-select="{'formData':[{ 'bucket': 1, 'id':{{file.id}} }]}" 
-            class="add" value="Ajouter"/><a style="z-index:-10">Mettre à jour</a></li>
+          <li>
+            <a href ng-show="!file.being_edited_by" ng-click="openForEdition(file.id)">Ouvrir pour édition</a>
+            <a href ng-show="file.being_edited_by">Fichier en cours d'édition ({{file.being_edited_by.username}})</a>
+          </li>
+          <li ng-show="!file.being_edited_by || file.being_edited_by.username == authVars.username">
+            <input style="opacity:0; position:absolute; cursor:pointer; height:46px; width:485px" 
+            type="file" ng-file-select="{'formData':[{ 'bucket': 1, 'id':{{file.id}} }]}" 
+            class="add"/><a style="z-index:-10">Mettre à jour</a>
+          </li>
+          <li ng-show="file.being_edited_by && file.being_edited_by.username != authVars.username">
+            <a>Seul {{file.being_edited_by.username}} peut mettre à jour</a>
+          </li>
           <!--<li><a href="#">Partager</a></li>-->
           <!--<li><a href="#">Envoyer vers</a></li>-->
           <li><a href ng-click="addLabels(file.id)"> Ajouter des labels </a></li>

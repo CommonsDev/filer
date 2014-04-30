@@ -3,6 +3,12 @@ angular.element(document).on('ready page:load', ->
 
         angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete', 'angular-unisson-auth'])
         
+        # Login service
+        .config(['loginServiceProvider', (loginServiceProvider) ->
+                loginServiceProvider.setBaseUrl(config.loginBaseUrl)
+                ])
+        
+        # Token
         .config(['TokenProvider', '$locationProvider', (TokenProvider, $locationProvider) ->
                 TokenProvider.extendConfig({
                         clientId: 'config.cliend_id', #FIXME: does not let me load this from config 
