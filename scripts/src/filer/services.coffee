@@ -42,12 +42,11 @@ class FilerService
                                 console.log("reloading to home")
                                 @$state.go('bucket',{}, {reload:true})
                                 )
-                
+                                
+                # Isotope stuff
                 @$rootScope.runIsotope = ()=>
-                        # Run isotope
-                        console.log(" RUN ISOTOPE = ")
-                        container = angular.element('#cards-wrapper')
-                        container.isotope(
+                        @$rootScope.isotope_container = angular.element('#cards-wrapper').isotope(
+                                console.log(" OO- Running isotope ")
                                 itemSelector: '.element'
                                 layoutMode: 'masonry'
                         )
