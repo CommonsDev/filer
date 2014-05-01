@@ -6,17 +6,18 @@ class FilerService
                         scope: @$rootScope
                         autoUpload: false
                         removeAfterUpload: true
-                        url: 'http://localhost:8000/bucket/upload/?format=json' #FIXME
+                        url: config.bucket_uri
                         # FIXME : so far we set headers right after addin file, to be sure login is already done 
                         # and api key is available. There HAS to be a cleaner way
                         formData: [{bucket: 1}] # FIXME
                 )
                 
                 @$rootScope.uploader.bind('success', (event, xhr, item, response) => 
-                        console.log('Success', item, response)
+                        console.log('Success')
+                        console.log('item', item)
+                        console.log('response', response)
                         # open labellisation for this file
                         console.log("fileID = "+response.id)
-                        console.log(item)
                         toParams =
                                 filesIds:response.id
                         @$state.transitionTo('bucket.labellisation', toParams)

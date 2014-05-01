@@ -22,14 +22,14 @@ class FileDetailCtrl
                         @$scope.file = result
                 )
                 
-                 #$@scope.isotope_container.isotope('on', 'layoutComplete', @$rootScope.isotopeOnLayout)
+                #$@scope.isotope_container.isotope('on', 'layoutComplete', @$rootScope.isotopeOnLayout)
                 # if files is empty, wait for fileListComplete event
                 if @$scope.files.length <= 0
                         @$scope.$on('fileListComplete',  () =>
                                 console.log('receive File list complete [FileDetailCtr]')
                                 @$timeout(() =>
                                         @$scope.setPreviewLayout() 
-                                ,1000
+                                ,2000
                                 )
                         )
                 else
@@ -88,7 +88,7 @@ class FileDetailCtrl
                 @$window.open(config.bucket_preview_uri + @$scope.file.file)
         
         openForEdition: (fileId)=>
-                console.log("opening file "+fileId+" for edition")
+                console.log("opening file "+fileId+" for edition", @$scope.authVars.user)
                 # patch file with object {"being_edited_by": {"pk": "9"}}
                 @$scope.fileRestObject.patch({"being_edited_by": {"pk": @$scope.authVars.profile_id}}).then((result)=>
                         console.debug(" file is now being updated " )
@@ -248,7 +248,7 @@ class FileListCtrl
                                 console.log(" === runIsotope within FileLIst after timeout") 
                                 console.log(@$scope.isotope_container)
                                 @$scope.runIsotope()
-                        ,1000
+                        ,2000
                         )
                 )
                 
