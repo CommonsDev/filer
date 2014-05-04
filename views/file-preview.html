@@ -1,7 +1,7 @@
 <!-- PREVIEW PANEL -->
 
-<div id="preview-panel" ng-controller="FileDetailCtrl">
-  <div class="wrap-content" ng-cloak>
+<div id="preview-panel" ng-cloak>
+  <div class="wrap-content">
     <a ng-click="exit()"><span class="preview-close">Fermer</span></a>
 <!--
 FIXME    <span class="preview-prev">Précédent</span>
@@ -25,10 +25,10 @@ FIXME    <span class="preview-prev">Précédent</span>
     </div>
     <div class="right">
       <ul class="tabs">
-        <li><a href ng:click="tab=1">Détails du document</a></li>
+        <li><a href ng-click="tab=1">Détails du document</a></li>
         <li class="active"><a href ng:click="tab=2" ><span>{{ file.comments.length }}</span>Commentaires</a></li>
       </ul>
-      <div ng:show="tab == 1" id="preview-tab1">
+      <div ng-show="tab == 1" id="preview-tab1">
         <div class="infos img">
           <strong>{{ file.filename }}</strong>
           <em>{{ file.updated_on | date:"dd/MM/yyyy - h:m"}} <a href="#">{{ file.uploaded_by.username }}</a></em>
@@ -40,9 +40,9 @@ FIXME    <span class="preview-prev">Précédent</span>
             <a href ng-show="!file.being_edited_by" ng-click="openForEdition(file.id)">Ouvrir pour édition</a>
             <a href ng-show="file.being_edited_by">Fichier en cours d'édition ({{file.being_edited_by.username}})</a>
           </li>
-          <li ng-show="!file.being_edited_by || file.being_edited_by.username == authVars.username">
+          <li ng-show="!file.being_edited_by || file.being_edited_by.username == authVars.user.username">
             <input style="opacity:0; position:absolute; cursor:pointer; height:46px; width:485px" 
-            type="file" ng-file-select="{'formData':[{ 'bucket': 1, 'id':{{file.id}} }]}" 
+            type="file" ng-file-select="{'formData':[{ 'bucket': 123, 'id':{{file.id}} }]}" 
             class="add"/><a style="z-index:-10">Mettre à jour</a>
           </li>
           <li ng-show="file.being_edited_by && file.being_edited_by.username != authVars.username">
@@ -58,7 +58,7 @@ FIXME    <span class="preview-prev">Précédent</span>
           <span ng-repeat="tag in file.tags"> {{ tag.name }},</span>
         </p>
       </div>
-      <div ng:show=" tab == 2" id="preview-tab2">
+      <div ng-show=" tab == 2" id="preview-tab2">
         <section ng-controller="FileCommentCtrl" class="comments">
           <ul class="comments-list">
             <li ng-repeat=" comment in comments">

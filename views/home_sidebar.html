@@ -1,0 +1,26 @@
+<div>
+  <div id="intercalar">
+    <span class="caption">Sélectionnez un classeur</span>
+  </div>
+  <div id="intercalar-panel" class="bucket-mybuckets-panel">
+     <a class="close-link" ui-sref="home">Fermer</a>
+     <h1>    
+      <img src="img/mybuckets_ico_big.png" alt="" />
+      <strong>Sélectionnez<br /> votre classeur</strong>
+      <span>Cette liste contient les classeurs<br /> auxquels vous avez accès.</span>
+    </h1>
+    <form ng-show="!isLoading">
+      <ul>
+      	<li ng-repeat="bucket in buckets">
+                <a ui-sref="bucket({bucketId: bucket.id})">{{ bucket.title || "Sans nom" }}</a>
+      	</li>
+      </ul>
+    </form>
+    <div class="loading-panel" ng-show="isLoading">
+      <p>
+        <img src="img/loading/eolilala.png" class="spin" />
+        <span>un instant, nous chargeons vos classeurs...</span>
+      </p>
+    </div>
+  </div>
+</div>

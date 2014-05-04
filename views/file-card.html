@@ -2,12 +2,13 @@
 <article ui-sref-active="previewed" class="vid file item">
   <div class="preview">
     <a ui-sref="bucket.file({fileId: file.id})">
-      <img width="240px" ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
+      <img ng-show="file.thumbnail_url" width="240px" ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
+      <img ng-show="!file.thumbnail_url" width="240px" src="img/_TEMP/defaultfilepreview.jpg" alt="{{ file.name }}" />
     </a>
   </div>
   <header>
     <div class="ico">Contenu FIXME</div>
-    <h1><a href="#">{{ file.filename }}</a></h1>
+    <h1><a ui-sref="bucket.file({fileId: file.id})">{{ file.filename }}</a></h1>
     <em>Modifié le {{ file.updated_on | date:"dd/MM/yyyy - h:m" }}</em>
   </header>
   <div class="author">
