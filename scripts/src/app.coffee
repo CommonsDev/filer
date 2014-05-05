@@ -2,22 +2,17 @@ angular.element(document).on('ready page:load', ->
         angular.module('filer', ['filer.controllers', 'filer.services'])
 
         angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete', 'angular-unisson-auth'])
-        
-        # Login service
-        .config(['loginServiceProvider', (loginServiceProvider) ->
-                loginServiceProvider.setBaseUrl(config.loginBaseUrl)
-                ])
-        
+
         # Token
         .config(['TokenProvider', '$locationProvider', (TokenProvider, $locationProvider) ->
                 TokenProvider.extendConfig({
-                        clientId: 'config.cliend_id', #FIXME: does not let me load this from config 
+                        clientId: 'config.cliend_id', #FIXME: does not let me load this from config
                         redirectUri: config.rootUrl+'oauth2callback.html',
                         scopes: ["https://www.googleapis.com/auth/userinfo.email",
                                 "https://www.googleapis.com/auth/userinfo.profile"],
                         });
                 ])
-        
+
         # CORS
         .config(['$httpProvider', ($httpProvider) ->
                 $httpProvider.defaults.useXDomain = true
@@ -46,13 +41,24 @@ angular.element(document).on('ready page:load', ->
         # URI config
         .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', ($locationProvider, $stateProvider, $urlRouterProvider) ->
                 $locationProvider.html5Mode(config.useHtml5Mode)
-                $urlRouterProvider.otherwise("/bucket")
+                $urlRouterProvider.otherwise("/")
 
-                $stateProvider.state('bucket',
-                        url: '/bucket'
-                        views:
-                                filelist:
-                                        templateUrl: "views/file-list.html"
+                $stateProvider.state('home',
+                        url: '/'
+                        templateUrl: 'views/home.html'
+                        controller: 'BucketNewCtrl'
+                )
+
+                $stateProvider.state('home.my_buckets',
+                        url: '/mybuckets',
+                        templateUrl: "views/home_sidebar.html",
+                        controller: 'BucketListCtrl'
+                )
+
+                .state('bucket',
+                        url: '/:bucketId'
+                        templateUrl: "views/file-list.html"
+                        controller: 'FileListCtrl'
                 )
                 .state('bucket.file',
                         url: '/file/:fileId'
@@ -69,14 +75,16 @@ angular.element(document).on('ready page:load', ->
                 )
         ])
 
-        .run(['$rootScope', '$state', ($rootScope, $state) ->
-                $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) ->
-                        $state.previous = fromState
-                        $state.previous_params = fromParams)
+        # Unisson auth config
+        .config((loginServiceProvider) ->
+                loginServiceProvider.setBaseUrl(config.loginBaseUrl)
+        )
+
+        .run(['$rootScope', 'loginService', ($rootScope, loginService) ->
                 $rootScope.config = config;
-                $rootScope.loginBaseUrl = config.loginBaseUrl
-                $rootScope.homeStateName = config.homeStateName
-                
+
+                $rootScope.homeStateName = config.homeStateName || 'home'
+                $rootScope.loginService = loginService
         ])
 
         console.debug("running angular app...")

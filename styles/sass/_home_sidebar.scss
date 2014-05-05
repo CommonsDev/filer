@@ -1,0 +1,197 @@
+/* ============= ADDBAR ============= */
+
+#intercalar-panel {
+	height:100%;
+	min-height:100%;
+	position:fixed;
+	width:510px;
+	top:0;
+	right:0;
+	background:rgba(255,255,255,1);
+	overflow:hidden;
+	@include box-shadow(3px 0px 10px #666);
+	z-index:20;
+}
+
+#intercalar {
+	position:absolute;
+	right:510px;
+	top:0;
+	height:100%;
+	min-height:100%;
+	width:38px;
+	background:#303030;
+	z-index:20;
+
+	ul {
+		margin:40px 0 0;
+	}
+
+	li {
+		display:block;
+
+		// TODO : SKEW WITH CSS TRANSFORM ?
+		button {
+			display:block;
+			width:38px;
+			height:86px;
+			text-indent:-999em;
+			border:0;
+			position:relative;
+
+		}
+
+	}
+
+	.caption {
+		@include rotate(-90deg);
+		display:block;
+		color: white;
+	    font-size: 0.85rem;
+	    left: -115px;
+	    position: absolute;
+	    top: 465px;
+	    width: 270px;
+	}
+}
+
+
+/* ================= MY MAPS ============= */
+
+.bucket-mybuckets-panel {
+	h1 {
+		padding:42px 0 35px 45px;
+		width:100%;
+		height:168px;
+		background:white;
+		float:left;
+
+		img {
+			float:left;
+			display:block;
+			position:relative;
+		}
+
+		strong {
+			color: #4B4B4B;
+		    display: block;
+		    float: left;
+		    font-size: 1.4rem;
+		    line-height: 1.7rem;
+		    margin-left: 0;
+		    padding-left: 18px;
+		    text-transform: uppercase;
+		    width: 375px;
+		}
+
+		span {
+		    display: block;
+		    float: left;
+		    font-size: 0.75rem;
+		    font-style: italic;
+		    line-height: 0.9rem;
+		    margin: 5px 0 0 75px;
+		    width: 345px;
+		}
+	}
+
+	ul {
+		float: left;
+	    margin: 0 !important;
+	    width: 100%;
+	}
+
+	li {
+		margin:0 40px;
+		height:40px;
+		width:72%;
+		display:block;
+		line-height:30px;
+		background:image-url('mybuckets_pointer-off.png') no-repeat 15px center !important;
+		@include border-radius(5px);
+
+		&:hover {
+			background:#85c9fa image-url('mybuckets_pointer.png') no-repeat 15px center !important;
+
+			a {
+				color:#fff;
+				font-weight:bold;
+			}
+		}
+
+		a {
+			color:#4b4b4b;
+			font-size:0.9rem;
+			display:block;
+			width:100%;
+			padding:0 0 0 45px;
+			height:40px;
+			line-height:40px;
+			text-decoration:none;
+		}
+	}
+}
+
+/* ================= LOADING ================== */
+
+.loading-panel {
+	background: rgba(0,0,0,0.8);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index:30000;
+}
+
+.loading-panel p {
+	position:absolute;
+	top:45%;
+	left:0;
+	width:100%;
+	text-align:center;
+}
+
+.loading-panel .spin {
+	margin:0 auto;
+	width:60px;
+	height:60px;
+	-webkit-animation: spin 1.5s infinite linear;
+	-moz-animation: spin 1.5s infinite linear;
+	-o-animation: spin 1.5s infinite linear;
+	-ms-animation: spin 1.5s infinite linear;
+}
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg);}
+	100% { -webkit-transform: rotate(360deg);}
+}
+@-moz-keyframes spin {
+	0% { -moz-transform: rotate(0deg);}
+	100% { -moz-transform: rotate(360deg);}
+}
+@-o-keyframes spin {
+	0% { -o-transform: rotate(0deg);}
+	100% { -o-transform: rotate(360deg);}
+}
+@-ms-keyframes spin {
+	0% { -ms-transform: rotate(0deg);}
+	100% { -ms-transform: rotate(360deg);}
+}
+
+.loading-panel .blocked {
+	margin:0 auto;
+	width:60px;
+	height:60px;
+}
+
+.loading-panel span {
+	color:white;
+	display:block;
+	width:100%;
+	text-align:center;
+	font-size:0.8rem;
+	padding:16px 0 0 0;
+
+}
+
+

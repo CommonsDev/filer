@@ -1,0 +1,88 @@
+/* ============= CREATE KANBAN ============= */
+
+#create-topbar {
+    height:55px;
+    background:rgba(24,24,26,0.8);
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:15;
+
+    .wrap {
+	width:100%;
+	margin:0 auto;
+
+	button {
+	    float:right;
+	    margin:13px 20px 0 0;
+	    height:30px;
+	    line-height:30px;
+	    padding:0 10px 0 37px;
+	    background:#6b808f image-url('login/ico_user.png') no-repeat 10px center;
+	    border:0;
+	    color:#1f2f3a;
+	    font-size:0.8rem;
+	    @include transition(all 0.5s ease);
+	    @include border-radius(4px);
+	}
+    }
+}
+
+#create {
+    position:relative;
+    height:100%;
+    min-height:100%;
+    width:100%;
+    background:image-url('background/create_bg.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding:10px 0 0 0;
+
+    .intro {
+	margin:40px auto 20px;
+	width:870px;
+	padding-left:300px;
+	background:image-url('logo.png') no-repeat;
+	background-position: 130px 100px;
+
+	h1 {
+	    color: #555;
+	    font-size: 2.2rem;
+	    line-height: 2.5rem;
+	    padding: 75px 20px 10px 0;
+	    font-weight: 600;
+	    text-shadow: 0 -1px 1px rgba(255, 255, 255, 0.6);
+	}
+
+	p {
+	    color: white;
+	    font-size: 1.1rem;
+	    line-height: 1.3rem;
+	    padding: 0 125px 0 5px;
+	}
+    }
+
+    h2 {
+	color: #666;
+	font-size: 1.2rem;
+	margin: 0 auto;
+	text-align: left;
+	font-weight: 400;
+	width: 100%;
+	text-shadow: 0 -1px 1px rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+	width:225px;
+	height:52px;
+	background:#f36b56;
+	color:white;
+	font-size:1.1rem;
+	text-align:center;
+	border:0;
+	margin:35px auto 0;
+	@include border-radius(5px);
+    }
+}

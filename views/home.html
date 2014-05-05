@@ -1,0 +1,22 @@
+<div id="create-topbar">
+  <div class="wrap">
+    <button ng-hide="authVars.isAuthenticated" ng-click="forceLogin()">Se connecter</button>
+    <button ng-show="authVars.isAuthenticated" ui-sref="home.my_buckets">{{ authVars.username }}</button>
+  </div>
+</div>
+<section id="create">
+  <div class="intro">
+    <h1>Bienvenue dans l'application &laquo;&nbsp;Fichiers&nbsp;&raquo;</h1>
+    <h2>
+      Ici, vous pouvez gérer vos fichiers et les partager avec votre équipe.
+    </h2>
+    <button ng-click="createBucket()">Créer un classeur</button>
+  </div>
+
+  <!-- overlay panel app -->
+  <div id="overlay-panel" ui-view>
+  </div>
+
+  Photo par <a href="https://www.flickr.com/photos/theenmoy/8078124630/in/photolist-diQv1S-5fDWd6-6B33mX-7C8seN-76En59-cKCFsS-5kHEHE-3PChVM-5oXasH-5ecW4T-krjdc2-6N6eHG-5UFiwj-5p2rkd-2sfqAe-aBE8HW-5aMSf8-573meN-36EDL9-dHbqWi-GYhTL-3mqcsd-4DeYhH-3rXHK-5oXa2t-Q59Ka-f4KWep-gPZ5n4-2iYPPt-JMbx9-9YmTnD-aZWiH-5DuGBy-8Vx4Eo-GYi46-4WbNcd-gRwVmk-9noJDW-5ehji5-6He56Z-j1QNx-5ZrohQ-dkPJ6q-4RoQjt-eQikQL-24ehi-7FKbU-8ZZE51-iEwJNM-dHbrQH">Theen Moy</a> - CC-BY-SA-NC.
+
+</section>
