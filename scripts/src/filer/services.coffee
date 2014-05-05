@@ -2,17 +2,17 @@ services = angular.module('filer.services', ['restangular', 'angularFileUpload',
 
 
 class FilerService
-        constructor: (@$rootScope, @$compile, $fileUploader, @Restangular, @$state, @$http) ->
+        constructor: (@$rootScope, @$compile, $fileUploader, @Restangular, @$state, @$stateParams, @$http) ->
                 @$rootScope.uploader = $fileUploader.create(
                         scope: @$rootScope
                         autoUpload: false
                         removeAfterUpload: true
-                        url: 'http://localhost:8000/bucket/upload/?format=json' #FIXME
-                        # FIXME : so far we set headers right after addin file, to be sure login is already done
+                        url: config.bucket_uri
+                        # FIXME : so far we set headers right after addin file, to be sure login is already done 
                         # and api key is available. There HAS to be a cleaner way
-                        formData: [{bucket: 1}] # FIXME
+                        formData: [{bucket: $stateParams.bucketId}] # FIXME
                 )
-
+                
                 @$rootScope.uploader.bind('success', (event, xhr, item, response) =>
                         console.log('Success', item, response)
                         # open labellisation for this file
@@ -51,8 +51,8 @@ class FilerService
                         )
 
 # Services
-services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$http', ($rootScope, $compile, $fileUploader, Restangular, $state, $http) ->
-        return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $http)
+services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', ($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http) ->
+        return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http)
 ])
 
 # Restangular factories

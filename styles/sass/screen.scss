@@ -712,7 +712,7 @@ button {
 			overflow:auto;
 		}
 
-		.file {
+		.fileline {
 			padding:4px;
 			width:100%;
 			float:left;
@@ -789,11 +789,25 @@ button {
 		p {
 			font-style:italic;
 			font-weight:bold;
-			background:image-url('i.png') no-repeat 90% 20px;
-			padding:15px 110px 20px 0;
+			padding:0px 100px 10px 10px;
 			line-height:1.2rem;
 		}
-
+		
+		.angucomplete-holder {
+			float:left;
+		}
+		
+		#label-bt {
+			display:inline-block;
+			height:34px;
+			width:34px;
+			border:0;
+			background:image-url('new_file.png') no-repeat center center;
+			background-size:34px;
+			text-indent:-9999rem;
+			margin-left:4px;
+		}
+		
 		input[type="text"] {
 			height:33px;
 			width:236px;
@@ -808,7 +822,12 @@ button {
 		h2 {
 			font-weight:bold;
 			font-size:0.85rem;
-			margin:35px 0 25px;
+			margin:28px 0 12px;
+		}
+		
+		.labels-list {
+			margin-bottom:5px;
+			float:left;
 		}
 	}
 
@@ -908,13 +927,25 @@ button {
 			float:left;
 			margin:0 0 15px;
 
-			button.close {
+			button.remove {
 				width:20px;
 				height:20px;
 				background:image-url('close.png') no-repeat top left;
 				text-indent:-9999rem;
 				border:0;
 				float:right;
+			}
+			
+			button.upload, button.cancel { 
+					background: none repeat scroll 0 0 #CCCCCC;
+					border: 0 none;
+					border-radius: 10px;
+					color: #FFFFFF;
+					display: inline-block;
+					float: right;
+					font-size: 0.7rem;
+					height: 20px;
+					margin-right: 2px;
 			}
 
 			strong {
@@ -1393,14 +1424,17 @@ body.ng-file-over > #filedrop-overlay {
 					border-top:0;
 				}
 
-				a {
+				button {
 					display:block;
 					height:46px;
+					width:100%;
 					line-height:43px;
 					color:#a5a5a5;
 					text-align:center;
 					font-size:0.8rem;
 					text-decoration:none;
+					border:0;
+					background:none;
 				}
 			}
 

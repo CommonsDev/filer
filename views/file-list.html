@@ -20,7 +20,7 @@
     <!--
 	FIXME	  <li class="fav" ng-click="$root.panel = 'favorite'"><button>Favoris</button></li>
       -->
-    <li class="connected"><a ng-click="$root.panel = 'logout'"><img src="img/login/connected_ico.png" alt="" /></a></li>
+    <li class="connected"><a ng-click="$root.panel = ($root.panel=='logout') ? '' : 'logout'"><img src="img/login/connected_ico.png" alt="" /></a></li>
   </ul>
 
   <ng-switch on="$root.panel">

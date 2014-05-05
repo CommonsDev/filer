@@ -32,6 +32,7 @@
     "angular-ui-router": "0.2.10",
     "ng-isotope":"",
     "angular-file-upload": "~0.3.1",
-    "angucomplete":""
+    "angucomplete":"",
+    "angular-unisson-auth":""
   }
 }

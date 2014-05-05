@@ -148,3 +148,58 @@
 		text-indent:-9999em;
 	}
 }
+
+/* ================= CONNECTED USER BLOCK ================== */
+
+#connected-user-block {
+	position:absolute;
+	bottom:0;
+	left:90px;
+	width:240px;
+	z-index:11;
+	background:#161719;
+	padding:0 0 10px;
+	@include border-radius(3px);
+
+	&.show {
+		display:block;
+	}
+
+	strong {
+		display:block;
+		height:34px;
+		width:100%;
+		padding:0 0 0 20px;
+		font-size:0.8rem;
+		line-height:34px;
+		color:#85c9fa;
+		font-weight:bold;
+		border-bottom:1px solid #000;
+		margin:0 0 10px;
+		@include box-shadow(0 1px 0 #2e2f30);
+	}
+
+	button {
+		background:#85c9fa;
+		color:white;
+		height:32px;
+		border:0;
+		font-size:0.8rem;
+		font-style:italic;
+		display:block;
+		width:200px;
+		margin:0 auto;
+		@include border-radius(4px);
+	}
+
+	.little-arrow {
+		border-bottom: 8px solid transparent;
+	    border-right: 8px solid #161719;
+	    border-top: 8px solid transparent;
+	    height: 0;
+	    left: -8px;
+	    position: absolute;
+	    top: 64px;
+	    width: 0;
+	}
+}
