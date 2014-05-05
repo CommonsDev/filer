@@ -77,7 +77,8 @@ class FileDetailCtrl
                 if lastElement > cardsNumberTotal
                         lastElement = cardsNumberTotal
                 # move the preview panel in the right place
-                angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
+                console.debug("inserting on : ", angular.element('.element').eq(lastElement - 1))
+                #angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
 
         exit: =>
                 angular.element("#drive-app").removeClass("preview-mode")
@@ -95,9 +96,9 @@ class FileDetailCtrl
                 @$window.open(config.bucket_preview_uri + @$scope.file.file)
 
         openForEdition: (fileId)=>
-                console.log("opening file "+fileId+" for edition", @$scope.authVars.user)
-                # patch file with object {"being_edited_by": {"pk": "9"}}
-                @$scope.fileRestObject.patch({"being_edited_by": {"pk": @$scope.authVars.profile_id}}).then((result)=>
+                console.log("opening file "+fileId+" for edition by : ", @$scope.authVars.user)
+                # patch file with object {"being_edited_by": resource_uri}
+                @$scope.fileRestObject.patch({"being_edited_by": @$scope.authVars.user.resource_uri}).then((result)=>
                         console.debug(" file is now being updated " )
                         @$scope.file.being_edited_by =
                                 username: @$scope.authVars.username
@@ -329,7 +330,7 @@ module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
 
 module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', '$timeout', FileLabellisationCtrl])
-module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', 'Restangular', '$rootScope', FileListCtrl])
+module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', '$stateParams', 'Restangular', '$rootScope', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'Restangular','$rootScope', FileCommentCtrl])
 
 module.controller("BucketNewCtrl", ['$scope', '$state', 'Buckets', BucketNewCtrl])
