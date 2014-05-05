@@ -34,14 +34,16 @@ class FileDetailCtrl
 
                 # if files is empty, wait for fileListComplete event
                 if @$scope.files.length <= 0
+                        console.debug("== waiting for files list to complete")
                         @$scope.$on('fileListComplete',  () =>
-                                console.log('receive File list complete [FileDetailCtr]')
+                                console.debug('receive File list complete [FileDetailCtr]')
                                 @$timeout(() =>
                                         @$scope.setPreviewLayout() 
                                 ,2000
                                 )
                         )
                 else
+                        console.debug("== will set eview layout now !")
                         @$timeout(() =>
                                 @$scope.setPreviewLayout()
                         ,30
@@ -57,7 +59,7 @@ class FileDetailCtrl
                 @$scope.cancelOpenForEdition = this.cancelOpenForEdition
 
         setPreviewLayout: ()=>
-                console.log("== Setting preview layout ==")
+                console.debug("== Setting preview layout ==")
                 container = angular.element('#cards-wrapper')
                 container.isotope('destroy')
                 # change class of drive-app div
@@ -65,20 +67,22 @@ class FileDetailCtrl
                 # fetch the index of the current element
                 listItemPreviewed = angular.element('.previewed').parent('.element')
                 index = angular.element('.element').index(listItemPreviewed)
+                console.debug(" element index =" + index )
                 # get the width of the container, here we are talking about cards-wrapper
                 containerWidth = angular.element('#cards-wrapper').width()
-                # get the number of cards per line we can have
                 cardsNumberPerLine = parseInt(containerWidth / 252);
-                # get the line of the current element
                 currentLine = parseInt(index / cardsNumberPerLine);
+                console.debug(" cardsNumberPerLine =" + cardsNumberPerLine )
+                console.debug(" currentLine =" + currentLine )
                 # get the element after which we will have to inject the preview panel
                 lastElement = currentLine * cardsNumberPerLine + cardsNumberPerLine
                 cardsNumberTotal = angular.element('.element').length
+                console.debug(" cardsNumberTotal =" + cardsNumberTotal )
                 if lastElement > cardsNumberTotal
                         lastElement = cardsNumberTotal
                 # move the preview panel in the right place
-                console.debug("inserting on : ", angular.element('.element').eq(lastElement - 1))
-                #angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
+                console.debug(" last element index =" + lastElement )
+                angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
 
         exit: =>
                 angular.element("#drive-app").removeClass("preview-mode")
@@ -96,7 +100,7 @@ class FileDetailCtrl
                 @$window.open(config.bucket_preview_uri + @$scope.file.file)
 
         openForEdition: (fileId)=>
-                console.log("opening file "+fileId+" for edition by : ", @$scope.authVars.user)
+                console.debug("opening file "+fileId+" for edition by : ", @$scope.authVars.user)
                 # patch file with object {"being_edited_by": resource_uri}
                 @$scope.fileRestObject.patch({"being_edited_by": @$scope.authVars.user.resource_uri}).then((result)=>
                         console.debug(" file is now being updated " )
@@ -106,7 +110,7 @@ class FileDetailCtrl
                 )
         
         cancelOpenForEdition: (fileId)=>
-                console.log("Cancelling opening file "+fileId+" for edition")
+                console.debug("Cancelling opening file "+fileId+" for edition")
                 # patch file with object {}
                 @$scope.fileRestObject.patch({"being_edited_by": {}}).then((result)=>
                         console.debug(" file is no longer being updated " )
@@ -117,7 +121,7 @@ class FileDetailCtrl
 class FileLabellisationCtrl
 # designed for multifiles, but multifile selection is still missing
         constructor:  (@$scope, @Restangular, @$stateParams, @$state, @$filter, @$timeout) ->
-                console.log(" labellilabello started !!")
+                console.debug(" labellilabello started !!")
 
                 # Populating file if provided as stateParam
                 @$scope.files = []
@@ -137,15 +141,15 @@ class FileLabellisationCtrl
                 @$scope.tagsList.getList('search',{ auto: ""}).then((result) =>
                          @$scope.suggestedTags = result.slice(0,15)
                 )
-                console.log("[FileLabellisation] suggested tags : "+@$scope.suggestedTags)
+                console.debug("[FileLabellisation] suggested tags : "+@$scope.suggestedTags)
 
                 # needed to avoid default browser's autocomplete
                 @$timeout(()->
                         angular.element("#tagSearchField_value").attr("autocomplete", "off")
                 ,1000
                 )
-                console.log(" suggested tags ")
-                console.log(@$scope.suggestedTags)
+                console.debug(" suggested tags ")
+                console.debug(@$scope.suggestedTags)
 
                 # Watch selection of existing tag and add to suggested tags
                 @$scope.tagAutocompleteUrl = "#{config.rest_uri}/bucket/file/bucket/#{@$stateParams.bucketId}/search?auto="
@@ -193,29 +197,29 @@ class FileLabellisationCtrl
 
 
         addTag: (fileId, tag)=>
-                console.log( "++ adding tag : " + tag.name + " to file :" +fileId)
+                console.debug( "++ adding tag : " + tag.name + " to file :" +fileId)
                 file = @$filter('filter')(@$scope.files, {id : fileId})[0]
                 if @$scope.taggingQueue[fileId].indexOf(tag) == -1
                         @$scope.taggingQueue[fileId].push(tag)
-                console.log("+new tagging queue+")
-                console.log(@$scope.taggingQueue)
+                console.debug("+new tagging queue+")
+                console.debug(@$scope.taggingQueue)
 
         removeTag: (fileId, tag)=>
-                console.log( "++ removing tag : " + tag.name + " from file :" +fileId)
+                console.debug( "++ removing tag : " + tag.name + " from file :" +fileId)
                 index = @$scope.taggingQueue[fileId].indexOf(tag)
                 @$scope.taggingQueue[fileId].splice(index, 1)
-                console.log("+new tagging queue+")
-                console.log(@$scope.taggingQueue)
+                console.debug("+new tagging queue+")
+                console.debug(@$scope.taggingQueue)
 
         updateTags: =>
-                console.log("updating tags")
+                console.debug("updating tags")
                 # loop in tagging queue, and do a PATCH
                 for fileId, tags of @$scope.taggingQueue
                         do (fileId, tags)=>
-                                console.log("tags for file: "+fileId)
+                                console.debug("tags for file: "+fileId)
                                 tagsObject =
                                         tags:tags
-                                console.log(tagsObject)
+                                console.debug(tagsObject)
                                 fileRestObject = @Restangular.one('bucket/file', fileId)
                                 fileRestObject.patch(tagsObject).then(()=>
                                         console.debug(" tags updated ! " )
@@ -233,7 +237,7 @@ class FileListCtrl
                 @$scope.searchFilesObject = @Restangular.one('bucket/file').one('bucket', @$stateParams.bucketId)
                 @$scope.searchFilesObject.getList('search',{}).then((result) =>
                         @$scope.files = result
-                        console.log(" brodcast")
+                        console.debug(" brodcast")
                         @$scope.$broadcast('fileListComplete')
                 )
 
@@ -251,10 +255,10 @@ class FileListCtrl
 
                 # Quick hack so isotope renders when file changes
                 @$scope.$on('fileListComplete',  () =>
-                        console.log('receive File list complete')
+                        console.debug('receive File list complete')
                         @$timeout(=>
-                                console.log(" === runIsotope within FileLIst after timeout")
-                                console.log(@$scope.isotope_container)
+                                console.debug(" === runIsotope within FileLIst after timeout")
+                                console.debug(@$scope.isotope_container)
                                 @$scope.runIsotope()
                         ,2000
                         )
@@ -309,7 +313,7 @@ class FileCommentCtrl
                 @commentsObject.getList({bucket_file:@$scope.file.id}).then( (result)=>
                         @$scope.comments = result
                         @$rootScope.$broadcast("new_comment")
-                        console.log("New comment loaded")
+                        console.debug("New comment loaded")
                 )
 
         submitForm: =>
