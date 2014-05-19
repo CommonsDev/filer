@@ -35,7 +35,7 @@ class FilerService
                         @$state.transitionTo('bucket.file', toParams)
 
                 @$rootScope.deleteFile = (fileId)=>
-                        @Restangular.one('bucketfile', fileId).remove().then(()=>
+                        @Restangular.one('bucket/file', fileId).remove().then(()=>
                                 console.debug(" File deleted ! " )
                                 #reload home
                                 console.log("reloading to home")
