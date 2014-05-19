@@ -4,22 +4,12 @@
 <!-- left toolbar -->
 <div id="toolbar" ng-controller="ToolbarCtrl">
   <ul>
-    <!--
-	FIXME	  <li class="open"><button ng-click="$root.panel = ''">Déplier</button></li>
-      -->
-    <!--
-	FIXME	  <li class="search"><button ng-click="$root.panel = 'search'">Rechercher</a></li>
-      -->
+    <!--FIXME	  <li class="open"><button ng-click="$root.panel = ''">Déplier</button></li>
+	FIXME	  <li class="search"><button ng-click="$root.panel = 'search'">Rechercher</a></li>      -->
     <li class="add"><button ng-click="$root.panel = ($root.panel=='upload') ? '' : 'upload'">Ajouter</button></li>
-    <!--
-	FIXME	  <li class="files"><button>Fichiers</button></li>
-      -->
-    <!--
+    <!--FIXME	  <li class="files"><button>Fichiers</button></li>
 	FIXME	  <li class="recent" ng-click="$root.panel = 'recent'"><button>Récents</button></li>
-      -->
-    <!--
-	FIXME	  <li class="fav" ng-click="$root.panel = 'favorite'"><button>Favoris</button></li>
-      -->
+	FIXME	  <li class="fav" ng-click="$root.panel = 'favorite'"><button>Favoris</button></li>      -->
     <li class="connected"><a ng-click="$root.panel = ($root.panel=='logout') ? '' : 'logout'"><img src="img/login/connected_ico.png" alt="" /></a></li>
   </ul>
 
@@ -51,7 +41,6 @@
 
 <section id="drive-app" >
   <div>
-
     <div id="topbar">
       <div id="search-block" >
 	<form>
@@ -62,25 +51,13 @@
           <button id="label-bt">Rechercher un label</button>
 	</form>
       </div>
-
       <div class="actions">
-	<!--
-	    FIXME <button class="action del">Supprimer</button>
-	  -->
-	<!--
+	<!--FIXME <button class="action del">Supprimer</button>
 	    FIXME <button class="action tools">Options</button>
-	  -->
-	<!--
-	    FIXME <button class="action fav">Favori</button>
-	  -->
-	
+	    FIXME <button class="action fav">Favori</button> -->
 	<div id="display-mode">
-	  <!--
-	      FIXME          <button class="active" id="display1-bt">Afficher en blocs</button>
-	    -->
-	  <!--
-	      FIXME        <button id="display2-bt">Afficher en lignes</button>
-	    -->
+	  <!--FIXME          <button class="active" id="display1-bt">Afficher en blocs</button>
+	      FIXME        <button id="display2-bt">Afficher en lignes</button>-->
 	</div>
 	<div id="sort-mode"></div>
       </div>
@@ -89,20 +66,18 @@
 	<ul class="labels-list">
 	  <li ng-repeat="tag in selectedTags"><span>{{tag}}</span> <button ng-click="removeTag(tag)">Supprimer</button></li>
 	</ul>
-	<!--
-	    FIXME <button class="erase-all">Tout supprimer</button>
-	  -->
+	<!-- FIXME <button class="erase-all">Tout supprimer</button>-->
       </div>
 
       <div id="cards-wrapper">
-	<ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" />
+	     <ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" />
       </div>
+      
     </div>
   </div>
-
   <!-- temp: move me! -->
   <div id="preview-panel-wrapper" ui-view></div>
-  
+  <file-listing filesNumber="{{files.length}}"></file-listing>
 </div>
 
 </section>
