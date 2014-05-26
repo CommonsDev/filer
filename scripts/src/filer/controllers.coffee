@@ -52,7 +52,6 @@ class FileDetailCtrl
                 ## Methods ##
                 # CReate preview layout FIXME (so ugly!!)
                 @$scope.setPreviewLayout = this.setPreviewLayout
-                @$scope.exit = this.exit
                 @$scope.openForEdition = this.openForEdition
                 @$scope.openFile = this.openFile
                 @$scope.addLabels = this.addLabels 
@@ -83,15 +82,6 @@ class FileDetailCtrl
                 # move the preview panel in the right place
                 console.debug(" last element index =" + lastElement )
                 angular.element('#preview-panel-wrapper').insertAfter(angular.element('.element').eq(lastElement - 1))
-
-        exit: =>
-                angular.element("#drive-app").removeClass("preview-mode")
-                @$state.go('bucket')
-                @$timeout(()=>
-                        @$scope.runIsotope()
-                ,100
-                )
-                return true
 
         addLabels: (fileId)=>
                 @$state.go('bucket.labellisation', {filesIds: fileId})
@@ -148,8 +138,6 @@ class FileLabellisationCtrl
                         angular.element("#tagSearchField_value").attr("autocomplete", "off")
                 ,1000
                 )
-                console.debug(" suggested tags ")
-                console.debug(@$scope.suggestedTags)
 
                 # Watch selection of existing tag and add to suggested tags
                 @$scope.tagAutocompleteUrl = "#{config.rest_uri}/bucket/file/bucket/#{@$stateParams.bucketId}/search?auto="
@@ -228,7 +216,7 @@ class FileLabellisationCtrl
 
 
 class FileListCtrl
-        constructor: (@$scope, @filerService, @$timeout, @$stateParams, @Restangular, $rootScope) ->
+        constructor: (@$scope, @filerService, @$timeout, @$stateParams, @Restangular, @$rootScope) ->
                 @$scope.files = []
                 # FIXME: get current bucket from session
                 @$scope.selectedTags = []
@@ -296,6 +284,8 @@ class FileListCtrl
                 this.updateAutocompleteURL()
 
         searchFiles: =>
+                # leave preview mode if activated
+                @$scope.exitPreview()
                 query = angular.element('#searchField_value').val()
                 console.debug("searching with: "+query)
                 #search URL : config.rest_uri+ /bucket/1/search?format=json&q=blabla

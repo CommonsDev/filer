@@ -2,7 +2,7 @@ services = angular.module('filer.services', ['restangular', 'angularFileUpload',
 
 
 class FilerService
-        constructor: (@$rootScope, @$compile, $fileUploader, @Restangular, @$state, @$stateParams, @$http) ->
+        constructor: (@$rootScope, @$compile, $fileUploader, @Restangular, @$state, @$stateParams, @$http, @$timeout) ->
                 @$rootScope.uploader = $fileUploader.create(
                         scope: @$rootScope
                         autoUpload: false
@@ -35,6 +35,18 @@ class FilerService
                                 fileId:filed.id
                         @$state.transitionTo('bucket.file', toParams)
 
+                @$rootScope.exitPreview = ()=>
+                        angular.element("#drive-app").removeClass("preview-mode")
+                        @$state.go('bucket')
+                        @$timeout(()=>
+                                @$rootScope.runIsotope()
+                        ,300
+                        )
+                        return true
+
+                @$rootScope.exitFiler = ()=>
+                        @$state.go('home')
+                 
                 @$rootScope.deleteFile = (fileId)=>
                         @Restangular.one('bucket/file', fileId).remove().then(()=>
                                 console.debug(" File deleted ! " )
@@ -43,7 +55,11 @@ class FilerService
                                 @$state.go('bucket',{}, {reload:true})
                                 )
                 @$rootScope.assignToGroup = (groupId)=>
-                        @Restangular.one('bucket/bucket',$stateParams.bucketId).one('assign').post({"group_id":groupId}).then((message)=>
+                        console.debug(" target group : ", groupId)
+                        postData = {
+                            group_id:groupId
+                        }
+                        @Restangular.one('bucket/bucket',$stateParams.bucketId).post('assign', postData).then((message)=>
                                 console.debug("bucket assigned to group : ", message)
 
                                 )
@@ -56,8 +72,8 @@ class FilerService
                         )
 
 # Services
-services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', ($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http) ->
-        return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http)
+services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', '$timeout',($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout) ->
+        return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout)
 ])
 
 # Restangular factories

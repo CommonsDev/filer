@@ -2,11 +2,10 @@
   <div class="top-panel">
     <h2>Partager</h2>
     <p> Sélectionnez le groupe avec lequel partager ce classeur:</p>
-    <select>
-        <option ng-repeat="group in authVars.user.groups" value="{{ group.id }}">{{ group.name }}</option>
+    <select ng-model="selectedGroup" ng-options="group.id as group.name for group in authVars.user.groups">
+        <option value="">choisir un groupe</option>
     </select>
     <!-- FIXME : use Angular style select-->
-    <button ng-click="assignToGroup()" > </button>
+    <button ng-click="assignToGroup(selectedGroup)"> Valider </button>
   </div>
 </div>
-

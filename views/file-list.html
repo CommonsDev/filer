@@ -37,9 +37,10 @@
     <!-- Logout panel -->
     <div ng-switch-when="logout">
       <div id="connected-user-block">
-	<strong>{{ authVars.username }}</strong>
-	<button ng-click="logout()">Déconnexion</button>
-	<span class="little-arrow">&nbsp;</span>
+            <strong>{{ authVars.username }}</strong>
+            <button ng-click="logout()">Déconnexion</button>
+            <button style="margin-top:2px" ng-click="exitFiler()">Quitter ce classeur</button>
+            <span class="little-arrow">&nbsp;</span>
       </div>
     </div>
   </ng-switch>
