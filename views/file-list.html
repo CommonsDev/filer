@@ -8,6 +8,7 @@
 	FIXME	  <li class="open"><button ng-click="$root.panel = ''">Déplier</button></li>
 	FIXME	  <li class="search"><button ng-click="$root.panel = 'search'">Rechercher</a></li>
       -->
+    <li class="settings"><button ng-click="$root.panel = ($root.panel=='settings') ? '' : 'settings'">Options</button></li>
     <li class="add"><button ng-click="$root.panel = ($root.panel=='upload') ? '' : 'upload'">Ajouter</button></li>
     <!--
 	FIXME	  <li class="files"><button>Fichiers</button></li>
@@ -20,6 +21,9 @@
   <ng-switch on="$root.panel">
     <div ng-switch-when="search">
       <ng-include src="'views/sidebar-search.html'"/>
+    </div>
+    <div ng-switch-when="settings">
+      <ng-include src="'views/sidebar-settings.html'"/>
     </div>
     <div ng-switch-when="upload">
       <ng-include src="'views/sidebar-upload.html'"/>

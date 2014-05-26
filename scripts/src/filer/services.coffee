@@ -18,6 +18,7 @@ class FilerService
                         # open labellisation for this file
                         console.log("fileID = "+response.id)
                         console.log(item)
+                        @$rootScope.panel = ''
                         @$state.go('bucket.labellisation', {filesIds: response.id})
                 )
 
@@ -41,7 +42,11 @@ class FilerService
                                 console.log("reloading to home")
                                 @$state.go('bucket',{}, {reload:true})
                                 )
+                @$rootScope.assignToGroup = (groupId)=>
+                        @Restangular.one('bucket/bucket',$stateParams.bucketId).one('assign').post({"group_id":groupId}).then((message)=>
+                                console.debug("bucket assigned to group : ", message)
 
+                                )
                 # Isotope stuff
                 @$rootScope.runIsotope = ()=>
                         @$rootScope.isotope_container = angular.element('#cards-wrapper').isotope(
