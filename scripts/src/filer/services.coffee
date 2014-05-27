@@ -61,7 +61,8 @@ class FilerService
                         }
                         @Restangular.one('bucket/bucket',$stateParams.bucketId).post('assign', postData).then((message)=>
                                 console.debug("bucket assigned to group : ", message)
-
+                                $("#assignation").fadeIn('slow').delay(1000).fadeOut('slow')
+                                @$rootScope.panel = ''
                                 )
                 # Isotope stuff
                 @$rootScope.runIsotope = ()=>

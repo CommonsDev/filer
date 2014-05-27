@@ -110,6 +110,19 @@ button {
 	}
 }
 
+// notifications 
+#assignation {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    display: none;
+    @include border-radius(10px);
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    left: 118px;
+    padding: 20px;
+    position: absolute;
+    top: 376px;
+}
+
 // Labels
 
 .labels-list {
