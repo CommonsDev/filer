@@ -23,6 +23,7 @@ class FileDetailCtrl
         constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, @$timeout, @$window) ->
                 console.debug("started file detail on file:"+ @$stateParams.fileId)
                 #        by child controllers (as FileCommentCtrl) before the promisse is realized
+                @$scope.bucketId = @$stateParams.bucketId
                 @$scope.file =
                         id: @$stateParams.fileId
                         being_edited_by : {}
@@ -91,12 +92,13 @@ class FileDetailCtrl
 
         openForEdition: (fileId)=>
                 console.debug("opening file "+fileId+" for edition by : ", @$scope.authVars.user)
+                # open file right away, otherwise considered a pop-up
+                @$scope.openFile()
                 # patch file with object {"being_edited_by": resource_uri}
                 @$scope.fileRestObject.patch({"being_edited_by": @$scope.authVars.user.resource_uri}).then((result)=>
                         console.debug(" file is now being updated " )
                         @$scope.file.being_edited_by =
                                 username: @$scope.authVars.username
-                        @$scope.openFile()
                 )
         
         cancelOpenForEdition: (fileId)=>

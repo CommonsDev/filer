@@ -47,7 +47,7 @@ FIXME    <span class="preview-prev">Précédent</span>
           </li>
           <li ng-show="!file.being_edited_by || file.being_edited_by.username == authVars.user.username">
             <input style="opacity:0; position:absolute; cursor:pointer; height:46px; width:485px" 
-            type="file" ng-file-select="{'formData':[{ 'bucket': 1, 'id':{{file.id}} }]}" 
+            type="file" ng-file-select="{'formData':[{ 'bucket': {{bucketId}}, 'id':{{file.id}} }]}" 
             class="add"/><button style="z-index:-10">Mettre à jour</button>
           </li>
           <li ng-show="file.being_edited_by && file.being_edited_by.username != authVars.username">
