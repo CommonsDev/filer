@@ -3,6 +3,8 @@
     <button ng-click="$root.panel = ''" style="float: right; background-color: rgba(0, 0, 0, 0);border: medium none;">
         <img src="../img/close_25x25.png" alt="Close" />
     </button>
+    <!-- FIXME : this is how sharing with groups should work
+                 Now, we assign automatically to the only one user's group 
     <h2>Partager</h2>
     <p> Sélectionnez le groupe avec lequel partager ce classeur:</p>
     <select ng-model="selectedGroup" ng-options="group.id as group.name for group in authVars.user.groups">
@@ -10,7 +12,7 @@
     </select>
     <p></p>
     <button ng-click="assignBucketToGroup(selectedGroup)"> Ok </button> 
-    <p></p>
+    <p></p> -->
     <h2>Renommer</h2>
     <p>Renommer ce classeur:</p>
     <form method="post" action="">
