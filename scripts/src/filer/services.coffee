@@ -14,10 +14,6 @@ class FilerService
                 )
                 
                 @$rootScope.uploader.bind('success', (event, xhr, item, response) =>
-                        console.log('Success', item, response)
-                        # open labellisation for this file
-                        console.log("fileID = "+response.id)
-                        console.log(item)
                         @$rootScope.panel = ''
                         @$state.go('bucket.labellisation', {filesIds: response.id})
                 )
@@ -54,16 +50,16 @@ class FilerService
                                 console.log("reloading to home")
                                 @$state.go('bucket',{}, {reload:true})
                                 )
-                @$rootScope.assignToGroup = (groupId)=>
-                        console.debug(" target group : ", groupId)
+                @$rootScope.assignBucketToGroup = (groupId)=>
                         postData = {
                             group_id:groupId
                         }
-                        @Restangular.one('bucket/bucket',$stateParams.bucketId).post('assign', postData).then((message)=>
+                        @Restangular.one('bucket/bucket',$stateParams.bucketId).post('assign', {group_id:groupId}).then((message)=>
                                 console.debug("bucket assigned to group : ", message)
                                 $("#assignation").fadeIn('slow').delay(1000).fadeOut('slow')
                                 @$rootScope.panel = ''
                                 )
+
                 # Isotope stuff
                 @$rootScope.runIsotope = ()=>
                         @$rootScope.isotope_container = angular.element('#cards-wrapper').isotope(
