@@ -7,6 +7,6 @@ config = {
     media_uri: 'http://MEDIA_SERVER/',
     rest_uri: "http://REST_API_SERVER/api/v0", 
     rootUrl: 'APP_SERVER_URI',
-    homeStateName: 'bucket',
+    homeStateName: 'home',
     loginBaseUrl: 'LOGIN_API_SERVER/api/v0'
 }

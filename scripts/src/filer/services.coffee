@@ -2,7 +2,7 @@ services = angular.module('filer.services', ['restangular', 'angularFileUpload',
 
 
 class FilerService
-        constructor: (@$rootScope, @$compile, $fileUploader, @Restangular, @$state, @$stateParams, @$http) ->
+        constructor: (@$rootScope, @$compile, $fileUploader, @Restangular, @$state, @$stateParams, @$http, @$timeout) ->
                 @$rootScope.uploader = $fileUploader.create(
                         scope: @$rootScope
                         autoUpload: false
@@ -14,10 +14,7 @@ class FilerService
                 )
                 
                 @$rootScope.uploader.bind('success', (event, xhr, item, response) =>
-                        console.log('Success', item, response)
-                        # open labellisation for this file
-                        console.log("fileID = "+response.id)
-                        console.log(item)
+                        @$rootScope.panel = ''
                         @$state.go('bucket.labellisation', {filesIds: response.id})
                 )
 
@@ -34,12 +31,33 @@ class FilerService
                                 fileId:filed.id
                         @$state.transitionTo('bucket.file', toParams)
 
+                @$rootScope.exitPreview = ()=>
+                        angular.element("#drive-app").removeClass("preview-mode")
+                        @$state.go('bucket')
+                        @$timeout(()=>
+                                @$rootScope.runIsotope()
+                        ,300
+                        )
+                        return true
+
+                @$rootScope.exitFiler = ()=>
+                        @$state.go('home')
+                 
                 @$rootScope.deleteFile = (fileId)=>
-                        @Restangular.one('bucketfile', fileId).remove().then(()=>
+                        @Restangular.one('bucket/file', fileId).remove().then(()=>
                                 console.debug(" File deleted ! " )
                                 #reload home
                                 console.log("reloading to home")
                                 @$state.go('bucket',{}, {reload:true})
+                                )
+                @$rootScope.assignBucketToGroup = (groupId)=>
+                        postData = {
+                            group_id:groupId
+                        }
+                        @Restangular.one('bucket/bucket',$stateParams.bucketId).post('assign', {group_id:groupId}).then((message)=>
+                                console.debug("bucket assigned to group : ", message)
+                                $("#assignation").fadeIn('slow').delay(1000).fadeOut('slow')
+                                @$rootScope.panel = ''
                                 )
 
                 # Isotope stuff
@@ -51,8 +69,8 @@ class FilerService
                         )
 
 # Services
-services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', ($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http) ->
-        return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http)
+services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', '$timeout',($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout) ->
+        return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout)
 ])
 
 # Restangular factories

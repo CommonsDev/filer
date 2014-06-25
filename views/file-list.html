@@ -4,18 +4,26 @@
 <!-- left toolbar -->
 <div id="toolbar" ng-controller="ToolbarCtrl">
   <ul>
-    <!--FIXME	  <li class="open"><button ng-click="$root.panel = ''">Déplier</button></li>
-	FIXME	  <li class="search"><button ng-click="$root.panel = 'search'">Rechercher</a></li>      -->
+    <!--
+	FIXME	  <li class="open"><button ng-click="$root.panel = ''">Déplier</button></li>
+	FIXME	  <li class="search"><button ng-click="$root.panel = 'search'">Rechercher</a></li>
+      -->
+    <li class="settings"><button ng-click="$root.panel = ($root.panel=='settings') ? '' : 'settings'">Options</button></li>
     <li class="add"><button ng-click="$root.panel = ($root.panel=='upload') ? '' : 'upload'">Ajouter</button></li>
-    <!--FIXME	  <li class="files"><button>Fichiers</button></li>
+    <!--
+	FIXME	  <li class="files"><button>Fichiers</button></li>
 	FIXME	  <li class="recent" ng-click="$root.panel = 'recent'"><button>Récents</button></li>
-	FIXME	  <li class="fav" ng-click="$root.panel = 'favorite'"><button>Favoris</button></li>      -->
+	FIXME	  <li class="fav" ng-click="$root.panel = 'favorite'"><button>Favoris</button></li>
+      -->
     <li class="connected"><a ng-click="$root.panel = ($root.panel=='logout') ? '' : 'logout'"><img src="img/login/connected_ico.png" alt="" /></a></li>
   </ul>
 
-  <ng-switch on="$root.panel">
+  <ng-switch on="$root.panel" ng-init="$root.panel = ''">
     <div ng-switch-when="search">
       <ng-include src="'views/sidebar-search.html'"/>
+    </div>
+    <div ng-switch-when="settings">
+      <ng-include src="'views/sidebar-settings.html'"/>
     </div>
     <div ng-switch-when="upload">
       <ng-include src="'views/sidebar-upload.html'"/>
@@ -29,12 +37,20 @@
     <!-- Logout panel -->
     <div ng-switch-when="logout">
       <div id="connected-user-block">
-	<strong>{{ authVars.username }}</strong>
-	<button ng-click="logout()">Déconnexion</button>
-	<span class="little-arrow">&nbsp;</span>
+            <strong>{{ authVars.username }}</strong>
+            <button ng-click="logout()">Déconnexion</button>
+            <button style="margin-top:2px" ng-click="exitFiler()">Quitter ce classeur</button>
+            <span class="little-arrow">&nbsp;</span>
       </div>
     </div>
   </ng-switch>
+    <!-- Notification messages  -->
+    <div id="assignation">
+        Classeur associé avec succès
+    </div>
+    <div id="renommage">
+        Classeur renommé avec succès
+    </div>
 </div>
 
 </ul>
@@ -42,14 +58,15 @@
 <section id="drive-app" >
   <div>
     <div id="topbar">
+      <div id="bucket-name"><h1>{{ bucket.name }}</h1> </div>
       <div id="search-block" >
-	<form>
-          <angucomplete id="searchField" autocomplete="off" minlength="1" url="{{autocompleteUrl}}" 
-	    datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" 
-	    pause="300" ng-model="search_form.query" placeholder="Rechercher ou ajouter un label..." />
-          <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
-          <button id="label-bt">Rechercher un label</button>
-	</form>
+    	<form>
+            <angucomplete id="searchField" autocomplete="off" minlength="1" url="{{autocompleteUrl}}" 
+    	    datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" 
+    	    pause="300" ng-model="search_form.query" placeholder="Rechercher ou filtrer par label..." />
+            <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
+            <!-- <button id="label-bt">Rechercher un label</button> -->
+    	</form>
       </div>
       <div class="actions">
 	<!--FIXME <button class="action del">Supprimer</button>

@@ -2,7 +2,7 @@
 
 <div id="preview-panel" ng-cloak>
   <div class="wrap-content">
-    <a ng-click="exit()"><span class="preview-close">Fermer</span></a>
+    <a ng-click="exitPreview()"><span class="preview-close">Fermer</span></a>
 <!--
 FIXME    <span class="preview-prev">Précédent</span>
          <span class="preview-next">Suivant</span>
@@ -17,7 +17,7 @@ FIXME    <span class="preview-prev">Précédent</span>
           <strong>{{ file.uploaded_by.username }}</strong>
           <!--<em>Petite licorne</em>-->
         </div> 
-        <button ng-click="openFile()" class="opendoc">Ouvrir</button>
+        <button ng-click="openFile()" class="opendoc">Télécharger</button>
 <!--
  FIXME       <button class="fav">Favori</button>
 -->
@@ -47,7 +47,7 @@ FIXME    <span class="preview-prev">Précédent</span>
           </li>
           <li ng-show="!file.being_edited_by || file.being_edited_by.username == authVars.user.username">
             <input style="opacity:0; position:absolute; cursor:pointer; height:46px; width:485px" 
-            type="file" ng-file-select="{'formData':[{ 'bucket': 1, 'id':{{file.id}} }]}" 
+            type="file" ng-file-select="{'formData':[{ 'bucket': {{bucketId}}, 'id':{{file.id}} }]}" 
             class="add"/><button style="z-index:-10">Mettre à jour</button>
           </li>
           <li ng-show="file.being_edited_by && file.being_edited_by.username != authVars.username">

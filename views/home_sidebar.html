@@ -12,7 +12,7 @@
     <form ng-show="!isLoading">
       <ul>
       	<li ng-repeat="bucket in buckets">
-                <a ui-sref="bucket({bucketId: bucket.id})">{{ bucket.title || "Sans nom" }}</a>
+                <a ui-sref="bucket({bucketId: bucket.id})">{{ bucket.name || "Sans nom" }}</a>
       	</li>
       </ul>
     </form>

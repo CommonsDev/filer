@@ -64,6 +64,10 @@ button {
 		background:image-url('toolbar/depli_ico.png') no-repeat center center;
 	}
 
+    li.settings button {
+        background: image-url('toolbar/settings_ico.png') no-repeat center center;
+    }
+
 	li.add button { 
 		background:image-url('toolbar/up_ico.png') no-repeat center center;
 	}
@@ -104,6 +108,31 @@ button {
 			top:4px;
 		}
 	}
+}
+
+// notifications 
+#assignation {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    display: none;
+    @include border-radius(10px);
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    left: 118px;
+    padding: 20px;
+    position: absolute;
+    top: 376px;
+}
+
+#renommage {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    display: none;
+    @include border-radius(10px);
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    left: 118px;
+    padding: 20px;
+    position: absolute;
+    top: 376px;
 }
 
 // Labels
@@ -150,10 +179,11 @@ button {
 
 	#search-block {
 		float:left;
+        display: inline-block;
 		
 		.angucomplete-holder {
 			float:left;
-			margin-left:108px;
+			margin-left:40px;
 		}
 		
 		input[type="text"] {
@@ -249,6 +279,16 @@ button {
 		}
 	}
 }
+
+#bucket-name h1 {
+    color: #4B4B4B;
+    display: inline-block;
+    margin: 23px 0 0px 19px;
+    float: left;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 
 #current-labels {
 	padding:0 0 0 52px;
@@ -865,7 +905,7 @@ button {
 // Left Panel //
 
 #left-panel {
-	width:220px;
+	width:300px;
 	height:100%;
 	position:fixed;
 	top:0;
@@ -968,6 +1008,7 @@ button {
 				background:#f7f7f7;
 				width:100%;
 				margin:8px 0 0 0;
+				float: left;
 				@include border-radius(6px);
 
 				span {
