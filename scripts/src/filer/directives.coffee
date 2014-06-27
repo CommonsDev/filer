@@ -16,19 +16,13 @@ module.directive('isotopeOnLoad', ($rootScope) ->
                     scope.$emit('$cardLoaded', $rootScope.loadCounter++)
                 )
         ,
-        controller: ($scope, $timeout) ->
+        controller: ($scope, FilerService) ->
             $scope.$parent.$on('$cardLoaded', (event, data) ->
                 if ($scope.$last && $scope.$index == $rootScope.loadCounter - 1)
                     $scope.$emit('$allCardsLoaded')
                     delete $rootScope.loadCounter
-                    # run isotope on cards
-                    $timeout ->
-                        angular.element('#cards-wrapper').isotope(
-                            console.log(" OO- Running isotope from directive ")
-                            itemSelector: '.element'
-                            layoutMode: 'masonry'
-                        )
-                    ,500
+                    # FIXME : use initIsotope service from FilerService
+                    FilerService.initIsotope()
             )
     }
 )

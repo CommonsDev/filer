@@ -34,10 +34,7 @@ class FilerService
                         console.debug(" Exit preview mode !")
                         angular.element("#drive-app").removeClass("preview-mode")
                         @$state.go('bucket')
-                        @$timeout(()=>
-                                @$rootScope.runIsotope()
-                        ,300
-                        )
+                        this.initIsotope()
                         return true
 
                 @$rootScope.exitFiler = ()=>
@@ -60,16 +57,27 @@ class FilerService
                                 @$rootScope.panel = ''
                                 )
 
-                # Isotope stuff
-                @$rootScope.runIsotope = ()=>
-                        @$rootScope.isotope_container = angular.element('#cards-wrapper').isotope(
-                                console.log(" OO- Running isotope ")
+        # Isotope stuff
+        initIsotope: =>
+                @$rootScope.isotopeContainer = angular.element('#cards-wrapper')
+                @$timeout(()=>
+                        @$rootScope.isotopeContainer.isotope(
+                                console.log(" OO- Init isotope ")
                                 itemSelector: '.element'
                                 layoutMode: 'masonry'
-                        )
+                        ) 
+                ,300
+                )
+
+        refreshIsotopeLayout: =>
+                @$timeout(()=>
+                        @$rootScope.isotopeContainer.isotope('layout') 
+                ,300
+                )
+                
 
 # Services
-services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', '$timeout',($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout) ->
+services.factory('FilerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', '$timeout',($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout) ->
         return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout)
 ])
 

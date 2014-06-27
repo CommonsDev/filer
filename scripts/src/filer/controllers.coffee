@@ -14,12 +14,12 @@ class BucketListCtrl
         @$scope.buckets = @Buckets.getList().$object
 
 class ToolbarCtrl
-    constructor: (@$scope, @filerService) ->
+    constructor: (@$scope, @FilerService) ->
         @$scope.panel = null
-        @$scope.filerService = @filerService
+        @$scope.FilerService = @FilerService
 
 class FileListCtrl
-    constructor: (@$scope, @filerService, @$timeout, @$stateParams, @Restangular, @$rootScope, @Buckets) ->
+    constructor: (@$scope, @FilerService, @$timeout, @$stateParams, @Restangular, @$rootScope, @Buckets) ->
         console.debug(" Starting File list for bucket : ",@$stateParams.bucketId)
         @$scope.bucket = @Buckets.one(@$stateParams.bucketId).get().$object  
         @$scope.files = []
@@ -104,7 +104,7 @@ class FileListCtrl
 
 
 class FileDetailCtrl
-    constructor: (@$scope, @filerService, @Restangular, @$stateParams, @$state, @$timeout, @$window) ->
+    constructor: (@$scope, @FilerService, @Restangular, @$stateParams, @$state, @$timeout, @$window) ->
         console.debug("started file detail on file:" + @$stateParams.fileId)
         # by child controllers (as FileCommentCtrl) before the promisse is realized
         @$scope.bucketId = @$stateParams.bucketId
@@ -304,7 +304,7 @@ class FileLabellisationCtrl
 
 class FileCommentCtrl
 # child controller of either FileDetail or FileList, hence the dependency on @$scope.file
-    constructor: (@$scope, @FileComments) ->
+    constructor: (@$scope, @FileComments, @FilerService) ->
         @$scope.comment_form =
                 bucket_file: @$scope.file.resource_uri
                 text: ""
@@ -316,14 +316,15 @@ class FileCommentCtrl
             @FileComments.post(@$scope.comment_form).then((addedComment)=>
                 @$scope.comment_form.text= ""
                 @$scope.comments.push(addedComment)
+                @FilerService.refreshIsotopeLayout()
             )
 
-module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
+module.controller("ToolbarCtrl", ['$scope', 'FilerService', ToolbarCtrl])
 
-module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'FilerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', '$timeout', FileLabellisationCtrl])
-module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', '$stateParams', 'Restangular', '$rootScope', 'Buckets', FileListCtrl])
-module.controller("FileCommentCtrl", ['$scope', 'FileComments', FileCommentCtrl])
+module.controller("FileListCtrl", ['$scope', 'FilerService', '$timeout', '$stateParams', 'Restangular', '$rootScope', 'Buckets', FileListCtrl])
+module.controller("FileCommentCtrl", ['$scope', 'FileComments', 'FilerService', FileCommentCtrl])
 
 module.controller("BucketNewCtrl", ['$scope', '$state', 'Buckets', BucketNewCtrl])
 module.controller("BucketListCtrl", ['$scope', 'Buckets', BucketListCtrl])
