@@ -58,43 +58,41 @@
 <section id="drive-app" >
   <div>
     <div id="topbar">
-      <div id="bucket-name"><h1>{{ bucket.name }}</h1> </div>
-      <div id="search-block" >
-    	<form>
-            <angucomplete id="searchField" autocomplete="off" minlength="1" url="{{autocompleteUrl}}" 
-    	    datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" 
-    	    pause="300" ng-model="search_form.query" placeholder="Rechercher ou filtrer par label..." />
-            <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
-            <!-- <button id="label-bt">Rechercher un label</button> -->
-    	</form>
-      </div>
-      <div class="actions">
-	<!--FIXME <button class="action del">Supprimer</button>
-	    FIXME <button class="action tools">Options</button>
-	    FIXME <button class="action fav">Favori</button> -->
-	<div id="display-mode">
-	  <!--FIXME          <button class="active" id="display1-bt">Afficher en blocs</button>
-	      FIXME        <button id="display2-bt">Afficher en lignes</button>-->
-	</div>
-	<div id="sort-mode"></div>
-      </div>
+        <div id="bucket-name"><h1>{{ bucket.name }}</h1> </div>
+        <div id="search-block" >
+            <form>
+                <angucomplete id="searchField" autocomplete="off" minlength="1" url="{{autocompleteUrl}}" 
+                datafield="objects" titlefield="name" selectedobject="search_form.query" type="text" 
+                pause="300" ng-model="search_form.query" placeholder="Rechercher ou filtrer par label..." />
+                <button id="search-bt" ng-click="searchFiles()" >Rechercher un fichier</button>
+                <!-- <button id="label-bt">Rechercher un label</button> -->
+            </form>
+        </div>
+        <div class="actions">
+            <!--FIXME <button class="action del">Supprimer</button>
+                FIXME <button class="action tools">Options</button>
+                FIXME <button class="action fav">Favori</button> -->
+            <div id="display-mode">
+            <!--FIXME          <button class="active" id="display1-bt">Afficher en blocs</button>
+                FIXME        <button id="display2-bt">Afficher en lignes</button>-->
+            </div>
+            <div id="sort-mode"></div>
+        </div>
 
-      <div id="current-labels">
-	<ul class="labels-list">
-	  <li ng-repeat="tag in selectedTags"><span>{{tag}}</span> <button ng-click="removeTag(tag)">Supprimer</button></li>
-	</ul>
-	<!-- FIXME <button class="erase-all">Tout supprimer</button>-->
-      </div>
-
-      <div id="cards-wrapper">
-	     <ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" />
-      </div>
-      
+        <div id="current-labels">
+            <ul class="labels-list">
+                <li ng-repeat="tag in selectedTags"><span>{{tag}}</span>
+                    <button ng-click="removeTag(tag)">Supprimer</button>
+                </li>
+            </ul>
+        <!-- FIXME <button class="erase-all">Tout supprimer</button>-->
+        </div>
+        <div id="cards-wrapper">
+            <ng-include class="element" src="'views/file-card.html'" ng-repeat="file in files" />
+        </div>
     </div>
   </div>
-  <!-- temp: move me! -->
   <div id="preview-panel-wrapper" ui-view></div>
-  <file-listing filesNumber="{{files.length}}"></file-listing>
 </div>
 
 </section>

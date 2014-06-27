@@ -8,13 +8,12 @@ class FilerService
                         autoUpload: false
                         removeAfterUpload: true
                         url: config.bucket_uri
-                        # FIXME : so far we set headers right after addin file, to be sure login is already done 
-                        # and api key is available. There HAS to be a cleaner way
-                        formData: [{bucket: $stateParams.bucketId}] # FIXME
+                        formData: [{bucket: $stateParams.bucketId}] 
                 )
                 
                 @$rootScope.uploader.bind('success', (event, xhr, item, response) =>
                         @$rootScope.panel = ''
+                        # FIXME : add file to files list and then refresh isotope
                         @$state.go('bucket.labellisation', {filesIds: response.id})
                 )
 
@@ -32,6 +31,7 @@ class FilerService
                         @$state.transitionTo('bucket.file', toParams)
 
                 @$rootScope.exitPreview = ()=>
+                        console.debug(" Exit preview mode !")
                         angular.element("#drive-app").removeClass("preview-mode")
                         @$state.go('bucket')
                         @$timeout(()=>

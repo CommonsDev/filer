@@ -80,6 +80,10 @@ angular.element(document).on('ready page:load', ->
                 loginServiceProvider.setBaseUrl(config.loginBaseUrl)
         )
 
+        .config((loginServiceProvider) ->
+                loginServiceProvider.setBaseUrl(config.loginBaseUrl)
+        )
+
         .run(['$rootScope', 'loginService', ($rootScope, loginService) ->
                 $rootScope.config = config;
 
