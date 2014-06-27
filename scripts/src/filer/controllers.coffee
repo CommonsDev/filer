@@ -304,37 +304,26 @@ class FileLabellisationCtrl
 
 class FileCommentCtrl
 # child controller of either FileDetail or FileList, hence the dependency on @$scope.file
-    constructor: (@$scope, @Restangular, @$rootScope) ->
+    constructor: (@$scope, @FileComments) ->
         @$scope.comment_form =
+                bucket_file: @$scope.file.resource_uri
                 text: ""
-        @$scope.submitForm = this.submitForm
-        @commentsObject = @Restangular.all('bucket/filecomment')
-        @commentsObject.getList({bucket_file:@$scope.file.id}).then( (result)=>
-                @$scope.comments = result
-                @$rootScope.$broadcast("new_comment")
-                console.debug("New comment loaded")
-        )
+        @$scope.submitNewComment = this.submitNewComment
+        @$scope.comments = $scope.file.comments
 
-    submitForm: =>
-        console.debug("form soumis avec: "+@$scope.comment_form.text+" file: " +@$scope.file.resource_uri)
-        newComment =
-            bucket_file: @$scope.file.resource_uri
-            text: @$scope.comment_form.text
-        console.debug(newComment)
-        if newComment.text.length > 3
-            @commentsObject.post(newComment).then((addedComment)=>
-                console.debug(" comment saved ! " )
-                console.debug(@$scope.comments)
-                @$scope.comment_form.text=""
+    submitNewComment: =>
+        if @$scope.comment_form.text.length > 3
+            @FileComments.post(@$scope.comment_form).then((addedComment)=>
+                @$scope.comment_form.text= ""
                 @$scope.comments.push(addedComment)
-                )
+            )
 
 module.controller("ToolbarCtrl", ['$scope', 'filerService', ToolbarCtrl])
 
 module.controller("FileDetailCtrl", ['$scope', 'filerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', '$timeout', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'filerService', '$timeout', '$stateParams', 'Restangular', '$rootScope', 'Buckets', FileListCtrl])
-module.controller("FileCommentCtrl", ['$scope', 'Restangular','$rootScope', FileCommentCtrl])
+module.controller("FileCommentCtrl", ['$scope', 'FileComments', FileCommentCtrl])
 
 module.controller("BucketNewCtrl", ['$scope', '$state', 'Buckets', BucketNewCtrl])
 module.controller("BucketListCtrl", ['$scope', 'Buckets', BucketListCtrl])

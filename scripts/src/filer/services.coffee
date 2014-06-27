@@ -77,3 +77,24 @@ services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Re
 services.factory('Buckets', (Restangular) ->
         return Restangular.service('bucket/bucket')
 )
+
+services.factory('FileComments', (Restangular) ->
+        return Restangular.service('bucket/filecomment')
+)
+
+
+# services.factory('KanbanLists', (Restangular) ->
+#         return Restangular.service('flipflop/list')
+# )
+
+# services.factory('KanbanTasks', (Restangular) ->
+#         return Restangular.service('flipflop/task')
+# )
+
+# services.factory('KanbanCards', (Restangular) ->
+#         return Restangular.service('flipflop/card')
+# )
+
+# services.factory('KanbanCardComments', (Restangular) ->
+#         return Restangular.service('flipflop/cardcomment')
+# )
