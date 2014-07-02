@@ -10,11 +10,14 @@ module.directive('isotopeOnLoad', ($rootScope) ->
             if (typeof $rootScope.loadCounter == 'undefined')
                 $rootScope.loadCounter = 0
             image = element.find('img')
-            if image.hasClass('thumbnail')
-                image.bind('load', ()->
-                    console.debug(" signal Card loaded", $rootScope.loadCounter)
-                    scope.$emit('$cardLoaded', $rootScope.loadCounter++)
-                )
+            for img in image
+                do (img) ->
+                    img = angular.element(img)
+                    if img.hasClass('thumbnail')
+                        img.bind('load', ()->
+                            console.debug(" signal Card loaded", $rootScope.loadCounter)
+                            scope.$emit('$cardLoaded', $rootScope.loadCounter++)
+                        )
         ,
         controller: ($scope, FilerService) ->
             $scope.$parent.$on('$cardLoaded', (event, data) ->

@@ -90,6 +90,10 @@ services.factory('FileComments', (Restangular) ->
         return Restangular.service('bucket/filecomment')
 )
 
+services.factory('Files', (Restangular) ->
+        return Restangular.service('bucket/file')
+)
+
 
 # services.factory('KanbanLists', (Restangular) ->
 #         return Restangular.service('flipflop/list')

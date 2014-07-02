@@ -104,31 +104,23 @@ class FileListCtrl
 
 
 class FileDetailCtrl
-    constructor: (@$scope, @FilerService, @Restangular, @$stateParams, @$state, @$timeout, @$window) ->
+    constructor: (@$scope, @Files,  @$stateParams, @$state, @$timeout, @$window) ->
         console.debug("started file detail on file:" + @$stateParams.fileId)
-        # by child controllers (as FileCommentCtrl) before the promisse is realized
         @$scope.bucketId = @$stateParams.bucketId
         @$scope.file =
                 id: @$stateParams.fileId
                 being_edited_by : {}
-
-        @$scope.fileRestObject = @Restangular.one('bucket/file', @$scope.file.id)
-        @$scope.fileRestObject.get().then((result)=>
-                @$scope.file = result
-        )
+        @$scope.file = @Files.one(@$stateParams.fileId).get().$object  
 
         # if files is empty, wait for fileListComplete event
         if @$scope.files.length <= 0
-                console.debug("== waiting for files list to complete")
                 @$scope.$on('fileListComplete',  () =>
-                        console.debug('receive File list complete [FileDetailCtr]')
                         @$timeout(() =>
                                 @$scope.setPreviewLayout() 
                         ,2000
                         )
                 )
         else
-                console.debug("== will set eview layout now !")
                 @$timeout(() =>
                         @$scope.setPreviewLayout()
                 ,30
@@ -175,21 +167,14 @@ class FileDetailCtrl
         @$window.open(config.bucket_preview_uri + @$scope.file.file)
 
     openForEdition: (fileId)=>
-        console.debug("opening file "+fileId+" for edition by : ", @$scope.authVars.user)
-        # open file right away, otherwise considered a pop-up
         @$scope.openFile()
-        # patch file with object {"being_edited_by": resource_uri}
-        @$scope.fileRestObject.patch({"being_edited_by": @$scope.authVars.user.resource_uri}).then((result)=>
-                console.debug(" file is now being updated " )
+        @Files.one(@$stateParams.fileId).patch({"being_edited_by": @$scope.authVars.user.resource_uri}).then((result)=>
                 @$scope.file.being_edited_by =
                         username: @$scope.authVars.username
         )
 
     cancelOpenForEdition: (fileId)=>
-        console.debug("Cancelling opening file "+fileId+" for edition")
-        # patch file with object {}
-        @$scope.fileRestObject.patch({"being_edited_by": {}}).then((result)=>
-                console.debug(" file is no longer being updated " )
+        @Files.one(@$stateParams.fileId).patch({"being_edited_by": {}}).then((result)=>
                 @$scope.file.being_edited_by = null
         )
                         
@@ -321,7 +306,7 @@ class FileCommentCtrl
 
 module.controller("ToolbarCtrl", ['$scope', 'FilerService', ToolbarCtrl])
 
-module.controller("FileDetailCtrl", ['$scope', 'FilerService', 'Restangular', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
+module.controller("FileDetailCtrl", ['$scope', 'Files', '$stateParams','$state', '$timeout', '$window', FileDetailCtrl])
 module.controller("FileLabellisationCtrl", ['$scope', 'Restangular', '$stateParams','$state', '$filter', '$timeout', FileLabellisationCtrl])
 module.controller("FileListCtrl", ['$scope', 'FilerService', '$timeout', '$stateParams', 'Restangular', '$rootScope', 'Buckets', FileListCtrl])
 module.controller("FileCommentCtrl", ['$scope', 'FileComments', 'FilerService', FileCommentCtrl])
