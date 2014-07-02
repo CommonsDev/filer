@@ -8,13 +8,12 @@ class FilerService
                         autoUpload: false
                         removeAfterUpload: true
                         url: config.bucket_uri
-                        # FIXME : so far we set headers right after addin file, to be sure login is already done 
-                        # and api key is available. There HAS to be a cleaner way
-                        formData: [{bucket: $stateParams.bucketId}] # FIXME
+                        formData: [{bucket: $stateParams.bucketId}] 
                 )
                 
                 @$rootScope.uploader.bind('success', (event, xhr, item, response) =>
                         @$rootScope.panel = ''
+                        # FIXME : add file to files list and then refresh isotope
                         @$state.go('bucket.labellisation', {filesIds: response.id})
                 )
 
@@ -32,12 +31,10 @@ class FilerService
                         @$state.transitionTo('bucket.file', toParams)
 
                 @$rootScope.exitPreview = ()=>
+                        console.debug(" Exit preview mode !")
                         angular.element("#drive-app").removeClass("preview-mode")
                         @$state.go('bucket')
-                        @$timeout(()=>
-                                @$rootScope.runIsotope()
-                        ,300
-                        )
+                        this.initIsotope()
                         return true
 
                 @$rootScope.exitFiler = ()=>
@@ -60,16 +57,27 @@ class FilerService
                                 @$rootScope.panel = ''
                                 )
 
-                # Isotope stuff
-                @$rootScope.runIsotope = ()=>
-                        @$rootScope.isotope_container = angular.element('#cards-wrapper').isotope(
-                                console.log(" OO- Running isotope ")
+        # Isotope stuff
+        initIsotope: =>
+                @$rootScope.isotopeContainer = angular.element('#cards-wrapper')
+                @$timeout(()=>
+                        @$rootScope.isotopeContainer.isotope(
+                                console.log(" OO- Init isotope ")
                                 itemSelector: '.element'
                                 layoutMode: 'masonry'
-                        )
+                        ) 
+                ,300
+                )
+
+        refreshIsotopeLayout: =>
+                @$timeout(()=>
+                        @$rootScope.isotopeContainer.isotope('layout') 
+                ,300
+                )
+                
 
 # Services
-services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', '$timeout',($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout) ->
+services.factory('FilerService', ['$rootScope', '$compile', '$fileUploader', 'Restangular','$state', '$stateParams','$http', '$timeout',($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout) ->
         return new FilerService($rootScope, $compile, $fileUploader, Restangular, $state, $stateParams, $http, $timeout)
 ])
 
@@ -77,3 +85,28 @@ services.factory('filerService', ['$rootScope', '$compile', '$fileUploader', 'Re
 services.factory('Buckets', (Restangular) ->
         return Restangular.service('bucket/bucket')
 )
+
+services.factory('FileComments', (Restangular) ->
+        return Restangular.service('bucket/filecomment')
+)
+
+services.factory('Files', (Restangular) ->
+        return Restangular.service('bucket/file')
+)
+
+
+# services.factory('KanbanLists', (Restangular) ->
+#         return Restangular.service('flipflop/list')
+# )
+
+# services.factory('KanbanTasks', (Restangular) ->
+#         return Restangular.service('flipflop/task')
+# )
+
+# services.factory('KanbanCards', (Restangular) ->
+#         return Restangular.service('flipflop/card')
+# )
+
+# services.factory('KanbanCardComments', (Restangular) ->
+#         return Restangular.service('flipflop/cardcomment')
+# )

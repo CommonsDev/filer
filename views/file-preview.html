@@ -67,17 +67,15 @@ FIXME    <span class="preview-prev">Précédent</span>
         <section ng-controller="FileCommentCtrl" class="comments">
           <ul class="comments-list">
             <li ng-repeat=" comment in comments">
-              <img src="img/_TEMP/emptyavatar.jpg" alt="" />
-              <strong>{{ comment.submitter.username }}</strong>
-              <p>
-                {{ comment.text }}
-              </p>
+                <img src="img/_TEMP/emptyavatar.jpg" alt="" />
+                <strong>{{ comment.submitter.username }}</strong>
+                <p>{{ comment.text }}</p>
             </li>
           </ul>
           <!--<a href="#" class="seemore">FIXME commentaires</a>-->
           <form>
-            <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire"></textarea>
-            <button type="submit" ng-click="submitForm()" >Envoyer</button>
+                <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire (min 3 charactères)"></textarea>
+                <button type="submit" ng-click="submitNewComment()" >Envoyer</button>
           </form>
         </section>
       </div>

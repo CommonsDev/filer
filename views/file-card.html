@@ -1,8 +1,8 @@
 <!-- TYPE VIDEO XXX: Should not make a difference -->
-<article ui-sref-active="previewed" class="vid file item">
+<article ui-sref-active="previewed" class="vid file item" isotope-on-load>
   <a ui-sref="bucket.file({fileId: file.id})">  
     <div class="preview">
-        <img ng-show="file.thumbnail_url" width="240px" ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
+        <img class="thumbnail" ng-show="file.thumbnail_url" width="240px" ng-src="{{ config.bucket_preview_uri }}{{ file.thumbnail_url }}?width=240" alt="{{ file.name }}" />
         <img ng-show="!file.thumbnail_url" width="240px" src="img/_TEMP/defaultfilepreview.jpg" alt="{{ file.name }}" />
     </div>
     <header>
@@ -28,8 +28,8 @@
     </ul>
     <!-- <a href="#" class="seemore">FIXME commentaires</a> -->
     <form>
-      <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire"></textarea>
-      <button ng-click="submitForm()" >Envoyer</button>
+      <textarea name="text" ng-model="comment_form.text" placeholder="Ajouter un commentaire (min 3 charactères)"></textarea>
+      <button ng-click="submitNewComment()" >Envoyer</button>
     </form>
   </section>
   <span class="preview-cursor">&nbsp;</span>

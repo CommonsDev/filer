@@ -1,5 +1,5 @@
 angular.element(document).on('ready page:load', ->
-        angular.module('filer', ['filer.controllers', 'filer.services'])
+        angular.module('filer', ['filer.controllers', 'filer.services', 'filer.directives'])
 
         angular.module('unisson_filer', ['filer', 'ui.router', 'ngAnimate', 'restangular', 'angularFileUpload', 'angucomplete', 'angular-unisson-auth'])
 
@@ -76,6 +76,10 @@ angular.element(document).on('ready page:load', ->
         ])
 
         # Unisson auth config
+        .config((loginServiceProvider) ->
+                loginServiceProvider.setBaseUrl(config.loginBaseUrl)
+        )
+
         .config((loginServiceProvider) ->
                 loginServiceProvider.setBaseUrl(config.loginBaseUrl)
         )
