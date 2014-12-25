@@ -1,7 +1,7 @@
 <div id="create-topbar">
   <div class="wrap">
     <button ng-hide="authVars.isAuthenticated" ng-click="forceLogin()">Se connecter</button>
-    <button ng-show="authVars.isAuthenticated" ui-sref="home.my_buckets">{{ authVars.username }}</button>
+    <button ng-show="authVars.isAuthenticated" ui-sref="home.my_buckets">Mes Classeurs ({{ authVars.username }})</button>
   </div>
 </div>
 <section id="create">
