@@ -11,7 +11,7 @@ class BucketNewCtrl
 
 class BucketListCtrl
         constructor: (@$scope, @Buckets) ->
-                @$scope.buckets = @Buckets.getList().$object
+                @$scope.buckets = @Buckets.getList({user_created: true}).$object
 
 class ToolbarCtrl
         constructor: (@$scope, @filerService) ->
@@ -21,7 +21,7 @@ class ToolbarCtrl
 class FileListCtrl
         constructor: (@$scope, @filerService, @$timeout, @$stateParams, @Restangular, @$rootScope, @Buckets) ->
                 console.debug(" Starting File list for bucket : ",@$stateParams.bucketId)
-                @$scope.bucket = @Buckets.one(@$stateParams.bucketId).get().$object  
+                @$scope.bucket = @Buckets.one(@$stateParams.bucketId).get().$object
 
                 @$scope.files = []
                 # FIXME: get current bucket from session
@@ -124,7 +124,7 @@ class FileDetailCtrl
                         @$scope.$on('fileListComplete',  () =>
                                 console.debug('receive File list complete [FileDetailCtr]')
                                 @$timeout(() =>
-                                        @$scope.setPreviewLayout() 
+                                        @$scope.setPreviewLayout()
                                 ,2000
                                 )
                         )
@@ -140,7 +140,7 @@ class FileDetailCtrl
                 @$scope.setPreviewLayout = this.setPreviewLayout
                 @$scope.openForEdition = this.openForEdition
                 @$scope.openFile = this.openFile
-                @$scope.addLabels = this.addLabels 
+                @$scope.addLabels = this.addLabels
                 @$scope.cancelOpenForEdition = this.cancelOpenForEdition
 
         setPreviewLayout: ()=>
@@ -185,7 +185,7 @@ class FileDetailCtrl
                         @$scope.file.being_edited_by =
                                 username: @$scope.authVars.username
                 )
-        
+
         cancelOpenForEdition: (fileId)=>
                 console.debug("Cancelling opening file "+fileId+" for edition")
                 # patch file with object {}
@@ -193,7 +193,7 @@ class FileDetailCtrl
                         console.debug(" file is no longer being updated " )
                         @$scope.file.being_edited_by = null
                 )
-                        
+
 
 class FileLabellisationCtrl
 # designed for multifiles, but multifile selection is still missing
@@ -233,14 +233,14 @@ class FileLabellisationCtrl
                 @$scope.$watch('tag_search_form.query.title', (newValue, oldValue) =>
                         console.debug("[FileLabellisation] Suggested Tag selected : "+@$scope.tag_search_form.query.title)
                         if @$scope.tag_search_form.query
-                                newTag = 
+                                newTag =
                                         name: @$scope.tag_search_form.query.title
                                 found = @$scope.taggingQueue[@$scope.files[0].id].some((el)->
                                         return el.name == newTag.name
                                 )
-                                if (!found) 
+                                if (!found)
                                         @$scope.taggingQueue[@$scope.files[0].id].push(newTag)
-                        # empty search box 
+                        # empty search box
                         angular.element('#tagSearchField_value').val("")
                         @$scope.tag_search_form =
                                 query : ""
@@ -267,7 +267,7 @@ class FileLabellisationCtrl
                 found = @$scope.taggingQueue[@$scope.files[0].id].some((el)->
                                         return el.name == tag.name
                 )
-                if (!found) 
+                if (!found)
                         @$scope.taggingQueue[@$scope.files[0].id].push(tag)
 
 
